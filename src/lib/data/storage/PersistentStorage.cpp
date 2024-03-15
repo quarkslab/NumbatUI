@@ -36,6 +36,15 @@ PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& boo
 	m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR));
 	m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_LEGEND));
 
+	m_sqliteIndexStorage.setupNodeTypes();
+	this->getStorageNodeTypes();
+	for (const StorageNodeType& sNodeType: m_storageData.nodetypes)
+	{
+		NodeType::nodeTypes[NodeKind(sNodeType.id)] = std::wstring(
+			sNodeType.type.begin(), sNodeType.type.end());
+		nodeKinds[NodeKind(sNodeType.id)] = sNodeType.kind;
+	}
+
 	for (const NodeType& nodeType: NodeTypeSet::all().getNodeTypes())
 	{
 		if (nodeType.hasSearchFilter())
@@ -183,6 +192,11 @@ void PersistentStorage::removeElementsWithoutOccurrences(const std::vector<Id>& 
 const std::vector<StorageNode>& PersistentStorage::getStorageNodes() const
 {
 	return m_storageData.nodes = m_sqliteIndexStorage.getAll<StorageNode>();
+}
+
+const std::vector<StorageNodeType>& PersistentStorage::getStorageNodeTypes() const
+{
+	return m_storageData.nodetypes = m_sqliteIndexStorage.getAll<StorageNodeType>();
 }
 
 const std::vector<StorageFile>& PersistentStorage::getStorageFiles() const

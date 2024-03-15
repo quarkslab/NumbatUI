@@ -86,18 +86,18 @@ std::vector<Id> SqliteIndexStorage::addNodes(const std::vector<StorageNode>& nod
 	if (m_tempNodeNameIndex.empty() && m_tempWNodeNameIndex.empty())
 	{
 		forEach<StorageNode>([this](StorageNode&& node) {
-			std::string name = utility::encodeToUtf8(node.serializedName);
-			if (name.size() != node.serializedName.size())
-			{
-				m_tempWNodeNameIndex.add(node.serializedName, static_cast<uint32_t>(node.id));
-			}
-			else
-			{
-				m_tempNodeNameIndex.add(name, static_cast<uint32_t>(node.id));
-			}
+				std::string name = utility::encodeToUtf8(node.serializedName);
+				if (name.size() != node.serializedName.size())
+				{
+					m_tempWNodeNameIndex.add(node.serializedName, static_cast<uint32_t>(node.id));
+				}
+				else
+				{
+					m_tempNodeNameIndex.add(name, static_cast<uint32_t>(node.id));
+				}
 
-			m_tempNodeTypes.emplace(static_cast<uint32_t>(node.id), node.type);
-		});
+				m_tempNodeTypes.emplace(static_cast<uint32_t>(node.id), node.type);
+			});
 	}
 
 	std::vector<Id> nodeIds(nodes.size(), 0);
@@ -223,10 +223,10 @@ std::vector<Id> SqliteIndexStorage::addEdges(const std::vector<StorageEdge>& edg
 	if (m_tempEdgeIndex.empty())
 	{
 		forEach<StorageEdge>([this](StorageEdge&& edge) {
-			m_tempEdgeIndex.emplace(
-				StorageEdgeData(edge.type, edge.sourceNodeId, edge.targetNodeId),
-				static_cast<uint32_t>(edge.id));
-		});
+				m_tempEdgeIndex.emplace(
+					StorageEdgeData(edge.type, edge.sourceNodeId, edge.targetNodeId),
+					static_cast<uint32_t>(edge.id));
+			});
 	}
 
 	std::vector<Id> edgeIds(edges.size(), 0);
@@ -270,13 +270,13 @@ std::vector<Id> SqliteIndexStorage::addLocalSymbols(const std::set<StorageLocalS
 	if (m_tempLocalSymbolIndex.empty())
 	{
 		forEach<StorageLocalSymbol>([this](StorageLocalSymbol&& localSymbol) {
-			std::pair<std::wstring, std::wstring> name = splitLocalSymbolName(localSymbol.name);
-			if (name.second.size())
-			{
-				m_tempLocalSymbolIndex[name.first].emplace(
-					name.second, static_cast<uint32_t>(localSymbol.id));
-			}
-		});
+				std::pair<std::wstring, std::wstring> name = splitLocalSymbolName(localSymbol.name);
+				if (name.second.size())
+				{
+					m_tempLocalSymbolIndex[name.first].emplace(
+						name.second, static_cast<uint32_t>(localSymbol.id));
+				}
+			});
 	}
 
 	std::vector<Id> symbolIds(symbols.size(), 0);
@@ -334,17 +334,17 @@ std::vector<Id> SqliteIndexStorage::addSourceLocations(const std::vector<Storage
 	if (m_tempSourceLocationIndices.empty())
 	{
 		forEach<StorageSourceLocation>([this](StorageSourceLocation&& loc) {
-			std::map<TempSourceLocation, uint32_t>& index =
-				m_tempSourceLocationIndices[static_cast<uint32_t>(loc.fileNodeId)];
-			index.emplace(
-				TempSourceLocation(
-					static_cast<uint32_t>(loc.startLine),
-					static_cast<uint16_t>(loc.endLine - loc.startLine),
-					static_cast<uint16_t>(loc.startCol),
-					static_cast<uint16_t>(loc.endCol),
-					loc.type),
-				static_cast<uint32_t>(loc.id));
-		});
+				std::map<TempSourceLocation, uint32_t>& index =
+					m_tempSourceLocationIndices[static_cast<uint32_t>(loc.fileNodeId)];
+				index.emplace(
+					TempSourceLocation(
+						static_cast<uint32_t>(loc.startLine),
+						static_cast<uint16_t>(loc.endLine - loc.startLine),
+						static_cast<uint16_t>(loc.startCol),
+						static_cast<uint16_t>(loc.endCol),
+						loc.type),
+					static_cast<uint32_t>(loc.id));
+			});
 	}
 
 	std::vector<Id> locationIds(locations.size(), 0);
@@ -1227,6 +1227,7 @@ void SqliteIndexStorage::clearTables()
 		m_database.execDML("DROP TABLE IF EXISTS main.element_component;");
 		m_database.execDML("DROP TABLE IF EXISTS main.element;");
 		m_database.execDML("DROP TABLE IF EXISTS main.meta;");
+		m_database.execDML("DROP TABLE IF EXISTS main.node_type;");
 	}
 	catch (CppSQLite3Exception& e)
 	{
@@ -1343,6 +1344,49 @@ void SqliteIndexStorage::setupTables()
 			"translation_unit TEXT, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE);");
+	}
+	catch (CppSQLite3Exception& e)
+	{
+		LOG_ERROR(std::to_string(e.errorCode()) + ": " + e.errorMessage());
+
+		throw(std::exception());
+	}
+}
+
+void SqliteIndexStorage::setupNodeTypes()
+{
+	try
+	{
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS node_type("
+			"id	INTEGER NOT NULL, "
+			"type TEXT, "
+			"kind TEXT, "
+			"PRIMARY KEY(id));");
+
+		m_database.execDML(
+			"INSERT OR IGNORE INTO node_type(id,type,kind) VALUES"
+			"(1, 'Symbols', 'symbol'),"
+			"(2, 'Types', 'type'),"
+			"(4, '', 'built-in type'),"
+			"(8, 'Modules', 'module'),"
+			"(16, 'Namespaces', 'namespace'),"
+			"(32, 'Packages', 'package'),"
+			"(64, 'Structs', 'struct'),"
+			"(128, 'Tests', 'test'),"
+			"(256, 'Interfaces', 'interface'),"
+			"(512, 'Annotations', 'annotation'),"
+			"(1024, 'Global variables', 'global variable'),"
+			"(2048, '', 'field'),"
+			"(4096, 'Functions', 'function'),"
+			"(8192, '', 'method'),"
+			"(16384, 'Enums', 'enum'),"
+			"(32768, '', 'enum constant'),"
+			"(65536, 'Typedefs', 'typedef'),"
+			"(131072, 'Type parameters', 'type parameter'),"
+			"(262144, 'Files', 'file'),"
+			"(524288, 'Macros', 'macro'),"
+			"(1048576, 'Unions', 'union');");
 	}
 	catch (CppSQLite3Exception& e)
 	{
@@ -1486,6 +1530,27 @@ void SqliteIndexStorage::forEach<StorageNode>(
 		if (id != 0 && type != -1)
 		{
 			func(StorageNode(id, type, utility::decodeFromUtf8(serializedName)));
+		}
+
+		q.nextRow();
+	}
+}
+
+template <>
+void SqliteIndexStorage::forEach<StorageNodeType>(
+	const std::string& query, std::function<void(StorageNodeType&&)> func) const
+{
+	CppSQLite3Query q = executeQuery("SELECT id, type, kind FROM node_type " + query + ";");
+
+	while (!q.eof())
+	{
+		const Id id = q.getIntField(0, 0);
+		const std::string type = q.getStringField(1, "");
+		const std::string kind = q.getStringField(2, "");
+
+		if (id != 0)
+		{
+			func(StorageNodeType(id, type, kind));
 		}
 
 		q.nextRow();

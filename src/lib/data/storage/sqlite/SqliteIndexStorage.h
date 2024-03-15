@@ -17,6 +17,7 @@
 #include "StorageFile.h"
 #include "StorageLocalSymbol.h"
 #include "StorageNode.h"
+#include "StorageNodeType.h"
 #include "StorageOccurrence.h"
 #include "StorageSourceLocation.h"
 #include "StorageSymbol.h"
@@ -192,6 +193,8 @@ public:
 	int getFileLineSum() const;
 	int getSourceLocationCount() const;
 	int getErrorCount() const;
+
+	void setupNodeTypes();
 
 private:
 	static const size_t s_storageVersion;
@@ -374,6 +377,9 @@ void SqliteIndexStorage::forEach<StorageEdge>(
 template <>
 void SqliteIndexStorage::forEach<StorageNode>(
 	const std::string& query, std::function<void(StorageNode&&)> func) const;
+template <>
+void SqliteIndexStorage::forEach<StorageNodeType>(
+	const std::string& query, std::function<void(StorageNodeType&&)> func) const;
 template <>
 void SqliteIndexStorage::forEach<StorageSymbol>(
 	const std::string& query, std::function<void(StorageSymbol&&)> func) const;
