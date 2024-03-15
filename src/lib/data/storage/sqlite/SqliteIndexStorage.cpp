@@ -1373,7 +1373,7 @@ void SqliteIndexStorage::setupNodeTypes()
 			"(16, 'Namespaces', 'namespace'),"
 			"(32, 'Packages', 'package'),"
 			"(64, 'Structs', 'struct'),"
-			"(128, 'Tests', 'test'),"
+			"(128, 'Classes', 'class'),"
 			"(256, 'Interfaces', 'interface'),"
 			"(512, 'Annotations', 'annotation'),"
 			"(1024, 'Global variables', 'global variable'),"
