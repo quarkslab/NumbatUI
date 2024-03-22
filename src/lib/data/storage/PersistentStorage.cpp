@@ -36,6 +36,7 @@ PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& boo
 	m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR));
 	m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_LEGEND));
 
+	// load node types
 	m_sqliteIndexStorage.setupNodeTypes();
 	this->getStorageNodeTypes();
 	for (const StorageNodeType& sNodeType: m_storageData.nodetypes)
@@ -44,6 +45,11 @@ PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& boo
 			sNodeType.graphDisplay.begin(), sNodeType.graphDisplay.end());
 		nodeKinds[NodeKind(sNodeType.id)] = sNodeType.hoverDisplay;
 	}
+
+	// load colors
+	std::map<Id, std::string> colors_tmp = m_sqliteIndexStorage.getNodeColors();
+	GraphViewStyle::s_customEdgeColors = m_sqliteIndexStorage.getEdgeColors();
+	GraphViewStyle::s_customNodeColors = setupNodeColors(colors_tmp);
 
 	for (const NodeType& nodeType: NodeTypeSet::all().getNodeTypes())
 	{
@@ -54,6 +60,24 @@ PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& boo
 	}
 
 	m_commandIndex.finishSetup();
+}
+
+std::map<Id, GraphViewStyle::NodeColor> PersistentStorage::setupNodeColors(
+	std::map<Id, std::string>& colors)
+{
+	std::map<Id, GraphViewStyle::NodeColor> ret;
+
+	for (std::map<Id, std::string>::iterator it = colors.begin(); it != colors.end(); it++)
+	{
+		GraphViewStyle::NodeColor color;
+		std::stringstream ss(it->second);
+		if (!getline(ss, color.fill, ' ') || !getline(ss, color.border, ' ') ||
+			!getline(ss, color.text, ' ') || !getline(ss, color.icon, ' ') ||
+			!getline(ss, color.hatching, ' '))
+			;
+		ret[it->first] = color;
+	}
+	return ret;
 }
 
 std::pair<Id, bool> PersistentStorage::addNode(const StorageNodeData& data)

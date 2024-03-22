@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "FullTextSearchIndex.h"
+#include "GraphViewStyle.h"
 #include "HierarchyCache.h"
 #include "SearchIndex.h"
 #include "SqliteBookmarkStorage.h"
@@ -262,6 +263,8 @@ private:
 	void buildFullTextSearchIndex() const;
 	void buildMemberEdgeIdOrderMap();
 	void buildHierarchyCache();
+
+	std::map<Id, GraphViewStyle::NodeColor> setupNodeColors(std::map<Id, std::string>& colors);
 
 	bool m_preIndexingErrorCountSet = false;
 	size_t m_preIndexingErrorCount = 0;
