@@ -41,8 +41,8 @@ PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& boo
 	for (const StorageNodeType& sNodeType: m_storageData.nodetypes)
 	{
 		NodeType::nodeTypes[NodeKind(sNodeType.id)] = std::wstring(
-			sNodeType.type.begin(), sNodeType.type.end());
-		nodeKinds[NodeKind(sNodeType.id)] = sNodeType.kind;
+			sNodeType.graphDisplay.begin(), sNodeType.graphDisplay.end());
+		nodeKinds[NodeKind(sNodeType.id)] = sNodeType.hoverDisplay;
 	}
 
 	for (const NodeType& nodeType: NodeTypeSet::all().getNodeTypes())

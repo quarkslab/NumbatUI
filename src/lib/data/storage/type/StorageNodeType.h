@@ -7,8 +7,8 @@
 
 struct StorageNodeType
 {
-	StorageNodeType(): id(0), type(""), kind("") {}
-	StorageNodeType(Id id, std::string type, std::string kind): id(id), type(type), kind(kind) {}
+	StorageNodeType(): id(0), graphDisplay(""), hoverDisplay("") {}
+	StorageNodeType(Id id, std::string graphDisplay, std::string hoverDisplay): id(id), graphDisplay(graphDisplay), hoverDisplay(hoverDisplay) {}
 
 	bool operator<(const StorageNodeType& other) const
 	{
@@ -16,8 +16,8 @@ struct StorageNodeType
 	}
 
 	Id id;
-	std::string type;
-	std::string kind;
+	std::string graphDisplay;
+	std::string hoverDisplay;
 };
 
 #endif	  // STORAGE_NODE_TYPE_H

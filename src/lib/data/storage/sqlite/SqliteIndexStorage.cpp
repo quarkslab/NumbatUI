@@ -1360,12 +1360,12 @@ void SqliteIndexStorage::setupNodeTypes()
 		m_database.execDML(
 			"CREATE TABLE IF NOT EXISTS node_type("
 			"id	INTEGER NOT NULL, "
-			"type TEXT, "
-			"kind TEXT, "
+			"graph_display TEXT, "
+			"hover_display TEXT, "
 			"PRIMARY KEY(id));");
 
 		m_database.execDML(
-			"INSERT OR IGNORE INTO node_type(id,type,kind) VALUES"
+			"INSERT OR IGNORE INTO node_type(id,graph_display,hover_display) VALUES"
 			"(1, 'Symbols', 'symbol'),"
 			"(2, 'Types', 'type'),"
 			"(4, '', 'built-in type'),"
@@ -1540,7 +1540,7 @@ template <>
 void SqliteIndexStorage::forEach<StorageNodeType>(
 	const std::string& query, std::function<void(StorageNodeType&&)> func) const
 {
-	CppSQLite3Query q = executeQuery("SELECT id, type, kind FROM node_type " + query + ";");
+	CppSQLite3Query q = executeQuery("SELECT id, graph_display, hover_display FROM node_type " + query + ";");
 
 	while (!q.eof())
 	{
