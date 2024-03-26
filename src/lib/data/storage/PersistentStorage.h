@@ -45,6 +45,7 @@ public:
 	void removeElementsWithoutOccurrences(const std::vector<Id>& elementIds);
 
 	const std::vector<StorageNode>& getStorageNodes() const override;
+	const std::vector<StorageNodeType>& getStorageNodeTypes() const;
 	const std::vector<StorageFile>& getStorageFiles() const override;
 	const std::vector<StorageSymbol>& getStorageSymbols() const override;
 	const std::vector<StorageEdge>& getStorageEdges() const override;
@@ -201,6 +202,7 @@ private:
 	mutable struct
 	{
 		std::vector<StorageNode> nodes;
+		std::vector<StorageNodeType> nodetypes;
 		std::vector<StorageFile> files;
 		std::vector<StorageSymbol> symbols;
 		std::vector<StorageEdge> edges;

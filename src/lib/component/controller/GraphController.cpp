@@ -1462,7 +1462,7 @@ void GraphController::bundleNodesByType()
 
 	if (nodes.size() && !hasNonFileBundle)
 	{
-		Tree<NodeType::BundleInfo> bundleInfoTree(NodeType::BundleInfo(L"Symbols"));
+		Tree<NodeType::BundleInfo> bundleInfoTree(NodeType::BundleInfo(NodeType::nodeTypes[NODE_SYMBOL]));
 		std::shared_ptr<DummyNode> bundleNode = bundleByType(
 			nodes, NodeType(NODE_SYMBOL), bundleInfoTree, false);
 		if (bundleNode)

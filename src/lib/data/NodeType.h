@@ -84,6 +84,8 @@ public:
 
 	static std::vector<NodeType> const overviewBundleNodeTypesOrdered;
 
+	static std::map<NodeKind, std::wstring> nodeTypes;
+
 private:
 	NodeKind m_kind;
 };
