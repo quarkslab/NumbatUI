@@ -7,6 +7,7 @@
 #include "FullTextSearchIndex.h"
 #include "GraphViewStyle.h"
 #include "HierarchyCache.h"
+#include "HoverDisplayText.h"
 #include "SearchIndex.h"
 #include "SqliteBookmarkStorage.h"
 #include "SqliteIndexStorage.h"

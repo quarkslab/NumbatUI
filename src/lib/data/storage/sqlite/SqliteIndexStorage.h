@@ -105,6 +105,7 @@ public:
 	StorageNode getNodeBySerializedName(const std::wstring& serializedName) const;
 
 	std::map<Id,std::string> getNodeColors() const;
+	std::map<Id,std::string> getNodeHoverText() const;
 
 	std::vector<int> getAvailableNodeTypes() const;
 	std::vector<int> getAvailableEdgeTypes() const;

@@ -831,6 +831,23 @@ std::map<Id, std::string> SqliteIndexStorage::getNodeColors() const
 	return colors;
 }
 
+std::map<Id, std::string> SqliteIndexStorage::getNodeHoverText() const
+{
+	CppSQLite3Query q = executeQuery("SELECT id,hover_display FROM node;");
+	std::map<Id, std::string> hoverText;
+
+	while (!q.eof())
+	{
+		const Id id = q.getIntField(0, 0);
+		const std::string text = q.getStringField(1, "");
+
+		if (id != 0 && text != "")
+			hoverText[id] = text;
+		q.nextRow();
+	}
+	return hoverText;
+}
+
 std::vector<int> SqliteIndexStorage::getAvailableNodeTypes() const
 {
 	CppSQLite3Query q = executeQuery("SELECT DISTINCT type FROM node;");
@@ -1306,6 +1323,7 @@ void SqliteIndexStorage::setupTables()
 			"type INTEGER NOT NULL, "
 			"serialized_name TEXT, "
 			"color TEXT, "
+			"hover_display TEXT, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE);");
 

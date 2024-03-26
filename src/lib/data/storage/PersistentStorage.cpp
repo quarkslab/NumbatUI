@@ -46,6 +46,9 @@ PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& boo
 		nodeKinds[NodeKind(sNodeType.id)] = sNodeType.hoverDisplay;
 	}
 
+	// load additional hover text
+	HoverDisplayText::hoverText = m_sqliteIndexStorage.getNodeHoverText();
+
 	// load colors
 	std::map<Id, std::string> colors_tmp = m_sqliteIndexStorage.getNodeColors();
 	GraphViewStyle::s_customEdgeColors = m_sqliteIndexStorage.getEdgeColors();
