@@ -7,7 +7,6 @@
 #include "FullTextSearchIndex.h"
 #include "GraphViewStyle.h"
 #include "HierarchyCache.h"
-#include "HoverDisplayText.h"
 #include "SearchIndex.h"
 #include "SqliteBookmarkStorage.h"
 #include "SqliteIndexStorage.h"
@@ -215,6 +214,8 @@ private:
 		std::set<StorageElementComponent> components;
 		std::vector<StorageError> errors;
 	} m_storageData;
+
+	std::map<Id, std::string> hoverDisplayText;
 
 	Id getFileNodeId(const FilePath& filePath) const;
 	std::vector<Id> getFileNodeIds(const std::vector<FilePath>& filePaths) const;

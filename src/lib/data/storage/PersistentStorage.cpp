@@ -46,14 +46,6 @@ PersistentStorage::PersistentStorage(const FilePath& dbPath, const FilePath& boo
 		nodeKinds[NodeKind(sNodeType.id)] = sNodeType.hoverDisplay;
 	}
 
-	// load additional hover text
-	HoverDisplayText::hoverText = m_sqliteIndexStorage.getNodeHoverText();
-
-	// load colors
-	std::map<Id, std::string> colors_tmp = m_sqliteIndexStorage.getNodeColors();
-	GraphViewStyle::s_customEdgeColors = m_sqliteIndexStorage.getEdgeColors();
-	GraphViewStyle::s_customNodeColors = setupNodeColors(colors_tmp);
-
 	for (const NodeType& nodeType: NodeTypeSet::all().getNodeTypes())
 	{
 		if (nodeType.hasSearchFilter())
@@ -369,6 +361,14 @@ void PersistentStorage::setup()
 {
 	m_sqliteIndexStorage.setup();
 	m_sqliteBookmarkStorage.setup();
+
+	// load additional hover text
+	this->hoverDisplayText = m_sqliteIndexStorage.getNodeHoverText();
+
+	// load colors
+	std::map<Id, std::string> colors_tmp = m_sqliteIndexStorage.getNodeColors();
+	GraphViewStyle::s_customEdgeColors = m_sqliteIndexStorage.getEdgeColors();
+	GraphViewStyle::s_customNodeColors = setupNodeColors(colors_tmp);
 
 	m_sqliteBookmarkStorage.migrateIfNecessary();
 }
@@ -2212,6 +2212,10 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(
 
 	const NodeType type(intToNodeKind(node.type));
 	info.title = type.getReadableTypeWString();
+	if (this->hoverDisplayText.find(node.id) != this->hoverDisplayText.end())
+		info.title += L"\n" +
+			std::wstring(this->hoverDisplayText.at(node.id).begin(),
+						 this->hoverDisplayText.at(node.id).end());
 
 	DefinitionKind defKind = DEFINITION_NONE;
 	const StorageSymbol symbol = m_sqliteIndexStorage.getFirstById<StorageSymbol>(node.id);
