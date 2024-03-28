@@ -87,6 +87,8 @@ public:
 	StorageEdge getEdgeById(Id edgeId) const;
 	StorageEdge getEdgeBySourceTargetType(Id sourceId, Id targetId, int type) const;
 
+	std::map<Id,std::string> getEdgeColors() const;
+
 	std::vector<StorageEdge> getEdgesBySourceId(Id sourceId) const;
 	std::vector<StorageEdge> getEdgesBySourceIds(const std::vector<Id>& sourceIds) const;
 	std::vector<StorageEdge> getEdgesByTargetId(Id targetId) const;
@@ -101,6 +103,8 @@ public:
 
 	StorageNode getNodeById(Id id) const;
 	StorageNode getNodeBySerializedName(const std::wstring& serializedName) const;
+
+	std::map<Id,std::string> getNodeColors() const;
 
 	std::vector<int> getAvailableNodeTypes() const;
 	std::vector<int> getAvailableEdgeTypes() const;

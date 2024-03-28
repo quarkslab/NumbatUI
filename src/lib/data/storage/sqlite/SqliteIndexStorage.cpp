@@ -692,6 +692,23 @@ StorageEdge SqliteIndexStorage::getEdgeBySourceTargetType(Id sourceId, Id target
 		std::to_string(type));
 }
 
+std::map<Id, std::string> SqliteIndexStorage::getEdgeColors() const
+{
+	CppSQLite3Query q = executeQuery("SELECT id,color FROM edge;");
+	std::map<Id, std::string> colors;
+
+	while (!q.eof())
+	{
+		const Id id = q.getIntField(0, 0);
+		const std::string color = q.getStringField(1, "");
+
+		if (id != 0 && color != "")
+			colors[id] = color;
+		q.nextRow();
+	}
+	return colors;
+}
+
 std::vector<StorageEdge> SqliteIndexStorage::getEdgesBySourceId(Id sourceId) const
 {
 	return doGetAll<StorageEdge>("WHERE source_node_id == " + std::to_string(sourceId));
@@ -795,6 +812,23 @@ StorageNode SqliteIndexStorage::getNodeBySerializedName(const std::wstring& seri
 	stmt.reset();
 
 	return StorageNode();
+}
+
+std::map<Id, std::string> SqliteIndexStorage::getNodeColors() const
+{
+	CppSQLite3Query q = executeQuery("SELECT id,color FROM node;");
+	std::map<Id, std::string> colors;
+
+	while (!q.eof())
+	{
+		const Id id = q.getIntField(0, 0);
+		const std::string color = q.getStringField(1, "");
+
+		if (id != 0 && color != "")
+			colors[id] = color;
+		q.nextRow();
+	}
+	return colors;
 }
 
 std::vector<int> SqliteIndexStorage::getAvailableNodeTypes() const
@@ -1260,6 +1294,7 @@ void SqliteIndexStorage::setupTables()
 			"type INTEGER NOT NULL, "
 			"source_node_id INTEGER NOT NULL, "
 			"target_node_id INTEGER NOT NULL, "
+			"color TEXT, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE, "
 			"FOREIGN KEY(source_node_id) REFERENCES node(id) ON DELETE CASCADE, "
@@ -1270,6 +1305,7 @@ void SqliteIndexStorage::setupTables()
 			"id INTEGER NOT NULL, "
 			"type INTEGER NOT NULL, "
 			"serialized_name TEXT, "
+			"color TEXT, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE);");
 

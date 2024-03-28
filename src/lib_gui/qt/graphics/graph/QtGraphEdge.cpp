@@ -103,9 +103,16 @@ void QtGraphEdge::updateLine()
 	const QtGraphNode* owner = m_owner;
 	const QtGraphNode* target = m_target;
 
+	const Edge* data = getData();
+
 	Edge::EdgeType type = (getData() ? getData()->getType() : Edge::EDGE_BUNDLED_EDGES);
 	GraphViewStyle::EdgeStyle style = GraphViewStyle::getStyleForEdgeType(
-		type, m_isActive | m_isCoFocused, m_isFocused, m_isTrailEdge, isAmbiguous());
+		type,
+		m_isActive | m_isCoFocused,
+		m_isFocused,
+		m_isTrailEdge,
+		isAmbiguous(),
+		data ? data->getId() : 0);
 
 	Vec4i ownerRect = owner->getBoundingRect();
 	Vec4i targetRect = target->getBoundingRect();
