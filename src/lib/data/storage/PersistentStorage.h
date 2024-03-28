@@ -215,8 +215,6 @@ private:
 		std::vector<StorageError> errors;
 	} m_storageData;
 
-	std::map<Id, std::string> hoverDisplayText;
-
 	Id getFileNodeId(const FilePath& filePath) const;
 	std::vector<Id> getFileNodeIds(const std::vector<FilePath>& filePaths) const;
 	std::set<Id> getFileNodeIds(const std::set<FilePath>& filePaths) const;

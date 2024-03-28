@@ -3,10 +3,11 @@
 #include <QCursor>
 #include <QGraphicsItemGroup>
 #include <QGraphicsSceneEvent>
-
+#include <iostream>
 #include "Edge.h"
 #include "GraphFocusHandler.h"
 #include "GraphViewStyle.h"
+#include "HoverText.h"
 #include "MessageActivateEdge.h"
 #include "MessageActivateTrailEdge.h"
 #include "MessageFocusIn.h"
@@ -404,6 +405,7 @@ void QtGraphEdge::coFocusIn()
 		if (s_focusedEdge == this)
 		{
 			Edge::EdgeType type = (getData() ? getData()->getType() : Edge::EDGE_BUNDLED_EDGES);
+			Id id = getData() ? getData()->getId() : 0;
 
 			TooltipInfo info;
 			info.title = Edge::getReadableTypeString(type);
@@ -434,6 +436,16 @@ void QtGraphEdge::coFocusIn()
 				{
 					info.title = L"multi-level " + info.title;
 				}
+			}
+
+			if (HoverText::text.find(id) != HoverText::text.end())
+			{
+				HoverText txt = HoverText::parse(HoverText::text[id]);
+				if (txt.option == "r")
+					info.title = std::wstring(txt.metadata.begin(), txt.metadata.end());
+				else if (txt.option == "a")
+					info.title += L"\n" +
+						std::wstring(txt.metadata.begin(), txt.metadata.end());
 			}
 
 			MessageTooltipShow(info, TOOLTIP_ORIGIN_GRAPH).dispatch();

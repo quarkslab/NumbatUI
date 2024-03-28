@@ -88,6 +88,7 @@ public:
 	StorageEdge getEdgeBySourceTargetType(Id sourceId, Id targetId, int type) const;
 
 	std::map<Id,std::string> getEdgeColors() const;
+	std::map<Id, std::string> getEdgeHoverText() const;
 
 	std::vector<StorageEdge> getEdgesBySourceId(Id sourceId) const;
 	std::vector<StorageEdge> getEdgesBySourceIds(const std::vector<Id>& sourceIds) const;

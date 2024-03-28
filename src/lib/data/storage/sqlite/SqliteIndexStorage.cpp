@@ -709,6 +709,23 @@ std::map<Id, std::string> SqliteIndexStorage::getEdgeColors() const
 	return colors;
 }
 
+std::map<Id, std::string> SqliteIndexStorage::getEdgeHoverText() const
+{
+	CppSQLite3Query q = executeQuery("SELECT id,hover_display FROM edge;");
+	std::map<Id, std::string> hoverText;
+
+	while (!q.eof())
+	{
+		const Id id = q.getIntField(0, 0);
+		const std::string text = q.getStringField(1, "");
+
+		if (id != 0 && text != "")
+			hoverText[id] = text;
+		q.nextRow();
+	}
+	return hoverText;
+}
+
 std::vector<StorageEdge> SqliteIndexStorage::getEdgesBySourceId(Id sourceId) const
 {
 	return doGetAll<StorageEdge>("WHERE source_node_id == " + std::to_string(sourceId));
@@ -1312,6 +1329,7 @@ void SqliteIndexStorage::setupTables()
 			"source_node_id INTEGER NOT NULL, "
 			"target_node_id INTEGER NOT NULL, "
 			"color TEXT, "
+			"hover_display TEXT, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE, "
 			"FOREIGN KEY(source_node_id) REFERENCES node(id) ON DELETE CASCADE, "

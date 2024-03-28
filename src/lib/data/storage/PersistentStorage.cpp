@@ -9,6 +9,7 @@
 #include "FileInfo.h"
 #include "FilePath.h"
 #include "Graph.h"
+#include "HoverText.h"
 #include "MessageErrorCountUpdate.h"
 #include "MessageStatus.h"
 #include "NodeTypeSet.h"
@@ -363,7 +364,9 @@ void PersistentStorage::setup()
 	m_sqliteBookmarkStorage.setup();
 
 	// load additional hover text
-	this->hoverDisplayText = m_sqliteIndexStorage.getNodeHoverText();
+	std::map<Id, std::string> hover_tmp = m_sqliteIndexStorage.getEdgeHoverText();
+	HoverText::text = m_sqliteIndexStorage.getNodeHoverText();
+	HoverText::text.insert(hover_tmp.begin(), hover_tmp.end());
 
 	// load colors
 	std::map<Id, std::string> colors_tmp = m_sqliteIndexStorage.getNodeColors();
@@ -2212,10 +2215,10 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(
 
 	const NodeType type(intToNodeKind(node.type));
 	info.title = type.getReadableTypeWString();
-	if (this->hoverDisplayText.find(node.id) != this->hoverDisplayText.end())
+	if (HoverText::text.find(node.id) != HoverText::text.end())
 		info.title += L"\n" +
-			std::wstring(this->hoverDisplayText.at(node.id).begin(),
-						 this->hoverDisplayText.at(node.id).end());
+			std::wstring(HoverText::text.at(node.id).begin(),
+						 HoverText::text.at(node.id).end());
 
 	DefinitionKind defKind = DEFINITION_NONE;
 	const StorageSymbol symbol = m_sqliteIndexStorage.getFirstById<StorageSymbol>(node.id);
