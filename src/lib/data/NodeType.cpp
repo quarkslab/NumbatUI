@@ -134,7 +134,7 @@ Tree<NodeType::BundleInfo> NodeType::getOverviewBundleTree() const
 {
 	if (m_kind == NODE_NAMESPACE)
 	{
-		Tree<BundleInfo> tree(BundleInfo(NodeType::nodeTypes[m_kind]));
+		Tree<BundleInfo> tree(BundleInfo(NodeType::nodeTypes.at(m_kind)));
 		tree.children.push_back(Tree<BundleInfo>(BundleInfo(
 			[](const std::wstring& nodeName)
 			{ return nodeName.find(L"anonymous namespace") != std::wstring::npos; },

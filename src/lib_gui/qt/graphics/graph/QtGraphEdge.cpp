@@ -440,12 +440,7 @@ void QtGraphEdge::coFocusIn()
 
 			if (HoverText::text.find(id) != HoverText::text.end())
 			{
-				HoverText txt = HoverText::parse(HoverText::text[id]);
-				if (txt.option == "r")
-					info.title = std::wstring(txt.metadata.begin(), txt.metadata.end());
-				else if (txt.option == "a")
-					info.title += L"\n" +
-						std::wstring(txt.metadata.begin(), txt.metadata.end());
+				info.title = std::wstring(HoverText::text[id].begin(), HoverText::text[id].end());
 			}
 
 			MessageTooltipShow(info, TOOLTIP_ORIGIN_GRAPH).dispatch();

@@ -9,11 +9,6 @@
 
 struct HoverText{
     static std::map<Id,std::string> text;
-    
-    static HoverText parse(std::string& full_hover_text);
-
-    std::string option;
-    std::string metadata;
 };
 
 #endif // HOVER_TEXT_H

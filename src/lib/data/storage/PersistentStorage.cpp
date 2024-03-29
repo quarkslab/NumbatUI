@@ -2231,7 +2231,11 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(
 		}
 	}
 
-	if (type.isFile())
+	if (HoverText::text.find(node.id) != HoverText::text.end())
+	{
+		info.title = std::wstring(HoverText::text[node.id].begin(), HoverText::text[node.id].end());
+	}
+	else if (type.isFile())
 	{
 		if (!getFileNodeIndexed(node.id))
 		{
@@ -2250,15 +2254,6 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(
 	else if (defKind == DEFINITION_IMPLICIT)
 	{
 		info.title = L"implicit " + info.title;
-	}
-
-	if (HoverText::text.find(node.id) != HoverText::text.end())
-	{
-		HoverText txt = HoverText::parse(HoverText::text[node.id]);
-		if (txt.option == "r")
-			info.title = std::wstring(txt.metadata.begin(), txt.metadata.end());
-		else if (txt.option == "a")
-			info.title += L"\n" + std::wstring(txt.metadata.begin(), txt.metadata.end());
 	}
 
 	info.count = 0;
