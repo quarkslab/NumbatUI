@@ -2215,11 +2215,6 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(
 
 	const NodeType type(intToNodeKind(node.type));
 	info.title = type.getReadableTypeWString();
-	if (HoverText::text.find(node.id) != HoverText::text.end())
-		info.title += L"\n" +
-			std::wstring(HoverText::text.at(node.id).begin(),
-						 HoverText::text.at(node.id).end());
-
 	DefinitionKind defKind = DEFINITION_NONE;
 	const StorageSymbol symbol = m_sqliteIndexStorage.getFirstById<StorageSymbol>(node.id);
 	if (symbol.id > 0)
@@ -2255,6 +2250,15 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(
 	else if (defKind == DEFINITION_IMPLICIT)
 	{
 		info.title = L"implicit " + info.title;
+	}
+
+	if (HoverText::text.find(node.id) != HoverText::text.end())
+	{
+		HoverText txt = HoverText::parse(HoverText::text[node.id]);
+		if (txt.option == "r")
+			info.title = std::wstring(txt.metadata.begin(), txt.metadata.end());
+		else if (txt.option == "a")
+			info.title += L"\n" + std::wstring(txt.metadata.begin(), txt.metadata.end());
 	}
 
 	info.count = 0;
