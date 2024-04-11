@@ -304,8 +304,8 @@ add_files(
 	data/GroupType.h
 	data/HierarchyCache.cpp
 	data/HierarchyCache.h
-	data/HoverText.cpp
-	data/HoverText.h
+	data/NodeExtras.cpp
+	data/NodeExtras.h
 	data/NodeKind.cpp
 	data/NodeKind.h
 	data/NodeType.cpp

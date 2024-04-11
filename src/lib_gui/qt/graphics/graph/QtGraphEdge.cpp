@@ -7,7 +7,6 @@
 #include "Edge.h"
 #include "GraphFocusHandler.h"
 #include "GraphViewStyle.h"
-#include "HoverText.h"
 #include "MessageActivateEdge.h"
 #include "MessageActivateTrailEdge.h"
 #include "MessageFocusIn.h"
@@ -16,6 +15,7 @@
 #include "MessageGraphNodeHide.h"
 #include "MessageTooltipHide.h"
 #include "MessageTooltipShow.h"
+#include "NodeExtras.h"
 #include "QtGraphNode.h"
 #include "QtLineItemAngled.h"
 #include "QtLineItemBezier.h"
@@ -438,9 +438,9 @@ void QtGraphEdge::coFocusIn()
 				}
 			}
 
-			if (HoverText::text.find(id) != HoverText::text.end())
+			if (NodeExtras::hoverText.find(id) != NodeExtras::hoverText.end())
 			{
-				info.title = std::wstring(HoverText::text[id].begin(), HoverText::text[id].end());
+				info.title = std::wstring(NodeExtras::hoverText[id].begin(), NodeExtras::hoverText[id].end());
 			}
 
 			MessageTooltipShow(info, TOOLTIP_ORIGIN_GRAPH).dispatch();

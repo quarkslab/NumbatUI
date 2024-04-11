@@ -8,6 +8,7 @@
 #include "ErrorInfo.h"
 #include "LocationType.h"
 #include "LowMemoryStringMap.h"
+#include "NodeExtras.h"
 #include "SqliteDatabaseIndex.h"
 #include "SqliteStorage.h"
 #include "StorageComponentAccess.h"
@@ -105,8 +106,9 @@ public:
 	StorageNode getNodeById(Id id) const;
 	StorageNode getNodeBySerializedName(const std::wstring& serializedName) const;
 
-	std::map<Id,std::string> getNodeColors() const;
-	std::map<Id,std::string> getNodeHoverText() const;
+	std::map<Id, std::string> getNodeColors() const;
+	std::map<Id, std::string> getNodeHoverText() const;
+	std::map<Id, CustomCommand> getNodeCustomCommands() const;
 
 	std::vector<int> getAvailableNodeTypes() const;
 	std::vector<int> getAvailableEdgeTypes() const;

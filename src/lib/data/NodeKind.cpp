@@ -58,6 +58,57 @@ NodeKind intToNodeKind(int value)
 
 std::string getReadableNodeKindString(NodeKind kind)
 {
+	switch (kind)
+	{
+	case NODE_SYMBOL:
+		return "symbol";
+	case NODE_BUILTIN_TYPE:
+		return "built-in type";
+	case NODE_TYPE:
+		return "type";
+	case NODE_MODULE:
+		return "module";
+	case NODE_NAMESPACE:
+		return "namespace";
+	case NODE_PACKAGE:
+		return "package";
+	case NODE_STRUCT:
+		return "struct";
+	case NODE_CLASS:
+		return "class";
+	case NODE_INTERFACE:
+		return "interface";
+	case NODE_ANNOTATION:
+		return "annotation";
+	case NODE_GLOBAL_VARIABLE:
+		return "global variable";
+	case NODE_FIELD:
+		return "field";
+	case NODE_FUNCTION:
+		return "function";
+	case NODE_METHOD:
+		return "method";
+	case NODE_ENUM:
+		return "enum";
+	case NODE_ENUM_CONSTANT:
+		return "enum constant";
+	case NODE_TYPEDEF:
+		return "typedef";
+	case NODE_TYPE_PARAMETER:
+		return "type parameter";
+	case NODE_FILE:
+		return "file";
+	case NODE_MACRO:
+		return "macro";
+	case NODE_UNION:
+		return "union";
+	}
+
+	return "";
+}
+
+std::string getModifiedNodeKindString(NodeKind kind)
+{
 	return nodeKinds[kind];
 }
 

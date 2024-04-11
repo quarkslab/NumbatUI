@@ -865,6 +865,24 @@ std::map<Id, std::string> SqliteIndexStorage::getNodeHoverText() const
 	return hoverText;
 }
 
+std::map<Id, CustomCommand> SqliteIndexStorage::getNodeCustomCommands() const
+{
+	CppSQLite3Query q = executeQuery("SELECT id,custom_command,custom_command_desc FROM node;");
+	std::map<Id, CustomCommand> action;
+
+	while (!q.eof())
+	{
+		const Id id = q.getIntField(0, 0);
+		const std::string command = q.getStringField(1, "");
+		const std::string description = q.getStringField(2, "");
+
+		if (id != 0 && command != "" && description != "")
+			action[id] = {description, command};
+		q.nextRow();
+	}
+	return action;
+}
+
 std::vector<int> SqliteIndexStorage::getAvailableNodeTypes() const
 {
 	CppSQLite3Query q = executeQuery("SELECT DISTINCT type FROM node;");
@@ -1342,6 +1360,8 @@ void SqliteIndexStorage::setupTables()
 			"serialized_name TEXT, "
 			"color TEXT, "
 			"hover_display TEXT, "
+			"custom_command TEXT, "
+			"custom_command_desc TEXT, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE);");
 

@@ -130,6 +130,11 @@ QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
 	m_copyGraphAction->setToolTip(QStringLiteral("Save this graph as image to the Clipboard"));
 	connect(m_copyGraphAction, &QAction::triggered, this, &QtGraphicsView::copyGraph);
 
+	m_customCommand = new QAction(QStringLiteral("No custom command"), this);
+	m_customCommand->setStatusTip(QStringLiteral("Execute this Node's custom command"));
+	m_customCommand->setToolTip(QStringLiteral("Execute this Node's custom command"));
+	connect(m_customCommand, &QAction::triggered, this, &QtGraphicsView::execCustomAction);
+
 	m_focusIndicator = new QWidget(this);
 	m_focusIndicator->setObjectName(QStringLiteral("focus_indicator"));
 	m_focusIndicator->hide();
@@ -497,6 +502,7 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 	m_hideNodeId = 0;
 	m_hideEdgeId = 0;
 	m_bookmarkNodeId = 0;
+	commandData = {"", ""};
 	FilePath clipboardFilePath;
 
 	QtGraphNode* node = getNodeAtCursorPosition();
@@ -518,6 +524,9 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 					m_openInTabNodeId = dataNode->getTokenId();
 					m_bookmarkNodeId = dataNode->getTokenId();
 					clipboardFilePath = dataNode->getFilePath();
+					if (NodeExtras::customCommands.find(dataNode->getTokenId()) !=
+						NodeExtras::customCommands.end())
+						commandData = NodeExtras::customCommands.at(dataNode->getTokenId());
 				}
 				else if (dynamic_cast<QtGraphNodeBundle*>(node))
 				{
@@ -563,6 +572,11 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 	m_hideNodeAction->setEnabled(m_hideNodeId);
 	m_hideEdgeAction->setEnabled(m_hideEdgeId);
 	m_bookmarkNodeAction->setEnabled(m_bookmarkNodeId);
+	m_customCommand->setEnabled(commandData.command != "" && commandData.description != "");
+	if (commandData.description != "")
+		m_customCommand->setText(commandData.description.c_str());
+	else
+		m_customCommand->setText("No custom command");
 
 	m_copyNodeNameAction->setEnabled(!m_clipboardNodeName.empty());
 
@@ -596,6 +610,9 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 	menu.addSeparator();
 	menu.addAction(m_copyNodeNameAction);
 	menu.addFileActions(clipboardFilePath);
+
+	menu.addSeparator();
+	menu.addAction(m_customCommand);
 
 	menu.show();
 }
@@ -807,6 +824,17 @@ void QtGraphicsView::hideEdge()
 void QtGraphicsView::bookmarkNode()
 {
 	MessageBookmarkCreate(m_bookmarkNodeId).dispatch();
+}
+
+void QtGraphicsView::execCustomAction()
+{
+	std::string command;
+	std::vector<std::string> argv;
+
+	boost::split(argv, commandData.command, boost::is_any_of("\t"));
+	command = argv[0];
+	argv.erase(argv.begin());
+	boost::process::spawn(boost::process::search_path(command), argv);
 }
 
 void QtGraphicsView::zoomInPressed()

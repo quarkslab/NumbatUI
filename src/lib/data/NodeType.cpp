@@ -239,3 +239,9 @@ std::wstring NodeType::getReadableTypeWString() const
 	std::string str = getReadableTypeString();
 	return std::wstring(str.begin(), str.end());
 }
+
+std::wstring NodeType::getModifiedTypeWString() const
+{
+	std::string str = getModifiedNodeKindString(m_kind);
+	return std::wstring(str.begin(), str.end());
+}

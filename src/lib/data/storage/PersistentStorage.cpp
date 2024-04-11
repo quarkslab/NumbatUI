@@ -9,9 +9,9 @@
 #include "FileInfo.h"
 #include "FilePath.h"
 #include "Graph.h"
-#include "HoverText.h"
 #include "MessageErrorCountUpdate.h"
 #include "MessageStatus.h"
+#include "NodeExtras.h"
 #include "NodeTypeSet.h"
 #include "ParseLocation.h"
 #include "SourceLocationCollection.h"
@@ -365,8 +365,11 @@ void PersistentStorage::setup()
 
 	// load additional hover text
 	std::map<Id, std::string> hover_tmp = m_sqliteIndexStorage.getEdgeHoverText();
-	HoverText::text = m_sqliteIndexStorage.getNodeHoverText();
-	HoverText::text.insert(hover_tmp.begin(), hover_tmp.end());
+	NodeExtras::hoverText = m_sqliteIndexStorage.getNodeHoverText();
+	NodeExtras::hoverText.insert(hover_tmp.begin(), hover_tmp.end());
+
+	// load custom actions
+	NodeExtras::customCommands = m_sqliteIndexStorage.getNodeCustomCommands();
 
 	// load colors
 	std::map<Id, std::string> colors_tmp = m_sqliteIndexStorage.getNodeColors();
@@ -2214,7 +2217,7 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(
 	}
 
 	const NodeType type(intToNodeKind(node.type));
-	info.title = type.getReadableTypeWString();
+	info.title = type.getModifiedTypeWString();
 	DefinitionKind defKind = DEFINITION_NONE;
 	const StorageSymbol symbol = m_sqliteIndexStorage.getFirstById<StorageSymbol>(node.id);
 	if (symbol.id > 0)
@@ -2231,9 +2234,9 @@ TooltipInfo PersistentStorage::getTooltipInfoForTokenIds(
 		}
 	}
 
-	if (HoverText::text.find(node.id) != HoverText::text.end())
+	if (NodeExtras::hoverText.find(node.id) != NodeExtras::hoverText.end())
 	{
-		info.title = std::wstring(HoverText::text[node.id].begin(), HoverText::text[node.id].end());
+		info.title = std::wstring(NodeExtras::hoverText[node.id].begin(), NodeExtras::hoverText[node.id].end());
 	}
 	else if (type.isFile())
 	{

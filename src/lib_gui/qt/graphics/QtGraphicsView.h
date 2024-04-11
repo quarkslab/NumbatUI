@@ -3,11 +3,15 @@
 
 #include <memory>
 
+#include <boost/process.hpp>
+#include <boost/algorithm/string.hpp>
+
 #include <QGraphicsView>
 
 #include "types.h"
 #include "MessageListener.h"
 #include "MessageSaveAsImage.h"
+#include "NodeExtras.h"
 
 
 class GraphFocusHandler;
@@ -92,6 +96,8 @@ private slots:
 
 	void legendClicked();
 
+	void execCustomAction();
+
 private:
 	bool moves() const;
 
@@ -140,6 +146,9 @@ private:
 
 	QAction* m_exportGraphAction;
 	QAction* m_copyGraphAction;
+
+	QAction* m_customCommand;
+	CustomCommand commandData;
 
 	QWidget* m_focusIndicator;
 

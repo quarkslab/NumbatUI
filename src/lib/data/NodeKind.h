@@ -42,6 +42,7 @@ NodeKind intToNodeKind(int value);
 
 std::string getReadableNodeKindString(NodeKind kind);
 std::wstring getReadableNodeKindWString(NodeKind kind);
+std::string getModifiedNodeKindString(NodeKind kind);
 NodeKind getNodeKindForReadableNodeKindString(const std::wstring& str);
 
 #endif	  // NODE_KIND_H
