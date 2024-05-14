@@ -18,6 +18,7 @@
 #include "StorageFile.h"
 #include "StorageLocalSymbol.h"
 #include "StorageNode.h"
+#include "StorageNodeFile.h"
 #include "StorageNodeType.h"
 #include "StorageOccurrence.h"
 #include "StorageSourceLocation.h"
@@ -145,6 +146,9 @@ public:
 		const std::vector<Id>& elementIds) const;
 
 	std::vector<ErrorInfo> getAllErrorInfos() const;
+
+	StorageNodeFile getAssociatedFile(Id fileId) const;
+	StorageNodeFile getAssociatedFile(const FilePath& filePath) const;
 
 	template <typename ResultType>
 	std::vector<ResultType> getAll() const
@@ -388,6 +392,9 @@ void SqliteIndexStorage::forEach<StorageNode>(
 template <>
 void SqliteIndexStorage::forEach<StorageNodeType>(
 	const std::string& query, std::function<void(StorageNodeType&&)> func) const;
+template <>
+void SqliteIndexStorage::forEach<StorageNodeFile>(
+	const std::string& query, std::function<void(StorageNodeFile&&)> func) const;
 template <>
 void SqliteIndexStorage::forEach<StorageSymbol>(
 	const std::string& query, std::function<void(StorageSymbol&&)> func) const;

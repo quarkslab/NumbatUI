@@ -239,6 +239,7 @@ DEF_GETTER_2(getFileContent, const FilePath&, bool, std::shared_ptr<TextAccess>,
 DEF_GETTER_1(getFileInfoForFileId, Id, FileInfo, FileInfo())
 DEF_GETTER_1(getFileInfoForFilePath, const FilePath&, FileInfo, FileInfo())
 DEF_GETTER_1(getFileInfosForFilePaths, const std::vector<FilePath>&, std::vector<FileInfo>, {})
+DEF_GETTER_1(getAssociatedFile, Id, StorageNodeFile, {})
 DEF_GETTER_0(getStorageStats, StorageStats, StorageStats())
 DEF_GETTER_0(getErrorCount, ErrorCountInfo, ErrorCountInfo())
 DEF_GETTER_1(getErrorsLimited, const ErrorFilter&, std::vector<ErrorInfo>, {})

@@ -168,6 +168,8 @@ public:
 	FileInfo getFileInfoForFilePath(const FilePath& filePath) const override;
 	std::vector<FileInfo> getFileInfosForFilePaths(const std::vector<FilePath>& filePaths) const override;
 
+	StorageNodeFile getAssociatedFile(Id id) const;
+
 	StorageStats getStorageStats() const override;
 
 	ErrorCountInfo getErrorCount() const override;

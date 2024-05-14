@@ -16,6 +16,7 @@
 #include "Node.h"
 #include "NodeBookmark.h"
 #include "SearchMatch.h"
+#include "StorageNodeFile.h"
 #include "StorageEdge.h"
 #include "StorageStats.h"
 #include "TooltipInfo.h"
@@ -99,6 +100,8 @@ public:
 	virtual FileInfo getFileInfoForFilePath(const FilePath& filePath) const = 0;
 	virtual std::vector<FileInfo> getFileInfosForFilePaths(
 		const std::vector<FilePath>& filePaths) const = 0;
+
+	virtual StorageNodeFile getAssociatedFile(Id id) const = 0;
 
 	virtual StorageStats getStorageStats() const = 0;
 

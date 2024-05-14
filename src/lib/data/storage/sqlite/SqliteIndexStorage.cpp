@@ -1210,6 +1210,38 @@ std::vector<ErrorInfo> SqliteIndexStorage::getAllErrorInfos() const
 	return errorInfos;
 }
 
+StorageNodeFile SqliteIndexStorage::getAssociatedFile(Id fileId) const
+{
+	CppSQLite3Query q = executeQuery(
+		"SELECT file_id,file_name,display_content FROM node_file WHERE file_id == " + std::to_string(fileId) + ";");
+	if (!q.eof())
+	{
+		const Id id = q.getIntField(0, 0);
+		const std::string file_name = q.getStringField(1, "");
+		bool display_content = q.getIntField(2, 0);
+
+		if (id != 0 and file_name != "")
+			return StorageNodeFile(id, file_name, display_content);
+	}
+	return StorageNodeFile(0, "", 0);
+}
+
+StorageNodeFile SqliteIndexStorage::getAssociatedFile(const FilePath& filePath) const
+{
+	CppSQLite3Query q = executeQuery(
+		"SELECT file_id,file_name,display_content FROM node_file WHERE file_name == '" + filePath.str() + "';");
+	if (!q.eof())
+	{
+		const Id id = q.getIntField(0, 0);
+		const std::string file_name = q.getStringField(1, "");
+		bool display_content = q.getIntField(2, 0);
+
+		if (id != 0 and file_name != "")
+			return StorageNodeFile(id, file_name, display_content);
+	}
+	return StorageNodeFile(0, "", 0);
+}
+
 int SqliteIndexStorage::getNodeCount() const
 {
 	return executeStatementScalar("SELECT COUNT(*) FROM node;", 0);
@@ -1314,6 +1346,7 @@ void SqliteIndexStorage::clearTables()
 		m_database.execDML("DROP TABLE IF EXISTS main.element;");
 		m_database.execDML("DROP TABLE IF EXISTS main.meta;");
 		m_database.execDML("DROP TABLE IF EXISTS main.node_type;");
+		m_database.execDML("DROP TABLE IF EXISTS main.node_file;");
 	}
 	catch (CppSQLite3Exception& e)
 	{
@@ -1436,6 +1469,14 @@ void SqliteIndexStorage::setupTables()
 			"translation_unit TEXT, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE);");
+
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS node_file("
+			"file_id INTEGER NOT NULL, "
+			"file_name TEXT UNIQUE, "
+			"display_content INTEGER, "
+			"PRIMARY KEY(file_id), "
+			"FOREIGN KEY(file_id) REFERENCES node(id) ON DELETE CASCADE);");
 	}
 	catch (CppSQLite3Exception& e)
 	{
@@ -1643,6 +1684,27 @@ void SqliteIndexStorage::forEach<StorageNodeType>(
 		if (id != 0)
 		{
 			func(StorageNodeType(id, type, kind));
+		}
+
+		q.nextRow();
+	}
+}
+
+template <>
+void SqliteIndexStorage::forEach<StorageNodeFile>(
+	const std::string& query, std::function<void(StorageNodeFile&&)> func) const
+{
+	CppSQLite3Query q = executeQuery("SELECT file_id, file_name, display_content FROM node_file " + query + ";");
+
+	while (!q.eof())
+	{
+		const Id id = q.getIntField(0, 0);
+		const std::string file = q.getStringField(1, "");
+		bool display_content = q.getIntField(2, 0);
+
+		if (id != 0)
+		{
+			func(StorageNodeFile(id, file, display_content));
 		}
 
 		q.nextRow();

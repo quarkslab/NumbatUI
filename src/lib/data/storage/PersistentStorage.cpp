@@ -2,8 +2,10 @@
 
 #include <queue>
 #include <sstream>
+#include <boost/filesystem.hpp>
 
 #include "AccessKind.h"
+#include "Application.h"
 #include "ApplicationSettings.h"
 #include "ElementComponentKind.h"
 #include "FileInfo.h"
@@ -1825,7 +1827,30 @@ std::shared_ptr<TextAccess> PersistentStorage::getFileContent(
 	const FilePath& filePath, bool showsErrors) const
 {
 	TRACE();
+	FilePath project_path = Application::getInstance()->getCurrentProjectPath().getParentDirectory();
+	Id id = m_sqliteIndexStorage.getAssociatedFile(filePath.getRelativeTo(project_path)).id;
+	StorageNodeFile node_file = m_sqliteIndexStorage.getAssociatedFile(id);
 
+	// there is a recorded copy of the file
+	if (node_file.id != 0)
+	{
+		if (node_file.display_content == false)
+			return TextAccess::createFromString("File is not available for viewing");
+		try
+		{
+			std::ifstream ifs(project_path.str() + "/" + node_file.fileName);
+			if (boost::filesystem::exists(project_path.str() + "/" + node_file.fileName) and ifs.good())
+				return TextAccess::createFromFile(FilePath(project_path.str() + "/" + node_file.fileName));
+		}
+		catch (const std::exception& e)
+		{
+			std::string tmp(e.what());
+			MessageStatus(std::wstring(tmp.begin(), tmp.end()), true).dispatch();
+		}
+		return TextAccess::createFromString("File is not available for viewing");
+	}
+
+	// default behavior
 	std::shared_ptr<TextAccess> fileContent = m_sqliteIndexStorage.getFileContentByPath(
 		filePath.wstr());
 	if (fileContent->getLineCount() > 0)
@@ -1868,6 +1893,11 @@ std::vector<FileInfo> PersistentStorage::getFileInfosForFilePaths(
 	}
 
 	return fileInfos;
+}
+
+StorageNodeFile PersistentStorage::getAssociatedFile(Id id) const
+{
+	return m_sqliteIndexStorage.getAssociatedFile(id);
 }
 
 StorageStats PersistentStorage::getStorageStats() const
