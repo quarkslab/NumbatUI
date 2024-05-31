@@ -40,7 +40,7 @@ struct SearchMatch
 	static std::vector<SearchMatch> createCommandsForNodeTypes(NodeTypeSet types);
 	static std::wstring getCommandName(CommandType type);
 
-	static const wchar_t FULLTEXT_SEARCH_CHARACTER = L'?';
+	static const char FULLTEXT_SEARCH_CHARACTER = '?';
 
 	SearchMatch();
 	SearchMatch(const std::wstring& query);

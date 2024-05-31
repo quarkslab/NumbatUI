@@ -11,6 +11,9 @@ namespace compatibility
 // This compatibility wrapper bridges Qt 5.12 and Qt 5.14
 QPoint QWheelEvent_globalPos(const QWheelEvent& event);
 
+QPoint QMouseEvent_globalPos(const QMouseEvent* event);
+
+int QMouseEvent_x(const QMouseEvent* event);
 }	 // namespace compatibility
 }	 // namespace utility
 

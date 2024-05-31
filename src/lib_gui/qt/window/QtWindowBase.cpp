@@ -6,6 +6,7 @@
 
 #include "ApplicationSettings.h"
 #include "ResourcePaths.h"
+#include "compatibilityQt.h"
 
 QtWindowBase::QtWindowBase(bool isSubWindow, QWidget* parent)
 	: QtWindowStackElement(parent)
@@ -134,7 +135,7 @@ void QtWindowBase::mouseMoveEvent(QMouseEvent* event)
 	{
 		if (m_isSubWindow)
 		{
-			QPoint pos = event->globalPos() - m_dragPosition;
+			QPoint pos = utility::compatibility::QMouseEvent_globalPos(event) - m_dragPosition;
 			QRect parentRect = parentWidget()->rect();
 
 			if (pos.x() < parentRect.left())
@@ -149,7 +150,7 @@ void QtWindowBase::mouseMoveEvent(QMouseEvent* event)
 		}
 		else
 		{
-			move(event->globalPos() - m_dragPosition);
+			move(utility::compatibility::QMouseEvent_globalPos(event) - m_dragPosition);
 			event->accept();
 		}
 	}
@@ -159,7 +160,7 @@ void QtWindowBase::mousePressEvent(QMouseEvent* event)
 {
 	if (event->button() == Qt::LeftButton)
 	{
-		m_dragPosition = event->globalPos() - frameGeometry().topLeft();
+		m_dragPosition = utility::compatibility::QMouseEvent_globalPos(event) - frameGeometry().topLeft();
 		event->accept();
 		m_mousePressedInWindow = true;
 	}
@@ -169,7 +170,7 @@ void QtWindowBase::mouseReleaseEvent(QMouseEvent* event)
 {
 	if (event->button() == Qt::LeftButton)
 	{
-		m_dragPosition = event->globalPos() - frameGeometry().topLeft();
+		m_dragPosition = utility::compatibility::QMouseEvent_globalPos(event) - frameGeometry().topLeft();
 		event->accept();
 		m_mousePressedInWindow = false;
 	}

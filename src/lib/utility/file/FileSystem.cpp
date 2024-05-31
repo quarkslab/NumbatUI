@@ -72,7 +72,7 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 		if (path.isDirectory())
 		{
 			boost::filesystem::recursive_directory_iterator it(
-				path.getPath(), boost::filesystem::symlink_option::recurse);
+				path.getPath(), boost::filesystem::directory_options::follow_directory_symlink);
 			boost::filesystem::recursive_directory_iterator endit;
 			boost::system::error_code ec;
 			for (; it != endit; it.increment(ec))
@@ -81,7 +81,7 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 				{
 					if (!followSymLinks)
 					{
-						it.no_push();
+						it.disable_recursion_pending();
 						continue;
 					}
 
@@ -100,7 +100,7 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 
 						if (symlinkDirs.find(absDir) != symlinkDirs.end())
 						{
-							it.no_push();
+							it.disable_recursion_pending();
 							continue;
 						}
 
@@ -151,7 +151,7 @@ std::set<FilePath> FileSystem::getSymLinkedDirectories(const std::vector<FilePat
 		if (path.isDirectory())
 		{
 			boost::filesystem::recursive_directory_iterator it(
-				path.getPath(), boost::filesystem::symlink_option::recurse);
+				path.getPath(), boost::filesystem::directory_options::follow_directory_symlink);
 			boost::filesystem::recursive_directory_iterator endit;
 			boost::system::error_code ec;
 			for (; it != endit; it.increment(ec))
@@ -173,7 +173,7 @@ std::set<FilePath> FileSystem::getSymLinkedDirectories(const std::vector<FilePat
 
 						if (symlinkDirs.find(absDir) != symlinkDirs.end())
 						{
-							it.no_push();
+							it.disable_recursion_pending();
 							continue;
 						}
 
@@ -249,7 +249,7 @@ bool FileSystem::copy_directory(const FilePath& from, const FilePath& to)
 		return false;
 	}
 
-	boost::filesystem::copy_directory(from.getPath(), to.getPath());
+	boost::filesystem::create_directory(to.getPath(), from.getPath());
 	to.recheckExists();
 	return true;
 }

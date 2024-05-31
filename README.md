@@ -68,7 +68,7 @@ Building Sourcetrail requires several dependencies to be in place on your machin
 
 ### Required Tools
 
-* __CMake v3.12 (required for Windows, Linux and MacOS)__
+* __CMake v3.29 (required for Windows, Linux and MacOS)__
     * __Reason__: Used to generate a build configuration for your build system
     * __Download__: https://cmake.org/download
 
@@ -87,18 +87,21 @@ Building Sourcetrail requires several dependencies to be in place on your machin
 
 ### Required dependencies
 
-* __Boost 1.67__
+* __Boost 1.85__
     * __Reason__: Used for file system access and interprocess communication
     * __Prebuilt Download for Windows__: https://sourceforge.net/projects/boost/files/boost-binaries/
-    * __Building for Unix__:
+    * __Building for Unix__: https://www.boost.org/users/download/
+        * After downloading Boost, Extract the archive, `cd` into the directory, then run:
         ```
         $ ./bootstrap.sh --with-libraries=filesystem,program_options,system,date_time
         $ ./b2 --link=static --variant=release --threading=multi --runtime-link=static --cxxflags=-fPIC
         ```
 
-* __Qt 5.12.3__
+* __Qt 6.7.1__
     * __Reason__: Used for rendering the GUI and for starting additional (indexer) processes.
     * __Prebuilt Download__: http://download.qt.io/official_releases/qt/
+    * __Required submodules__: `qtbase` `qtsvg` `qt5compat`
+    * After installing, add `path/to/Qt-[version]/bin` to the `PATH` environment variable before running CMake
 
 ### Building
 
@@ -109,7 +112,7 @@ Building Sourcetrail requires several dependencies to be in place on your machin
     $ cd Sourcetrail
     $ mkdir -p build/win64
     $ cd build/win64
-    $ cmake -G "Visual Studio 15 2017 Win64" -DBOOST_ROOT=<path/to/boost_1_67_0> -DQt5_DIR=<path/to/Qt/version/platform/compiler/lib/cmake/Qt5> ../..
+    $ cmake -G "Visual Studio 15 2017 Win64" -DBOOST_ROOT=<path/to/boost_1_85_0> -DQt6_DIR=<path/to/Qt/version/platform/compiler/lib/cmake/Qt6> ../..
     ```
     _Hint: If you are using the CMake GUI, we recommend that you activate advanced mode. Also you may be required to add some of the defines via the "Add Entry" button._
 
@@ -122,7 +125,7 @@ Building Sourcetrail requires several dependencies to be in place on your machin
     $ cd Sourcetrail
     $ mkdir -p build/Release
     $ cd build/Release
-    $ cmake -DCMAKE_BUILD_TYPE="Release" -DBOOST_ROOT=<path/to/boost_1_67_0> -DQt5_DIR=<path/to/Qt/version/platform/compiler/lib/cmake/Qt5> ../..
+    $ cmake -DCMAKE_BUILD_TYPE="Release" -DBOOST_ROOT=<path/to/boost_1_85_0> -DQt6_DIR=<path/to/Qt/version/platform/compiler/lib/cmake/Qt6> ../..
     ```
 * Now start the build with:
     ```
@@ -138,11 +141,14 @@ Building Sourcetrail requires several dependencies to be in place on your machin
 
 ### Required dependencies
 
-* __LLVM/Clang 11.0.0__
+* __LLVM/Clang 17.0.6__
     * __Reason__: Used for running the preprocessor on the indexed source code, building and traversing an Abstract Syntax Tree and generating error messages.
-    * __Building__: Make sure to check out the correct tag: `git checkout llvmorg-11.0.0`
+    * __Building__: Make sure to check out the correct tag: `git checkout llvmorg-17.0.6`
     * __Building for Windows__: Follow [these steps](https://clang.llvm.org/get_started.html) to build the project. Run the cmake command exactly as described.
-    * __Building for Unix__: Follow this [installation guide](http://clang.llvm.org/docs/LibASTMatchersTutorial.html) to build the project. Make sure to build with `-DLLVM_ENABLE_RTTI=ON`.
+    * __Building for Unix__: Install the `clang-17` and `libclang-17-dev` packages.
+    ```
+    sudo apt install clang-17 libclang-17-dev
+    ```
 
 ### Building
 

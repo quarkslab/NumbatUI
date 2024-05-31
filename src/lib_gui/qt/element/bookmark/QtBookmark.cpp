@@ -181,7 +181,7 @@ void QtBookmark::showEvent(QShowEvent* event)
 	elideButtonText();
 }
 
-void QtBookmark::enterEvent(QEvent* event)
+void QtBookmark::enterEvent(QEnterEvent* event)
 {
 	m_editButton->show();
 	m_deleteButton->show();

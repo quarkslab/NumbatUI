@@ -83,7 +83,7 @@ void CxxDiagnosticConsumer::HandleDiagnostic(
 			clang::FileID clangFileId = sourceManager.getFileID(loc);
 			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(clangFileId);
 
-			if (fileEntry != nullptr && fileEntry->isValid())
+			if (fileEntry != nullptr)
 			{
 				ParseLocation location = utility::getParseLocation(
 					loc, sourceManager, nullptr, m_canonicalFilePathCache);
@@ -95,7 +95,7 @@ void CxxDiagnosticConsumer::HandleDiagnostic(
 			else
 			{
 				fileEntry = sourceManager.getFileEntryForID(sourceManager.getMainFileID());
-				if (fileEntry != nullptr && fileEntry->isValid())
+				if (fileEntry != nullptr)
 				{
 					filePath = m_canonicalFilePathCache->getCanonicalFilePath(fileEntry);
 					fileId = m_client->recordFile(

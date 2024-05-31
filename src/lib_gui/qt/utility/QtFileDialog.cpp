@@ -3,6 +3,7 @@
 #include <QFileDialog>
 #include <QListView>
 #include <QTreeView>
+#include <QRegExp>
 
 #include "ApplicationSettings.h"
 #include "FilePath.h"

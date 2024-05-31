@@ -22,7 +22,7 @@ public:
 
 protected:
 	// because changing font-weight within the stylesheet does not work for some reason
-	void enterEvent(QEvent* event);
+	void enterEvent(QEnterEvent* event);
 	void leaveEvent(QEvent* event);
 
 private:

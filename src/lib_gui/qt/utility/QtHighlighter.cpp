@@ -401,7 +401,7 @@ std::vector<std::tuple<QtHighlighter::HighlightType, int, int>> QtHighlighter::c
 	{
 		while (true)
 		{
-			cursorStart = document()->find(startRule->pattern, cursorStart);
+			cursorStart = document()->find(QRegularExpression(startRule->pattern.pattern()), cursorStart);
 			if (cursorStart.isNull())
 			{
 				break;
@@ -422,7 +422,7 @@ std::vector<std::tuple<QtHighlighter::HighlightType, int, int>> QtHighlighter::c
 			break;
 		}
 
-		cursorEnd = document()->find(endRule->pattern, cursorStart);
+		cursorEnd = document()->find(QRegularExpression(endRule->pattern.pattern()), cursorStart);
 		if (cursorEnd.isNull())
 		{
 			break;

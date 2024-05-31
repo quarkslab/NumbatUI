@@ -32,7 +32,7 @@ FilePath CanonicalFilePathCache::getCanonicalFilePath(
 	FilePath filePath;
 
 	const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
-	if (fileEntry != nullptr && fileEntry->isValid())
+	if (fileEntry != nullptr)
 	{
 		filePath = getCanonicalFilePath(fileEntry);
 		m_fileIdMap.emplace(fileId, filePath);
@@ -126,7 +126,7 @@ FilePath CanonicalFilePathCache::getDeclarationFilePath(const clang::Decl* decla
 	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 	const clang::FileID fileId = sourceManager.getFileID(declaration->getBeginLoc());
 	const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
-	if (fileEntry != nullptr && fileEntry->isValid())
+	if (fileEntry != nullptr)
 	{
 		return getCanonicalFilePath(fileId, sourceManager);
 	}

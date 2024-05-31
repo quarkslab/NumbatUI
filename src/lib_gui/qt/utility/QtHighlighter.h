@@ -2,6 +2,8 @@
 #define QT_HIGHLIGHTER_H
 
 #include <QTextCharFormat>
+#include <QRegExp>
+#include <QRegularExpression>
 
 class QTextBlock;
 class QTextDocument;

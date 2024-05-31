@@ -160,9 +160,9 @@ std::unique_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 					resolver.ignoreContextDecl(templateSpecializationType->getTemplateName()
 												   .getAsTemplateDecl()
 												   ->getTemplatedDecl());
-					for (unsigned i = 0; i < templateSpecializationType->getNumArgs(); i++)
+					for (const clang::TemplateArgument& templateArgument : templateSpecializationType->template_arguments())
 					{
-						if (templateSpecializationType->getArg(i).isDependent())
+						if (templateArgument.isDependent())
 						{
 							return std::make_unique<CxxTypeName>(
 								declName->getName(),
@@ -170,7 +170,7 @@ std::unique_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 								declName->getParent());
 						}
 						templateArguments.push_back(
-							resolver.getTemplateArgumentName(templateSpecializationType->getArg(i)));
+							resolver.getTemplateArgumentName(templateArgument));
 					}
 
 					return std::make_unique<CxxTypeName>(
@@ -218,10 +218,10 @@ std::unique_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 
 			std::vector<std::wstring> templateArguments;
 			CxxTemplateArgumentNameResolver resolver(this);
-			for (unsigned i = 0; i < dependentType->getNumArgs(); i++)
+			for (const clang::TemplateArgument& templateArgument : dependentType->template_arguments())
 			{
 				templateArguments.push_back(
-					resolver.getTemplateArgumentName(dependentType->getArg(i)));
+					resolver.getTemplateArgumentName(templateArgument));
 			}
 
 			return std::make_unique<CxxTypeName>(
