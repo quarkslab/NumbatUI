@@ -33,7 +33,7 @@ public slots:
 	void expandClicked();
 
 protected:
-	virtual void enterEvent(QEvent* event);
+	virtual void enterEvent(QEnterEvent* event);
 	virtual void leaveEvent(QEvent* event);
 
 private slots:

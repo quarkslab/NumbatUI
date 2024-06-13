@@ -16,6 +16,8 @@
 #include "utility.h"
 #include "utilityString.h"
 
+#include <boost/range/combine.hpp>
+
 const std::wstring BookmarkController::s_edgeSeparatorToken = L" => ";
 const std::wstring BookmarkController::s_defaultCategoryName = L"default";
 
@@ -282,6 +284,32 @@ BookmarkController::BookmarkCache::BookmarkCache(StorageAccess* storageAccess)
 {
 }
 
+void BookmarkController::bookmarkReferencing(Id nodeId)
+{
+	std::vector<Id> referencing = m_storageAccess->getReferencingNodes(nodeId);
+	std::vector<NameHierarchy> names = m_storageAccess->getNameHierarchiesForNodeIds(referencing);
+	std::wstring nodeName = m_storageAccess->getNameHierarchyForNodeId(nodeId).getQualifiedName();
+
+	std::sort(referencing.begin(), referencing.end());
+	for (auto&& [id, name]: boost::combine(referencing, names))
+	{
+		createBookmark(name.getQualifiedName(), L"", L"referencing " + nodeName, id);
+	}
+}
+
+void BookmarkController::bookmarkReferences(Id nodeId)
+{
+	std::vector<Id> references = m_storageAccess->getReferencedNodes(nodeId);
+	std::vector<NameHierarchy> names = m_storageAccess->getNameHierarchiesForNodeIds(references);
+	std::wstring nodeName = m_storageAccess->getNameHierarchyForNodeId(nodeId).getQualifiedName();
+
+	std::sort(references.begin(), references.end());
+	for (auto&& [id, name]: boost::combine(references, names))
+	{
+		createBookmark(name.getQualifiedName(), L"", L"referenced by " + nodeName, id);
+	}
+}
+
 void BookmarkController::BookmarkCache::clear()
 {
 	m_nodeBookmarksValid = false;
@@ -369,6 +397,16 @@ void BookmarkController::handleMessage(MessageBookmarkDelete* message)
 void BookmarkController::handleMessage(MessageBookmarkEdit* message)
 {
 	showBookmarkCreator(0);
+}
+
+void BookmarkController::handleMessage(MessageBookmarkReferencing* message)
+{
+	bookmarkReferencing(message->nodeId);
+}
+
+void BookmarkController::handleMessage(MessageBookmarkReferences* message)
+{
+	bookmarkReferences(message->nodeId);
 }
 
 void BookmarkController::handleMessage(MessageIndexingFinished* message)

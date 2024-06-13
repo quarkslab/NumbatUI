@@ -109,7 +109,7 @@ int main(int argc, char* argv[])
 	}
 #pragma warning(pop)
 
-	QApplication::setApplicationName(QStringLiteral("Sourcetrail"));
+	QApplication::setApplicationName(QStringLiteral("NumbatUI"));
 
 	Version version(VERSION_YEAR, VERSION_MINOR, VERSION_COMMIT, GIT_COMMIT_HASH);
 	QApplication::setApplicationVersion(version.toDisplayString().c_str());

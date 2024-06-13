@@ -109,7 +109,7 @@ void QtBookmarkCategory::expandClicked()
 	}
 }
 
-void QtBookmarkCategory::enterEvent(QEvent* event)
+void QtBookmarkCategory::enterEvent(QEnterEvent* event)
 {
 	m_deleteButton->show();
 }
@@ -125,12 +125,12 @@ void QtBookmarkCategory::deleteClicked()
 	msgBox.setText(QStringLiteral("Delete Category"));
 	msgBox.setInformativeText(
 		QStringLiteral("Do you really want to delete this category AND all containing bookmarks?"));
-	msgBox.addButton(QStringLiteral("Delete"), QMessageBox::ButtonRole::YesRole);
-	msgBox.addButton(QStringLiteral("Keep"), QMessageBox::ButtonRole::NoRole);
+	QPushButton* deleteButton = msgBox.addButton(QStringLiteral("Delete"), QMessageBox::ButtonRole::YesRole);
+	QPushButton* keepButton = msgBox.addButton(QStringLiteral("Keep"), QMessageBox::ButtonRole::NoRole);
 	msgBox.setIcon(QMessageBox::Icon::Question);
-	int ret = msgBox.exec();
+	msgBox.exec();
 
-	if (ret == 0)	 // QMessageBox::Yes
+	if (msgBox.clickedButton() == deleteButton)
 	{
 		m_controllerProxy->executeAsTaskWithArgs(&BookmarkController::deleteBookmarkCategory, m_id);
 	}

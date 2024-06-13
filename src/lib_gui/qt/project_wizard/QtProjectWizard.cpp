@@ -774,12 +774,12 @@ void QtProjectWizard::removeSelectedSourceGroup()
 	msgBox.setText(QStringLiteral("Remove Source Group"));
 	msgBox.setInformativeText(
 		QStringLiteral("Do you really want to remove this source group from the project?"));
-	msgBox.addButton(QStringLiteral("Yes"), QMessageBox::ButtonRole::YesRole);
-	msgBox.addButton(QStringLiteral("No"), QMessageBox::ButtonRole::NoRole);
+	QPushButton* yesButton = msgBox.addButton(QStringLiteral("Yes"), QMessageBox::ButtonRole::YesRole);
+	QPushButton* noButton = msgBox.addButton(QStringLiteral("No"), QMessageBox::ButtonRole::NoRole);
 	msgBox.setIcon(QMessageBox::Icon::Question);
-	int ret = msgBox.exec();
+	msgBox.exec();
 
-	if (ret == 0)	 // QMessageBox::Yes
+	if (msgBox.clickedButton() == yesButton)
 	{
 		int currentRow = m_sourceGroupList->currentRow();
 		m_allSourceGroupSettings.erase(m_allSourceGroupSettings.begin() + currentRow);

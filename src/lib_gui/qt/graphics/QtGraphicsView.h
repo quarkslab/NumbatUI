@@ -87,7 +87,10 @@ private slots:
 	void showDefinition();
 	void hideNode();
 	void hideEdge();
+
 	void bookmarkNode();
+	void bookmarkReferencing();
+	void bookmarkReferences();
 
 	void zoomInPressed();
 	void zoomOutPressed();
@@ -143,6 +146,8 @@ private:
 	QAction* m_hideNodeAction;
 	QAction* m_hideEdgeAction;
 	QAction* m_bookmarkNodeAction;
+	QAction* m_bookmarkReferencingAction;
+	QAction* m_bookmarkReferencesAction;
 
 	QAction* m_exportGraphAction;
 	QAction* m_copyGraphAction;

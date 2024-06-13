@@ -15,6 +15,8 @@
 #include "GraphFocusHandler.h"
 #include "MessageActivateLegend.h"
 #include "MessageBookmarkCreate.h"
+#include "MessageBookmarkReferences.h"
+#include "MessageBookmarkReferencing.h"
 #include "MessageCodeShowDefinition.h"
 #include "MessageFocusView.h"
 #include "MessageGraphNodeExpand.h"
@@ -119,6 +121,16 @@ QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
 	m_bookmarkNodeAction->setStatusTip(QStringLiteral("Create a bookmark for this node"));
 	m_bookmarkNodeAction->setToolTip(QStringLiteral("Create a bookmark for this node"));
 	connect(m_bookmarkNodeAction, &QAction::triggered, this, &QtGraphicsView::bookmarkNode);
+
+	m_bookmarkReferencingAction = new QAction(QStringLiteral("Bookmark All Referencing"), this);
+	m_bookmarkReferencingAction->setStatusTip(QStringLiteral("Create a bookmark for all nodes referencing this node"));
+	m_bookmarkReferencingAction->setToolTip(QStringLiteral("Create a bookmark for all nodes referencing this node"));
+	connect(m_bookmarkReferencingAction, &QAction::triggered, this, &QtGraphicsView::bookmarkReferencing);
+
+	m_bookmarkReferencesAction = new QAction(QStringLiteral("Bookmark All References"), this);
+	m_bookmarkReferencesAction->setStatusTip(QStringLiteral("Create a bookmark for all nodes referenced by this node"));
+	m_bookmarkReferencesAction->setToolTip(QStringLiteral("Create a bookmark for all nodes referenced by this node"));
+	connect(m_bookmarkReferencesAction, &QAction::triggered, this, &QtGraphicsView::bookmarkReferences);
 
 	m_exportGraphAction = new QAction(QStringLiteral("Save as Image"), this);
 	m_exportGraphAction->setStatusTip(QStringLiteral("Save this graph as image file"));
@@ -572,6 +584,8 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 	m_hideNodeAction->setEnabled(m_hideNodeId);
 	m_hideEdgeAction->setEnabled(m_hideEdgeId);
 	m_bookmarkNodeAction->setEnabled(m_bookmarkNodeId);
+	m_bookmarkReferencingAction->setEnabled(m_bookmarkNodeId);
+	m_bookmarkReferencesAction->setEnabled(m_bookmarkNodeId);
 	m_customCommand->setEnabled(commandData.command != "" && commandData.description != "");
 	if (commandData.description != "")
 		m_customCommand->setText(commandData.description.c_str());
@@ -601,7 +615,11 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
 	menu.addAction(m_hideNodeAction);
 	menu.addAction(m_hideEdgeAction);
+
+	menu.addSeparator();
 	menu.addAction(m_bookmarkNodeAction);
+	menu.addAction(m_bookmarkReferencingAction);
+	menu.addAction(m_bookmarkReferencesAction);
 
 	menu.addSeparator();
 	menu.addAction(m_exportGraphAction);
@@ -824,6 +842,16 @@ void QtGraphicsView::hideEdge()
 void QtGraphicsView::bookmarkNode()
 {
 	MessageBookmarkCreate(m_bookmarkNodeId).dispatch();
+}
+
+void QtGraphicsView::bookmarkReferencing()
+{
+	MessageBookmarkReferencing(m_bookmarkNodeId).dispatch();
+}
+
+void QtGraphicsView::bookmarkReferences()
+{
+	MessageBookmarkReferences(m_bookmarkNodeId).dispatch();
 }
 
 void QtGraphicsView::execCustomAction()

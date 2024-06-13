@@ -23,6 +23,9 @@ public:
 	std::map<Id, std::pair<Id, NameHierarchy>> getNodeIdToParentFileMap(
 		const std::vector<Id>& nodeIds) const override;
 
+	std::vector<Id> getReferencingNodes(Id nodeId) const override;
+	std::vector<Id> getReferencedNodes(Id nodeId) const override;
+
 	NodeType getNodeTypeForNodeWithId(Id id) const override;
 
 	StorageEdge getEdgeById(Id edgeId) const override;

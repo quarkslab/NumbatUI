@@ -111,6 +111,9 @@ public:
 	std::map<Id, std::string> getNodeHoverText() const;
 	std::map<Id, CustomCommand> getNodeCustomCommands() const;
 
+	std::vector<Id> getReferencingNodes(Id nodeId) const;
+	std::vector<Id> getReferencedNodes(Id nodeId) const;
+
 	std::vector<int> getAvailableNodeTypes() const;
 	std::vector<int> getAvailableEdgeTypes() const;
 

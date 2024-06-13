@@ -1099,7 +1099,7 @@ void QtMainWindow::setupHelpMenu()
 	menu->addSeparator();
 
 	menu->addAction(tr("License"), this, &QtMainWindow::showLicenses);
-	menu->addAction(tr("&About Sourcetrail"), this, &QtMainWindow::about);
+	menu->addAction(tr("&About NumbatUI"), this, &QtMainWindow::about);
 
 	menu->addSeparator();
 

@@ -86,12 +86,12 @@ bool QtProjectWizardContentPathsHeaderSearchGlobal::check()
 			"you want to remove "
 			"these paths?");
 		msgBox.setDetailedText(compilerHeaderPaths);
-		msgBox.addButton(QStringLiteral("Remove"), QMessageBox::ButtonRole::YesRole);
-		msgBox.addButton(QStringLiteral("Keep"), QMessageBox::ButtonRole::NoRole);
+		QPushButton* removeButton = msgBox.addButton(QStringLiteral("Remove"), QMessageBox::ButtonRole::YesRole);
+		QPushButton* keepButton = msgBox.addButton(QStringLiteral("Keep"), QMessageBox::ButtonRole::NoRole);
 		msgBox.setIcon(QMessageBox::Icon::Question);
-		int ret = msgBox.exec();
+		msgBox.exec();
 
-		if (ret == 0)	 // QMessageBox::Yes
+		if (msgBox.clickedButton() == removeButton)
 		{
 			setPaths(paths);
 			save();
