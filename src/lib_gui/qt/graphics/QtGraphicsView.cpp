@@ -122,12 +122,12 @@ QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
 	m_bookmarkNodeAction->setToolTip(QStringLiteral("Create a bookmark for this node"));
 	connect(m_bookmarkNodeAction, &QAction::triggered, this, &QtGraphicsView::bookmarkNode);
 
-	m_bookmarkReferencingAction = new QAction(QStringLiteral("Bookmark All Referencing"), this);
+	m_bookmarkReferencingAction = new QAction(QStringLiteral("Bookmark References to Node"), this);
 	m_bookmarkReferencingAction->setStatusTip(QStringLiteral("Create a bookmark for all nodes referencing this node"));
 	m_bookmarkReferencingAction->setToolTip(QStringLiteral("Create a bookmark for all nodes referencing this node"));
 	connect(m_bookmarkReferencingAction, &QAction::triggered, this, &QtGraphicsView::bookmarkReferencing);
 
-	m_bookmarkReferencesAction = new QAction(QStringLiteral("Bookmark All References"), this);
+	m_bookmarkReferencesAction = new QAction(QStringLiteral("Bookmark References from Node"), this);
 	m_bookmarkReferencesAction->setStatusTip(QStringLiteral("Create a bookmark for all nodes referenced by this node"));
 	m_bookmarkReferencesAction->setToolTip(QStringLiteral("Create a bookmark for all nodes referenced by this node"));
 	connect(m_bookmarkReferencesAction, &QAction::triggered, this, &QtGraphicsView::bookmarkReferences);
