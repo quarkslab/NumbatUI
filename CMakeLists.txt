@@ -199,7 +199,7 @@ if (WIN32)
 endif()
 
 if(Qt6Widgets_FOUND)
-	message(STATUS "Found Qt ${Qt6Widgets_VERSION_STRING}")
+	message(STATUS "Found Qt ${Qt6Widgets_VERSION}")
 
 	# FIX: Qt was built with -reduce-relocations
 	if (Qt6_POSITION_INDEPENDENT_CODE)

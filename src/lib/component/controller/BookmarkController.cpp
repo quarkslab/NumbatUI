@@ -286,12 +286,11 @@ BookmarkController::BookmarkCache::BookmarkCache(StorageAccess* storageAccess)
 
 void BookmarkController::bookmarkReferencing(Id nodeId)
 {
-	std::vector<Id> referencing = m_storageAccess->getReferencingNodes(nodeId);
-	std::vector<NameHierarchy> names = m_storageAccess->getNameHierarchiesForNodeIds(referencing);
+	std::set<Id> referencing = m_storageAccess->getReferencingNodes(nodeId);
+	std::vector<Id> referencing_vec(referencing.begin(),referencing.end());
+	std::vector<NameHierarchy> names = m_storageAccess->getNameHierarchiesForNodeIds(referencing_vec);
 	std::wstring nodeName = m_storageAccess->getNameHierarchyForNodeId(nodeId).getQualifiedName();
-
-	std::sort(referencing.begin(), referencing.end());
-	for (auto&& [id, name]: boost::combine(referencing, names))
+	for (auto&& [id, name]: boost::combine(referencing_vec, names))
 	{
 		createBookmark(name.getQualifiedName(), L"", L"referencing " + nodeName, id);
 	}
@@ -299,12 +298,12 @@ void BookmarkController::bookmarkReferencing(Id nodeId)
 
 void BookmarkController::bookmarkReferences(Id nodeId)
 {
-	std::vector<Id> references = m_storageAccess->getReferencedNodes(nodeId);
-	std::vector<NameHierarchy> names = m_storageAccess->getNameHierarchiesForNodeIds(references);
+	std::set<Id> references = m_storageAccess->getReferencedNodes(nodeId);
+	std::vector<Id> references_vec(references.begin(),references.end());
+	std::vector<NameHierarchy> names = m_storageAccess->getNameHierarchiesForNodeIds(references_vec);
 	std::wstring nodeName = m_storageAccess->getNameHierarchyForNodeId(nodeId).getQualifiedName();
 
-	std::sort(references.begin(), references.end());
-	for (auto&& [id, name]: boost::combine(references, names))
+	for (auto&& [id, name]: boost::combine(references_vec, names))
 	{
 		createBookmark(name.getQualifiedName(), L"", L"referenced by " + nodeName, id);
 	}

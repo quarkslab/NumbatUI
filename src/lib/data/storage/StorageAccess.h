@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <set>
 
 #include "types.h"
 
@@ -47,8 +48,8 @@ public:
 	virtual std::map<Id, std::pair<Id, NameHierarchy>> getNodeIdToParentFileMap(
 		const std::vector<Id>& nodeIds) const = 0;
 
-	virtual std::vector<Id> getReferencingNodes(Id nodeId) const = 0;
-	virtual std::vector<Id> getReferencedNodes(Id nodeId) const = 0;
+	virtual std::set<Id> getReferencingNodes(Id nodeId) const = 0;
+	virtual std::set<Id> getReferencedNodes(Id nodeId) const = 0;
 
 	virtual NodeType getNodeTypeForNodeWithId(Id id) const = 0;
 

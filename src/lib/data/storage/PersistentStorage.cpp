@@ -625,12 +625,12 @@ std::map<Id, std::pair<Id, NameHierarchy>> PersistentStorage::getNodeIdToParentF
 	return nodeIdToParentFileMap;
 }
 
-std::vector<Id> PersistentStorage::getReferencingNodes(Id nodeId) const
+std::set<Id> PersistentStorage::getReferencingNodes(Id nodeId) const
 {
 	return m_sqliteIndexStorage.getReferencingNodes(nodeId);
 }
 
-std::vector<Id> PersistentStorage::getReferencedNodes(Id nodeId) const
+std::set<Id> PersistentStorage::getReferencedNodes(Id nodeId) const
 {
 	return m_sqliteIndexStorage.getReferencedNodes(nodeId);
 }

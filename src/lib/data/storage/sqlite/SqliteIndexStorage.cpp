@@ -883,12 +883,12 @@ std::map<Id, CustomCommand> SqliteIndexStorage::getNodeCustomCommands() const
 	return action;
 }
 
-std::vector<Id> SqliteIndexStorage::getReferencingNodes(Id nodeId) const
+std::set<Id> SqliteIndexStorage::getReferencingNodes(Id nodeId) const
 {
 	CppSQLite3Statement stmt = m_database.compileStatement(
 		"SELECT node.id FROM node INNER JOIN edge ON node.id = edge.source_node_id WHERE "
 		"target_node_id=?;");
-	std::vector<Id> referencing;
+	std::set<Id> referencing;
 
 	stmt.bind(1, int(nodeId));
 	CppSQLite3Query q = executeQuery(stmt);
@@ -898,18 +898,18 @@ std::vector<Id> SqliteIndexStorage::getReferencingNodes(Id nodeId) const
 		Id id = q.getIntField(0, 0);
 
 		if (id != 0)
-			referencing.push_back(id);
+			referencing.insert(id);
 		q.nextRow();
 	}
 	return referencing;
 }
 
-std::vector<Id> SqliteIndexStorage::getReferencedNodes(Id nodeId) const
+std::set<Id> SqliteIndexStorage::getReferencedNodes(Id nodeId) const
 {
 	CppSQLite3Statement stmt = m_database.compileStatement(
 		"SELECT node.id FROM node INNER JOIN edge ON node.id = edge.target_node_id WHERE "
 		"source_node_id=?;");
-	std::vector<Id> referenced;
+	std::set<Id> referenced;
 
 	stmt.bind(1, int(nodeId));
 	CppSQLite3Query q = executeQuery(stmt);
@@ -919,7 +919,7 @@ std::vector<Id> SqliteIndexStorage::getReferencedNodes(Id nodeId) const
 		Id id = q.getIntField(0, 0);
 
 		if (id != 0)
-			referenced.push_back(id);
+			referenced.insert(id);
 		q.nextRow();
 	}
 	return referenced;
