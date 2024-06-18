@@ -145,8 +145,8 @@ public:
 	int getPluginPort() const;
 	void setPluginPort(const int pluginPort);
 
-	int getSourcetrailPort() const;
-	void setSourcetrailPort(const int sourcetrailPort);
+	int getNumbatUIPort() const;
+	void setNumbatUIPort(const int numbatuiPort);
 
 	// controls
 	int getControlsMouseBackButton() const;

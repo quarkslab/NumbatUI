@@ -22,8 +22,8 @@ void QtProjectWizardContentSourceGroupInfoText::populate(QGridLayout* layout, in
 	QLabel* infoLabel = new QLabel(
 		"<p>Please add at least one source group to your project. A source group specifies which "
 		"source files should be "
-		"analyzed by Sourcetrail and includes all parameters required to analyze those source "
-		"files. A Sourcetrail project "
+		"analyzed by NumbatUI and includes all parameters required to analyze those source "
+		"files. A NumbatUI project "
 		"may contain multiple source groups, which may be necessary if you want to analyze source "
 		"files from different "
 		"projects that do not share the same parameters.</p>"

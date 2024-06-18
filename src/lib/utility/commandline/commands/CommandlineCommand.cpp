@@ -24,7 +24,7 @@ const std::string& CommandlineCommand::description()
 
 void CommandlineCommand::printHelp()
 {
-	std::cout << "Usage:\n\n  Sourcetrail " << m_name << " [option...]\n\n";
+	std::cout << "Usage:\n\n  NumbatUI " << m_name << " [option...]\n\n";
 	std::cout << m_description << "\n\n";
 	std::cout << m_options << std::endl;
 

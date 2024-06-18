@@ -21,9 +21,9 @@ class BoringClass
 //  an element with a hatched background please call us. It's a runaway!
 //  Just kidding. Those are elements that are used within your code, but have no
 //  definition anywhere in your source folder (like the "String" symbol on the
-//  right hand side of the graph). So if you click them, Sourcetrail will
+//  right hand side of the graph). So if you click them, NumbatUI will
 //  display all the relations for the element, but the code view won't show a
-//	definition. If you want to learn more about Sourcetrail, use the graph to go
+//	definition. If you want to learn more about NumbatUI, use the graph to go
 //  back to the central hub.
 //
 //------------------------------------------------------------------------------

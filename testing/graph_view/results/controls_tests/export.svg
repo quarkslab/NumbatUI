@@ -3,7 +3,7 @@
  viewBox="0 0 651 741"
  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  version="1.2" baseProfile="tiny">
 <title>export</title>
-<desc>Graph exported from Sourcetrail®</desc>
+<desc>Graph exported from NumbatUI®</desc>
 <defs>
 </defs>
 <g fill="none" stroke="black" stroke-width="1" fill-rule="evenodd" stroke-linecap="square" stroke-linejoin="bevel" >
@@ -1426,7 +1426,7 @@ font-family=".SF NS Text" font-size="13" font-weight="400" font-style="normal"
 font-family="Fira Sans, sans-serif" font-size="8" font-weight="400" font-style="normal" 
 >
 <text fill="#000000" fill-opacity="1" stroke="none" xml:space="preserve" x="275.063" y="728.891" font-family="Fira Sans, sans-serif" font-size="8" font-weight="400" font-style="normal" 
- >Exported from Sourcetrail ®</text>
+ >Exported from NumbatUI ®</text>
 </g>
 </g>
 </svg>

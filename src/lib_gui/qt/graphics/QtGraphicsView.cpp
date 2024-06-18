@@ -712,7 +712,7 @@ void QtGraphicsView::openInTab()
 
 QImage QtGraphicsView::toQImage()
 {
-	const QString exportNotice = QStringLiteral("Exported from Sourcetrail");
+	const QString exportNotice = QStringLiteral("Exported from NumbatUI");
 	const int margin = 10;
 
 	QImage image(scene()->sceneRect().size().toSize() * 2, QImage::Format_ARGB32);
@@ -752,7 +752,7 @@ QImage QtGraphicsView::toQImage()
 
 void QtGraphicsView::exportGraph()
 {
-	const QString exportNotice = QStringLiteral("Exported from Sourcetrail");
+	const QString exportNotice = QStringLiteral("Exported from NumbatUI");
 	const int margin = 10;
 
 	FilePath filePath(
@@ -770,7 +770,7 @@ void QtGraphicsView::exportGraph()
 		svgGen.setSize(scene()->sceneRect().size().toSize());
 		svgGen.setViewBox(QRect(QPoint(0, 0), scene()->sceneRect().size().toSize()));
 		svgGen.setTitle(QString::fromStdWString(filePath.withoutExtension().fileName()));
-		svgGen.setDescription(QStringLiteral("Graph exported from Sourcetrail") + QChar(0x00AE));
+		svgGen.setDescription(QStringLiteral("Graph exported from NumbatUI") + QChar(0x00AE));
 
 		QPainter painter(&svgGen);
 		scene()->render(&painter);

@@ -954,7 +954,7 @@ void QtProjectWizard::createProject()
 		QMessageBox msgBox(this);
 		msgBox.setText(QStringLiteral("Could not create Project"));
 		msgBox.setInformativeText(QString::fromStdWString(
-			L"<p>Sourcetrail was unable to save the project to the specified path. Please pick a "
+			L"<p>NumbatUI was unable to save the project to the specified path. Please pick a "
 			L"different project location.</p>"));
 		msgBox.addButton(QStringLiteral("Ok"), QMessageBox::ButtonRole::AcceptRole);
 		msgBox.exec();

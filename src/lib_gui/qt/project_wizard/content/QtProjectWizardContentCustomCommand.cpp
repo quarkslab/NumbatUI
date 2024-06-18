@@ -29,7 +29,7 @@ void QtProjectWizardContentCustomCommand::populate(QGridLayout* layout, int& row
 		"<li><b>%{DATABASE_FILE_PATH}</b> - Path to database file: \"" +
 			QString::fromStdWString(m_settings->getProjectSettings()->getTempDBFilePath().wstr()) +
 			"\"</li>"
-			"<li><b>%{DATABASE_VERSION}</b> - Database version used by this Sourcetrail version: "
+			"<li><b>%{DATABASE_VERSION}</b> - Database version used by this NumbatUI version: "
 			"\"" +
 			QString::number(SqliteIndexStorage::getStorageVersion()) +
 			"\"</li>"

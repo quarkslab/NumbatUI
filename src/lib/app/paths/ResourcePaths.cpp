@@ -47,7 +47,7 @@ FilePath ResourcePaths::getPythonIndexerFilePath()
 {
 	if (utility::getOsType() == OS_WINDOWS)
 	{
-		return getPythonDirectoryPath().concatenate(L"SourcetrailPythonIndexer.exe");
+		return getPythonDirectoryPath().concatenate(L"NumbatUIPythonIndexer.exe");
 	}
-	return getPythonDirectoryPath().concatenate(L"SourcetrailPythonIndexer");
+	return getPythonDirectoryPath().concatenate(L"NumbatUIPythonIndexer");
 }

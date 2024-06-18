@@ -11,7 +11,7 @@
 // 3 - WELL DONE
 //  You activated a node and both, the graph and the code view have been updated
 //  accordingly.
-//  Note that even though Sourcetrail provides a graph view it does not remove the
+//  Note that even though NumbatUI provides a graph view it does not remove the
 //  need for reading code. The graph view is great for gaining a quick overview
 //  on relations and navigating code, but once you found something you are
 //  interested in you should still consider the code view to actually read up on
@@ -39,7 +39,7 @@ public:
 	{
 	}
 
-	void sourcetrail_uses_different_colors()
+	void NumbatUI_uses_different_colors()
 	{
 	}
 

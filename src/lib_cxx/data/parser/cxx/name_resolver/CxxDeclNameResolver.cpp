@@ -366,7 +366,7 @@ std::unique_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 					// unit's source file. If that global variable definition is const, we add the
 					// name of the (maybe header) file that variable is defined in instead. This
 					// causes different instances of the variable that all MUST contain the same
-					// value to be merged into a single node in Sourcetrail.
+					// value to be merged into a single node in NumbatUI.
 					std::wstring scopeFileName;
 					if (varDecl->getType().isConstQualified())
 					{

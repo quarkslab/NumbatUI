@@ -345,16 +345,16 @@ void QtWindow::setupDone()
 
 void QtWindow::addLogo()
 {
-	QtDeviceScaledPixmap sourcetrailLogo(
+	QtDeviceScaledPixmap numbatuiLogo(
 		QString::fromStdWString(ResourcePaths::getGuiDirectoryPath().concatenate(L"window/numbatui.png").wstr()));
-	sourcetrailLogo.scaleToWidth(200);
+	numbatuiLogo.scaleToWidth(200);
 
-	QLabel* sourcetrailLogoLabel = new QLabel(this);
-	sourcetrailLogoLabel->setPixmap(sourcetrailLogo.pixmap());
-	sourcetrailLogoLabel->resize(
-		static_cast<int>(sourcetrailLogo.width()), static_cast<int>(sourcetrailLogo.height()));
-	sourcetrailLogoLabel->move(m_isSubWindow ? 60 : 35, 0);
-	sourcetrailLogoLabel->show();
+	QLabel* numbatuiLogoLabel = new QLabel(this);
+	numbatuiLogoLabel->setPixmap(numbatuiLogo.pixmap());
+	numbatuiLogoLabel->resize(
+		static_cast<int>(numbatuiLogo.width()), static_cast<int>(numbatuiLogo.height()));
+	numbatuiLogoLabel->move(m_isSubWindow ? 60 : 35, 0);
+	numbatuiLogoLabel->show();
 
 	m_hasLogo = true;
 	resize(sizeHint());

@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.29)
 if (WIN32 AND (CMAKE_GENERATOR STREQUAL "Ninja"))
 	set(CMAKE_CONFIGURATION_TYPES ${CMAKE_BUILD_TYPE})
 endif()
-set(BUILD_CXX_LANGUAGE_PACKAGE OFF CACHE BOOL "Add C and C++ support to the Sourcetrail indexer.")
-set(BUILD_PYTHON_LANGUAGE_PACKAGE OFF CACHE BOOL "Add Python support to the Sourcetrail indexer.")
+set(BUILD_CXX_LANGUAGE_PACKAGE OFF CACHE BOOL "Add C and C++ support to the NumbatUI indexer.")
+set(BUILD_PYTHON_LANGUAGE_PACKAGE OFF CACHE BOOL "Add Python support to the NumbatUI indexer.")
 set(DOCKER_BUILD OFF CACHE BOOL "Build runs in Docker")
 set(TREAT_WARNINGS_AS_ERRORS ON CACHE BOOL "Treat compiler warnings as errors")
 
@@ -35,7 +35,7 @@ endif()
 
 # Variables --------------------------------------------------------------------
 
-set(PROJECT_NAME Sourcetrail)
+set(PROJECT_NAME NumbatUI)
 
 set(APP_PROJECT_NAME "${PROJECT_NAME}")
 set(APP_INDEXER_NAME "${PROJECT_NAME}_indexer")
@@ -188,7 +188,7 @@ find_package(Boost 1.67 COMPONENTS system program_options filesystem date_time R
 
 # Qt ---------------------------------------------------------------------------
 
-set (QT_MIN_VERSION "6.7.1")
+set (QT_MIN_VERSION "6.4.2")
 set (QT_MIN_VERSION_HEX 0x060701)
 find_package(Qt6 ${QT_MIN_VERSION} COMPONENTS Widgets PrintSupport Network Svg Core5Compat REQUIRED)
 
@@ -280,7 +280,7 @@ if (WIN32)
 	COPY_QT_BINARIES(False True)
 	COPY_QT_BINARIES(False False)
 
-	configure_file("${CMAKE_SOURCE_DIR}/setup/icon/windows/sourcetrail.ico" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/sourcetrail.ico" COPYONLY)
+	configure_file("${CMAKE_SOURCE_DIR}/setup/icon/windows/numbatui.ico" "${CMAKE_BINARY_DIR}/${CONFIGURATION}/numbatui.ico" COPYONLY)
 
 endif()
 
@@ -573,7 +573,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 add_executable(${APP_INDEXER_NAME} ${INDEXER_FILES})
 
 
-set_target_properties(${APP_INDEXER_NAME} PROPERTIES OUTPUT_NAME sourcetrail_indexer)
+set_target_properties(${APP_INDEXER_NAME} PROPERTIES OUTPUT_NAME numbatui_indexer)
 
 if (WIN32)
 	# hide the console when running a release build.
@@ -632,13 +632,13 @@ endif ()
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 if (WIN32)
-	file(WRITE ${CMAKE_BINARY_DIR}/Sourcetrail.rc
+	file(WRITE ${CMAKE_BINARY_DIR}/NumbatUI.rc
 		"// Icon with lowest ID value placed first to ensure application icon\n"
 		"// remains consistent on all systems.\n"
-		"IDI_ICON1               ICON                    \"${CMAKE_BINARY_DIR}/Sourcetrail.ico\"\n"
+		"IDI_ICON1               ICON                    \"${CMAKE_BINARY_DIR}/numbatui.ico\"\n"
 	)
 
-	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CMAKE_BINARY_DIR}/Sourcetrail.rc)
+	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CMAKE_BINARY_DIR}/NumbatUI.rc)
 
 	# also show the console when running a release build.
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE /DEBUG:FASTLINK")

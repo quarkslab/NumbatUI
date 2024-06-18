@@ -17,7 +17,7 @@
 void setupPlatform(int argc, char* argv[])
 {
 	std::string home = std::getenv("HOME");
-	UserPaths::setUserDataDirectoryPath(FilePath(home + "/.config/sourcetrail/"));
+	UserPaths::setUserDataDirectoryPath(FilePath(home + "/.config/numbatui/"));
 
 	// Set QT screen scaling factor
 	ApplicationSettings appSettings;
@@ -57,7 +57,7 @@ void setupApp(int argc, char* argv[])
 	}
 
 	std::string userdir(std::getenv("HOME"));
-	userdir.append("/.config/sourcetrail/");
+	userdir.append("/.config/numbatui/");
 
 	QString userDataPath(userdir.c_str());
 	QDir dataDir(userdir.c_str());

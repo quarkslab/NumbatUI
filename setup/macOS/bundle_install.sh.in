@@ -186,7 +186,7 @@ do
 	codesign --force --sign "Developer ID Application: Coati Software KG" $LIB_PATH
 	codesign -v --verbose=5 $LIB_PATH
 done
-for LIB_PATH in $(find $RES_DIR -name 'SourcetrailPythonIndexer')
+for LIB_PATH in $(find $RES_DIR -name 'NumbatUIPythonIndexer')
 do
 	echo "python bin" $LIB_PATH
 	codesign --force --options runtime --sign "Developer ID Application: Coati Software KG" $LIB_PATH
@@ -248,10 +248,10 @@ while true; do
 			echo -e $INFO "Notarize app.";
 
 			ditto -c -k --keepParent ${BUNDLE_PATH} ${BUNDLE_PATH}.zip;
-			xcrun altool --notarize-app --primary-bundle-id "com.sourcetrail" --username "egraether@coati.io"
-				--password "@keychain:sourcetrail_notarization" --file ${BUNDLE_PATH}.zip;
-			# xcrun altool --notarization-history 0 -u "egraether@coati.io" -p "@keychain:sourcetrail_notarization";
-			# xcrun altool --notarization-info <identifier> -u "egraether@coati.io" -p "@keychain:sourcetrail_notarization";
+			xcrun altool --notarize-app --primary-bundle-id "com.numbatui" --username "egraether@coati.io"
+				--password "@keychain:numbatui_notarization" --file ${BUNDLE_PATH}.zip;
+			# xcrun altool --notarization-history 0 -u "egraether@coati.io" -p "@keychain:numbatui_notarization";
+			# xcrun altool --notarization-info <identifier> -u "egraether@coati.io" -p "@keychain:numbatui_notarization";
 			rm ${BUNDLE_PATH}.zip;
 
 			echo -e $SUCCESS "Notarized app successfully!";

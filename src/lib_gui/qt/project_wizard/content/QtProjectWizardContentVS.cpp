@@ -18,10 +18,10 @@ void QtProjectWizardContentVS::populate(QGridLayout* layout, int& row)
 		QStringLiteral("Create Compilation Database"),
 		QStringLiteral("To create a new Compilation Database from a Visual Studio Solution, a "
 					   "Solution has to be open in Visual "
-					   "Studio.\n Sourcetrail will call Visual Studio to open the 'Create "
+					   "Studio.\n NumbatUI will call Visual Studio to open the 'Create "
 					   "Compilation Database' dialog. Please follow "
 					   "the instructions in Visual Studio to complete the process.\n Note: "
-					   "Sourcetrail's Visual Studio plugin has to "
+					   "NumbatUI's Visual Studio plugin has to "
 					   "be installed. Visual Studio has to be running with an eligible Solution, "
 					   "containing C/C++ projects, loaded."),
 		layout,
@@ -32,7 +32,7 @@ void QtProjectWizardContentVS::populate(QGridLayout* layout, int& row)
 		"installed "
 		"<a href=\"" +
 		utility::getDocumentationLink() +
-		"#visual-studio\">Sourcetrail  Visual Studio  Extension</a>)."));
+		"#visual-studio\">NumbatUI  Visual Studio  Extension</a>)."));
 	descriptionLabel->setObjectName(QStringLiteral("description"));
 	descriptionLabel->setOpenExternalLinks(true);
 	descriptionLabel->setAlignment(Qt::AlignmentFlag::AlignLeft);

@@ -2,10 +2,10 @@
 <config>
     <description>
 		WHAT IS THIS?\n
-		\tThis is a tutorial and it is one of the fastest ways to get to know Sourcetrail.\n
+		\tThis is a tutorial and it is one of the fastest ways to get to know NumbatUI.\n
 		\n
 		WHERE AM I?\n
-		\tYou're looking at Sourcetrail's Code View which usually displays source code,\n
+		\tYou're looking at NumbatUI's Code View which usually displays source code,\n
 		\tbut every time a new project is loaded it gives a quick summary to\n
 		\testimate the project's size. This is a fairly small project. It only\n
 		\tcontains a few hundred lines of code as you can see by the numbers below.\n

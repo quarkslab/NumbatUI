@@ -18,7 +18,7 @@
 //  everything? Click the respective symbol to find out.
 //
 // NOTE:
-//  This tutorial is based on the snippet view of Sourcetrail's Code View.
+//  This tutorial is based on the snippet view of NumbatUI's Code View.
 //  Please click the button "snippet list mode" in the top right corner of the
 //  Code View.
 //
@@ -37,4 +37,3 @@ public:
 
 
 #endif // CODE_TUTORIAL_1_H
-

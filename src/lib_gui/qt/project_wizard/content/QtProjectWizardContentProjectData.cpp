@@ -22,7 +22,7 @@ QtProjectWizardContentProjectData::QtProjectWizardContentProjectData(
 
 void QtProjectWizardContentProjectData::populate(QGridLayout* layout, int& row)
 {
-	QLabel* nameLabel = createFormLabel(QStringLiteral("Sourcetrail Project Name"));
+	QLabel* nameLabel = createFormLabel(QStringLiteral("NumbatUI Project Name"));
 	m_projectName = new QLineEdit();
 	m_projectName->setObjectName(QStringLiteral("name"));
 	m_projectName->setAttribute(Qt::WA_MacShowFocusRect, 0);
@@ -38,7 +38,7 @@ void QtProjectWizardContentProjectData::populate(QGridLayout* layout, int& row)
 	layout->setRowMinimumHeight(row, 30);
 	row++;
 
-	QLabel* locationLabel = createFormLabel(QStringLiteral("Sourcetrail Project Location"));
+	QLabel* locationLabel = createFormLabel(QStringLiteral("NumbatUI Project Location"));
 	m_projectFileLocation = new QtLocationPicker(this);
 	m_projectFileLocation->setPickDirectory(true);
 	m_projectFileLocation->setEnabled(!m_disableNameEditing);
@@ -46,8 +46,8 @@ void QtProjectWizardContentProjectData::populate(QGridLayout* layout, int& row)
 	layout->addWidget(locationLabel, row, QtProjectWizardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_projectFileLocation, row, QtProjectWizardWindow::BACK_COL, Qt::AlignTop);
 	addHelpButton(
-		QStringLiteral("Sourcetrail Project Location"),
-		QStringLiteral("The directory the Sourcetrail project file (.srctrlprj) will be saved to."),
+		QStringLiteral("NumbatUI Project Location"),
+		QStringLiteral("The directory the NumbatUI project file (.srctrlprj) will be saved to."),
 		layout,
 		row);
 	layout->setRowMinimumHeight(row, 30);
@@ -92,7 +92,7 @@ bool QtProjectWizardContentProjectData::check()
 	{
 		QMessageBox msgBox(m_window);
 		msgBox.setText(
-			QStringLiteral("Please define the location for the Sourcetrail project file."));
+			QStringLiteral("Please define the location for the NumbatUI project file."));
 		msgBox.exec();
 		return false;
 	}

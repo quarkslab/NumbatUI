@@ -1,6 +1,6 @@
 * Run "1_setup.sh"
 
-* Start up Sourcetrail
+* Start up NumbatUI
 
 * Click "New Project"
 * Enter a project name
@@ -46,6 +46,6 @@
 * Validate Project indexed without error
 * Click "OK"
 
-* Close Sourcetrail
+* Close NumbatUI
 
 * Run "3_teardown.sh"

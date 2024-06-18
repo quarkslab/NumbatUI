@@ -22,7 +22,7 @@ QtPreferencesWindow::QtPreferencesWindow(QWidget* parent): QtProjectWizardWindow
 	m_appSettings.setHeaderSearchPaths(appSettings->getHeaderSearchPaths());
 	m_appSettings.setFrameworkSearchPaths(appSettings->getFrameworkSearchPaths());
 	m_appSettings.setScrollSpeed(appSettings->getScrollSpeed());
-	m_appSettings.setSourcetrailPort(appSettings->getSourcetrailPort());
+	m_appSettings.setNumbatUIPort(appSettings->getNumbatUIPort());
 	m_appSettings.setPluginPort(appSettings->getPluginPort());
 
 	m_appSettings.setScreenAutoScaling(appSettings->getScreenAutoScaling());
@@ -92,7 +92,7 @@ void QtPreferencesWindow::handleNext()
 		MessageScrollSpeedChange(appSettings->getScrollSpeed()).dispatch();
 	}
 
-	if (m_appSettings.getSourcetrailPort() != appSettings->getSourcetrailPort() ||
+	if (m_appSettings.getNumbatUIPort() != appSettings->getNumbatUIPort() ||
 		m_appSettings.getPluginPort() != appSettings->getPluginPort())
 	{
 		MessagePluginPortChange().dispatch();

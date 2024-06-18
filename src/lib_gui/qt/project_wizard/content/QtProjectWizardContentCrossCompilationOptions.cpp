@@ -28,13 +28,13 @@ void QtProjectWizardContentCrossCompilationOptions::populate(QGridLayout* layout
 		"Cross-Compilation",
 		QStringLiteral(
 			"<p>Use these options to specify the target architecture for the provided source code. "
-			"Even though Sourcetrail will "
+			"Even though NumbatUI will "
 			"not generate a target binary, providing these options will affect which headers the "
 			"indexer will be looking for "
 			"while analyzing your source code.</p>"
 			"<p>If you are not sure which value to pick for a certain option just choose "
 			"\"unknown\" "
-			"and Sourcetrail will try "
+			"and NumbatUI will try "
 			"to guess the correct value.</p>"),
 		layout,
 		row);

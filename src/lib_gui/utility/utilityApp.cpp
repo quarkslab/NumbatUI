@@ -28,7 +28,7 @@ std::set<std::shared_ptr<boost::process::child>> s_runningProcesses;
 
 std::string utility::getDocumentationLink()
 {
-	return "https://github.com/CoatiSoftware/Sourcetrail/blob/master/DOCUMENTATION.md";
+	return "https://github.com/quarkslab/Numbat/blob/master/DOCUMENTATION.md";
 }
 
 std::wstring utility::searchPath(const std::wstring& bin, bool& ok)

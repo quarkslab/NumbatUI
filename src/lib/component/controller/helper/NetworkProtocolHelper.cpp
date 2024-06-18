@@ -253,7 +253,7 @@ std::wstring NetworkProtocolHelper::buildPingMessage()
 
 	messageStream << s_pingPrefix;
 	messageStream << s_divider;
-	messageStream << "sourcetrail";
+	messageStream << "numbatui";
 	messageStream << s_endOfMessageToken;
 
 	return messageStream.str();

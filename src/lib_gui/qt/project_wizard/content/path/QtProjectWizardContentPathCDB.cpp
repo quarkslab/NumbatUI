@@ -17,7 +17,7 @@ QtProjectWizardContentPathCDB::QtProjectWizardContentPathCDB(
 {
 	setTitleString(QStringLiteral("Compilation Database (compile_commands.json)"));
 	setHelpString(
-		"Select the compilation database file for the project. Sourcetrail will index your project "
+		"Select the compilation database file for the project. NumbatUI will index your project "
 		"based on the compile "
 		"commands. This file contains using all include paths and compiler flags of these compile "
 		"commands. The project "
@@ -42,7 +42,7 @@ void QtProjectWizardContentPathCDB::populate(QGridLayout* layout, int& row)
 		&QtProjectWizardContentPathCDB::onPickerTextChanged);
 
 	QLabel* description = new QLabel(
-		"Sourcetrail will use all include paths and compiler flags from the Compilation Database "
+		"NumbatUI will use all include paths and compiler flags from the Compilation Database "
 		"and stay up-to-date "
 		"with changes on refresh.",
 		this);

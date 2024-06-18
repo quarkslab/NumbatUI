@@ -20,8 +20,8 @@ CommandLineParser::CommandLineParser(const std::string& version): m_version(vers
 {
 	po::options_description options("Options");
 	options.add_options()("help,h", "Print this help message")(
-		"version,v", "Version of Sourcetrail")(
-		"project-file", po::value<std::string>(), "Open Sourcetrail with this project (.srctrlprj)");
+		"version,v", "Version of NumbatUI")(
+		"project-file", po::value<std::string>(), "Open NumbatUI with this project (.srctrlprj)");
 
 	m_options.add(options);
 	m_positional.add("project-file", 1);
@@ -82,7 +82,7 @@ void CommandLineParser::preparse(std::vector<std::string>& args)
 
 		if (vm.count("version"))
 		{
-			std::cout << "Sourcetrail Version " << m_version << std::endl;
+			std::cout << "NumbatUI Version " << m_version << std::endl;
 			m_quit = true;
 			return;
 		}
@@ -145,7 +145,7 @@ void CommandLineParser::setProjectFile(const FilePath& filepath)
 
 void CommandLineParser::printHelp() const
 {
-	std::cout << "Usage:\n  Sourcetrail [command] [option...] [positional arguments]\n\n";
+	std::cout << "Usage:\n  NumbatUI [command] [option...] [positional arguments]\n\n";
 
 	// Commands
 	std::cout << "Commands:\n";

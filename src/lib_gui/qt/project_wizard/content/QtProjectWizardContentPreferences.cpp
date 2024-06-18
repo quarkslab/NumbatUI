@@ -275,19 +275,19 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 	// Plugins
 	addTitle(QStringLiteral("PLUGIN"), layout, row);
 
-	// Sourcetrail port
-	m_sourcetrailPort = addLineEdit(
-		QStringLiteral("Sourcetrail Port"),
-		QStringLiteral("<p>Port number that Sourcetrail uses to listen for incoming messages from "
+	// NumbatUI port
+	m_numbatuiPort = addLineEdit(
+		QStringLiteral("NumbatUI Port"),
+		QStringLiteral("<p>Port number that NumbatUI uses to listen for incoming messages from "
 					   "plugins.</p>"),
 		layout,
 		row);
 
-	// Sourcetrail port
+	// NumbatUI port
 	m_pluginPort = addLineEdit(
 		QStringLiteral("Plugin Port"),
 		QStringLiteral(
-			"<p>Port number that Sourcetrail uses to sends outgoing messages to plugins.</p>"),
+			"<p>Port number that NumbatUI uses to sends outgoing messages to plugins.</p>"),
 		layout,
 		row);
 
@@ -407,7 +407,7 @@ void QtProjectWizardContentPreferences::load()
 		m_logPath->setText(QString::fromStdWString(appSettings->getLogDirectoryPath().wstr()));
 	}
 
-	m_sourcetrailPort->setText(QString::number(appSettings->getSourcetrailPort()));
+	m_numbatuiPort->setText(QString::number(appSettings->getNumbatUIPort()));
 	m_pluginPort->setText(QString::number(appSettings->getPluginPort()));
 
 	m_threads->setCurrentIndex(
@@ -467,9 +467,9 @@ void QtProjectWizardContentPreferences::save()
 		}
 	}
 
-	int sourcetrailPort = m_sourcetrailPort->text().toInt();
-	if (sourcetrailPort)
-		appSettings->setSourcetrailPort(sourcetrailPort);
+	int numbatuiPort = m_numbatuiPort->text().toInt();
+	if (numbatuiPort)
+		appSettings->setNumbatUIPort(numbatuiPort);
 
 	int pluginPort = m_pluginPort->text().toInt();
 	if (pluginPort)

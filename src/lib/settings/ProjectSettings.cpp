@@ -133,7 +133,7 @@ void ProjectSettings::setProjectFilePath(std::wstring projectName, const FilePat
 
 FilePath ProjectSettings::getDependenciesDirectoryPath() const
 {
-	return getProjectDirectoryPath().concatenate(L"sourcetrail_dependencies");
+	return getProjectDirectoryPath().concatenate(L"numbatui_dependencies");
 }
 
 FilePath ProjectSettings::getDBFilePath() const

@@ -16,10 +16,10 @@ QtProjectWizardContentPathCodeblocksProject::QtProjectWizardContentPathCodeblock
 {
 	setTitleString(QStringLiteral("Code::Blocks Project (.cbp)"));
 	setHelpString(
-		"Select the Code::Blocks file for the project. Sourcetrail will index your project based "
+		"Select the Code::Blocks file for the project. NumbatUI will index your project based "
 		"on the settings "
 		"this file. It contains using all include paths and compiler flags required. The "
-		"Sourcetrail project "
+		"NumbatUI project "
 		"will stay up to date with changes in the Code::Blocks project on every refresh.<br />"
 		"<br />"
 		"You can make use of environment variables with ${ENV_VAR}.");
@@ -39,7 +39,7 @@ void QtProjectWizardContentPathCodeblocksProject::populate(QGridLayout* layout, 
 		&QtProjectWizardContentPathCodeblocksProject::pickedPath);
 
 	QLabel* description = new QLabel(
-		"Sourcetrail will use all settings from the Code::Blocks project and stay up-to-date with "
+		"NumbatUI will use all settings from the Code::Blocks project and stay up-to-date with "
 		"changes on refresh.",
 		this);
 	description->setObjectName(QStringLiteral("description"));

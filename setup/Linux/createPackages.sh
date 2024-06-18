@@ -2,7 +2,7 @@
 
 # index sample projects
 
-BIN_PATH=build/Release/app/Sourcetrail
+BIN_PATH=build/Release/app/NumbatUI
 PROJECTS_PATH=bin/app/user/projects
 
 ./$BIN_PATH index --full $PROJECTS_PATH/tictactoe_cpp/tictactoe_cpp.srctrlprj
@@ -25,22 +25,22 @@ mkdir lib
 mkdir share
 
 cd bin
-cp ../../../build/Release/app/Sourcetrail sourcetrail
-cp ../../../build/Release/app/sourcetrail_indexer .
+cp ../../../build/Release/app/NumbatUI numbatui
+cp ../../../build/Release/app/numbatui_indexer .
 cd ..
 
 cd share
 
 mkdir applications
 cd applications
-cp ../../../../setup/Linux/data/sourcetrail.desktop .
+cp ../../../../setup/Linux/data/numbatui.desktop .
 cd ..
 
 mkdir mime
 cd mime
 mkdir packages
 cd packages
-cp ../../../../../setup/Linux/data/sourcetrail-mime.xml .
+cp ../../../../../setup/Linux/data/numbatui-mime.xml .
 cd ../..
 
 mkdir data
@@ -70,7 +70,7 @@ HICOLOR_DIR=AppDir/usr/share/icons/hicolor
 createIcon()
 {
     mkdir -p $HICOLOR_DIR/$1/apps/
-    convert $ICON -resize $1 $HICOLOR_DIR/$1/apps/sourcetrail.png
+    convert $ICON -resize $1 $HICOLOR_DIR/$1/apps/numbatui.png
 }
 
 createIcon 512x512
@@ -90,10 +90,10 @@ export VERSION
 
 # create .AppImage
 
-linuxdeployqt AppDir/usr/bin/sourcetrail_indexer -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python*
+linuxdeployqt AppDir/usr/bin/numbatui_indexer -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python*
 rm -f AppDir/AppRun
 
-linuxdeployqt AppDir/usr/share/applications/sourcetrail.desktop -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python* -appimage
+linuxdeployqt AppDir/usr/share/applications/numbatui.desktop -qmake=$Qt5_DIR/bin/qmake -ignore-glob=*python* -appimage
 
 rename x86_64 Linux_64bit *.AppImage
 rename - _ *.AppImage
@@ -102,13 +102,13 @@ rename - _ *.AppImage
 
 # create .tar.gz
 
-mv AppDir/usr/ Sourcetrail
-cp -R setup/Linux/data/package/* Sourcetrail
+mv AppDir/usr/ NumbatUI
+cp -R setup/Linux/data/package/* NumbatUI
 
-tar -czvf Sourcetrail_${VERSION}_Linux_64bit.tar.gz Sourcetrail
+tar -czvf NumbatUI_${VERSION}_Linux_64bit.tar.gz NumbatUI
 
 
 # cleanup
 
 rm -rf AppDir
-rm -rf Sourcetrail
+rm -rf NumbatUI

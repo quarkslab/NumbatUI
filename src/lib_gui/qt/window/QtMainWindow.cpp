@@ -526,13 +526,13 @@ void QtMainWindow::showErrorHelpMessage()
 void QtMainWindow::showChangelog()
 {
 	QDesktopServices::openUrl(QUrl(
-		QStringLiteral("https://github.com/CoatiSoftware/Sourcetrail/blob/master/CHANGELOG.md")));
+		QStringLiteral("https://github.com/quarkslab/Numbat/blob/master/CHANGELOG.md")));
 }
 
 void QtMainWindow::showBugtracker()
 {
 	QDesktopServices::openUrl(
-		QUrl(QStringLiteral("https://github.com/CoatiSoftware/Sourcetrail/issues")));
+		QUrl(QStringLiteral("https://github.com/quarkslab/Numbat/issues")));
 }
 
 void QtMainWindow::showLicenses()
@@ -616,7 +616,7 @@ void QtMainWindow::newProjectFromCDB(const FilePath& filePath)
 void QtMainWindow::openProject()
 {
 	QString fileName = QtFileDialog::getOpenFileName(
-		this, tr("Open File"), FilePath(), QStringLiteral("Sourcetrail Project Files (*.srctrlprj)"));
+		this, tr("Open File"), FilePath(), QStringLiteral("NumbatUI Project Files (*.srctrlprj)"));
 
 	if (!fileName.isEmpty())
 	{

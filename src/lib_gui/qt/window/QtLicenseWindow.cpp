@@ -47,9 +47,9 @@ void QtLicenseWindow::populateWindow(QWidget* widget)
 	layout->addSpacing(30);
 
 	QLabel* header3rdParties = new QLabel(QStringLiteral(
-		"<b>Copyrights and Licenses for Third Party Software Distributed with Sourcetrail:</b><br "
+		"<b>Copyrights and Licenses for Third Party Software Distributed with NumbatUI:</b><br "
 		"/>"
-		"Sourcetrail contains code written by the following third parties that have <br />"
+		"NumbatUI contains code written by the following third parties that have <br />"
 		"additional or alternate copyrights, licenses, and/or restrictions:"));
 	layout->addWidget(header3rdParties);
 

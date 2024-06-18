@@ -22,10 +22,10 @@ bool AppPath::setSharedDataDirectoryPath(const FilePath& path)
 
 FilePath AppPath::getCxxIndexerFilePath()
 {
-	std::wstring cxxIndexerName(L"sourcetrail_indexer");
+	std::wstring cxxIndexerName(L"numbatui_indexer");
 	if (utility::getOsType() == OS_WINDOWS)
 	{
-		cxxIndexerName = L"sourcetrail_indexer.exe";
+		cxxIndexerName = L"numbatui_indexer.exe";
 	}
 
 	if (!s_cxxIndexerDirectoryPath.empty())

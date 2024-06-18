@@ -33,7 +33,7 @@ void LogManager::setLoggingEnabled(bool enabled)
 		if (enabled)
 		{
 			LOG_INFO(
-				std::string("Enabled logging for Sourcetrail ") +
+				std::string("Enabled logging for NumbatUI ") +
 				(utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32
 					 ? "32"
 					 : "64") +

@@ -113,19 +113,19 @@ QtProjectWizardContentPathsIndexedHeaders::QtProjectWizardContentPathsIndexedHea
 	setTitleString(QStringLiteral("Header Files & Directories to Index"));
 	setHelpString(QString::fromStdString(
 		"The provided " + m_projectKindName +
-		" already specifies which source files are part of your project. But Sourcetrail still "
+		" already specifies which source files are part of your project. But NumbatUI still "
 		"needs to know which header files to index as part of your project and which to skip. "
 		"Choosing to skip indexing "
 		"your system headers or external frameworks will significantly improve the overall "
 		"indexing performance.<br />"
 		"<br />"
-		"Use this list to define which header files should be indexed by Sourcetrail. Provide a "
+		"Use this list to define which header files should be indexed by NumbatUI. Provide a "
 		"directory to recursively "
 		"add all contained files.<br />"
 		"<br />"
 		"You can make use of environment variables with ${ENV_VAR}.<br />"
 		"<br />"
-		"<b>Hint</b>: Just enter the root path of your project if you want Sourcetrail to index "
+		"<b>Hint</b>: Just enter the root path of your project if you want NumbatUI to index "
 		"all contained headers it "
 		"encounters.<br />"));
 }
@@ -169,7 +169,7 @@ bool QtProjectWizardContentPathsIndexedHeaders::check()
 		msgBox.setText(
 			QStringLiteral("You didn't specify any Header Files & Directories to Index."));
 		msgBox.setInformativeText(QString::fromStdString(
-			"Sourcetrail will only index the source files listed in the " + m_projectKindName +
+			"NumbatUI will only index the source files listed in the " + m_projectKindName +
 			" file and none of the included header files."));
 		QPushButton* yesButton = msgBox.addButton(
 			QStringLiteral("Continue"), QMessageBox::ButtonRole::YesRole);
@@ -210,7 +210,7 @@ void QtProjectWizardContentPathsIndexedHeaders::buttonClicked()
 				"Select from Include Paths",
 				"The list contains all Include Paths found in the Code::Blocks project. Red paths "
 				"do not exist. Select the "
-				"paths containing the header files you want to index with Sourcetrail.",
+				"paths containing the header files you want to index with NumbatUI.",
 				m_window);
 			m_filesDialog->setup();
 
@@ -256,7 +256,7 @@ void QtProjectWizardContentPathsIndexedHeaders::buttonClicked()
 				"Select from Include Paths",
 				"The list contains all Include Paths found in the Compilation Database. Red paths "
 				"do not exist. Select the "
-				"paths containing the header files you want to index with Sourcetrail.",
+				"paths containing the header files you want to index with NumbatUI.",
 				m_window);
 			m_filesDialog->setup();
 

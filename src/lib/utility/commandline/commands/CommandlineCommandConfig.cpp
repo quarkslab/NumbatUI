@@ -121,7 +121,7 @@ CommandlineCommand::ReturnStatus CommandlineCommandConfig::parse(std::vector<std
 		return ReturnStatus::CMD_FAILURE;
 	}
 
-	// when "sourcetrail config" without any options is started,
+	// when "numbatui config" without any options is started,
 	// show help since configure nothing wont help
 	if (vm.count("help") || args.size() == 0 || args[0] == "help")
 	{
@@ -138,12 +138,12 @@ CommandlineCommand::ReturnStatus CommandlineCommandConfig::parse(std::vector<std
 
 	if (args[0] == "show" || vm.count("show"))
 	{
-		std::cout << "Sourcetrail Settings:\n"
+		std::cout << "NumbatUI Settings:\n"
 				  << "\n  indexer-threads: " << settings->getIndexerThreadCount()
 				  << "\n  use-processes: " << settings->getMultiProcessIndexingEnabled()
 				  << "\n  logging-enabled: " << settings->getLoggingEnabled()
 				  << "\n  verbose-indexer-logging-enabled: "
-				  << settings->getVerboseIndexerLoggingEnabled()
+				  << settings->getVerboseIndexerLoggingEnabled();
 		printVector("global-header-search-paths", settings->getHeaderSearchPaths());
 		printVector("global-framework-search-paths", settings->getFrameworkSearchPaths());
 		return ReturnStatus::CMD_QUIT;

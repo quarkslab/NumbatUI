@@ -510,7 +510,7 @@ bool Application::checkSharedMemory()
 			L"There was an error accessing shared memory on your computer: " + error +
 			L"\n\n"
 			"Project indexing is not possible. Please restart your computer or try running "
-			"Sourcetrail as admin.");
+			"NumbatUI as admin.");
 		return false;
 	}
 

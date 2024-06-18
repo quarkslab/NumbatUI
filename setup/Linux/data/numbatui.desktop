@@ -2,7 +2,7 @@
 Name=NumbatUI
 GenericName=NumbatUI
 X-GNOME-FullName=NumbatUI
-Comment=Source Code Explorer
+Comment=Source Code & Graph Explorer
 Exec=/usr/bin/numbatui
 Icon=numbatui
 Terminal=false

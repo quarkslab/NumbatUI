@@ -54,7 +54,7 @@ bool ApplicationSettings::load(const FilePath& filePath, bool readOnly)
 	migrator.addMigration(
 		2,
 		std::make_shared<SettingsMigrationMoveKey>(
-			"network/coati_port", "network/sourcetrail_port"));
+			"network/coati_port", "network/numbatui_port"));
 	migrator.addMigration(
 		4,
 		std::make_shared<SettingsMigrationLambda>(
@@ -559,14 +559,14 @@ void ApplicationSettings::setPluginPort(const int pluginPort)
 	setValue<int>("network/plugin_port", pluginPort);
 }
 
-int ApplicationSettings::getSourcetrailPort() const
+int ApplicationSettings::getNumbatUIPort() const
 {
-	return getValue<int>("network/sourcetrail_port", 6667);
+	return getValue<int>("network/numbatui_port", 6667);
 }
 
-void ApplicationSettings::setSourcetrailPort(const int sourcetrailPort)
+void ApplicationSettings::setNumbatUIPort(const int numbatuiPort)
 {
-	setValue<int>("network/sourcetrail_port", sourcetrailPort);
+	setValue<int>("network/numbatui_port", numbatuiPort);
 }
 
 int ApplicationSettings::getControlsMouseBackButton() const

@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>Sourcetrail</string>
+	<string>NumbatUI</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
 	<string>@MACOS_BINARY_NAME@</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.sourcetrail</string>
+	<string>com.numbatui</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Sourcetrail</string>
+	<string>NumbatUI</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleVersion</key>
@@ -38,7 +38,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleTypeName</key>
-			<string>Sourcetrail Project</string>
+			<string>NumbatUI Project</string>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>srctrlprj</string>

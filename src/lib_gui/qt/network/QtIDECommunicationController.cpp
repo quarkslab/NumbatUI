@@ -17,7 +17,7 @@ void QtIDECommunicationController::startListening()
 {
 	m_onQtThread([=]() {
 		ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-		m_tcpWrapper.setServerPort(appSettings->getSourcetrailPort());
+		m_tcpWrapper.setServerPort(appSettings->getNumbatUIPort());
 		m_tcpWrapper.setClientPort(appSettings->getPluginPort());
 		m_tcpWrapper.startListening();
 

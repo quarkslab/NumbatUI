@@ -92,7 +92,7 @@ int main(int argc, char* argv[])
 	if (utility::getOsType() == OS_LINUX && std::getenv("SOURCETRAIL_VIA_SCRIPT") == nullptr &&
 		!FilePath(QCoreApplication::applicationDirPath().toStdWString() + L"/../share").exists())
 	{
-		std::cout << "ERROR: Please run Sourcetrail via the Sourcetrail.sh script!" << std::endl;
+		std::cout << "ERROR: Please run NumbatUI via the NumbatUI.sh script!" << std::endl;
 	}
 #pragma warning(pop)
 
@@ -102,7 +102,7 @@ int main(int argc, char* argv[])
 	QApplication::setApplicationVersion(version.toDisplayString().c_str());
 
 	MessageStatus(
-		std::wstring(L"Starting Sourcetrail ") +
+		std::wstring(L"Starting NumbatUI ") +
 		(utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_32 ? L"32" : L"64") +
 		L" bit, " + L"version " + version.toDisplayWString())
 		.dispatch();
@@ -118,7 +118,7 @@ int main(int argc, char* argv[])
 
 	if (commandLineParser.runWithoutGUI())
 	{
-		// headless Sourcetrail
+		// headless NumbatUI
 		QtCoreApplication qtApp(argc, argv);
 
 		setupApp(argc, argv);
@@ -167,7 +167,7 @@ int main(int argc, char* argv[])
 			GetWindowThreadProcessId(consoleWnd, &dwProcessId);
 			if (GetCurrentProcessId() == dwProcessId)
 			{
-				// Sourcetrail has not been started from console and thus has it's own console
+				// NumbatUI has not been started from console and thus has it's own console
 				ShowWindow(consoleWnd, SW_HIDE);
 			}
 		}

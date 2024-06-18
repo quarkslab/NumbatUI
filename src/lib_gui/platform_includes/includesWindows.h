@@ -55,11 +55,11 @@ void setupApp(int argc, char* argv[])
 				userDataPath = userLocalPath.getConcatenated(L"Coati Software/");
 				if (utility::getApplicationArchitectureType() == APPLICATION_ARCHITECTURE_X86_64)
 				{
-					userDataPath.concatenate(L"Sourcetrail 64-bit/");
+					userDataPath.concatenate(L"NumbatUI 64-bit/");
 				}
 				else
 				{
-					userDataPath.concatenate(L"Sourcetrail/");
+					userDataPath.concatenate(L"NumbatUI/");
 				}
 				userDataPath.makeCanonical();
 			}

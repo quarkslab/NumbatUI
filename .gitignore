@@ -53,8 +53,8 @@ build-*
 .ycm_extra_conf.py
 .ycm_extra_conf.pyc
 
-Sourcetrail.srctrlprj
-Sourcetrail_dev.srctrlprj
+NumbatUI.srctrlprj
+NumbatUI_dev.srctrlprj
 
 Makefile
 CMakeLists.txt.user*

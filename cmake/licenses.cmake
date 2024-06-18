@@ -20,8 +20,8 @@ function(AddLicense softwareName softwareVersion softwareURL licenseFile)
         set(LICENSE_ARRAY "${LICENSE_ARRAY}\n\tLicenseInfo(\"${softwareName}\", \"${softwareVersion}\", \"${softwareURL}\", ${softwareName}_license)," PARENT_SCOPE)
 endfunction(AddLicense)
 
-ReadLicense(${CMAKE_SOURCE_DIR}/LICENSE.txt Sourcetrail_license)
-set(LICENSE_APP "LicenseInfo(\"Sourcetrail\", \"${VERSION_STRING}\", \"https://github.com/CoatiSoftware/Sourcetrail\", Sourcetrail_license)")
+ReadLicense(${CMAKE_SOURCE_DIR}/LICENSE.txt NumbatUI_license)
+set(LICENSE_APP "LicenseInfo(\"NumbatUI\", \"${VERSION_STRING}\", \"https://github.com/quarkslab/Numbat\", NumbatUI_license)")
 
 AddLicense("Boost" "1.68" "http://www.boost.org" "${LICENSEFOLDER}/license_boost.txt")
 AddLicense("catch" "2.5.0" "https://github.com/catchorg/Catch2" "${LICENSEFOLDER}/license_catch.txt")

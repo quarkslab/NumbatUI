@@ -1,9 +1,9 @@
 * Run "1_setup.sh"
 
-* Download the SourcetrailPythonIndexer project from https://github.com/CoatiSoftware/SourcetrailPythonIndexer
+* Download the SourcetrailPythonIndexer project from https://github.com/quarkslab/NumbatPythonIndexer
 * Extract the archive to "./working_copy/SourcetrailPythonIndexer"
 
-* Fetch the SourcetrailDB release for your OS from https://github.com/CoatiSoftware/SourcetrailDB/releases
+* Fetch the SourcetrailDB release for your OS from https://github.com/quarkslab/Numbat/releases
 * Extract the archive to "./working_copy/SourcetrailPythonIndexer"
 
 * Start up Sourcetrail

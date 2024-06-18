@@ -135,7 +135,7 @@ void Project::load(std::shared_ptr<DialogView> dialogView)
 			if (dbPath.exists())
 			{
 				if (dialogView->confirm(
-						L"Sourcetrail has been closed unexpectedly while indexing this project. "
+						L"NumbatUI has been closed unexpectedly while indexing this project. "
 						L"You can either choose to keep "
 						L"the data that has already been indexed or discard that data and restore "
 						L"the state of your project "
@@ -256,7 +256,7 @@ void Project::load(std::shared_ptr<DialogView> dialogView)
 			MessageStatus(
 				L"Project could not be loaded because the indexed data format is incompatible to "
 				L"the current "
-				"version of Sourcetrail. Please re-index the project.",
+				"version of NumbatUI. Please re-index the project.",
 				false,
 				false)
 				.dispatch();
@@ -310,9 +310,9 @@ void Project::refresh(
 
 	case PROJECT_STATE_OUTVERSIONED:
 		question =
-			L"This project was indexed with a different version of Sourcetrail. It needs to be "
+			L"This project was indexed with a different version of NumbatUI. It needs to be "
 			L"fully reindexed to "
-			L"be used with this version of Sourcetrail. Do you want to reindex the project?";
+			L"be used with this version of NumbatUI. Do you want to reindex the project?";
 		needsFullRefresh = true;
 		break;
 
@@ -322,7 +322,7 @@ void Project::refresh(
 			L"format. "
 			L"The project can still be opened and used with this version, but needs to be fully "
 			L"reindexed. "
-			L"Do you want Sourcetrail to update the project file and reindex the project?";
+			L"Do you want NumbatUI to update the project file and reindex the project?";
 		needsFullRefresh = true;
 		break;
 

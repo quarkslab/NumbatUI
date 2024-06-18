@@ -29,7 +29,7 @@ QtProjectWizardContentPathsSource::QtProjectWizardContentPathsSource(
 
 	setTitleString(QStringLiteral("Files & Directories to Index"));
 	setHelpString(QStringLiteral(
-		"These paths define the files and directories that will be indexed by Sourcetrail. Provide "
+		"These paths define the files and directories that will be indexed by NumbatUI. Provide "
 		"a directory to recursively "
 		"add all contained source and header files.<br />"
 		"<br />"
@@ -68,7 +68,7 @@ bool QtProjectWizardContentPathsSource::check()
 		QMessageBox msgBox(m_window);
 		msgBox.setText(QStringLiteral("You didn't specify any 'Files & Directories to Index'."));
 		msgBox.setInformativeText(
-			QStringLiteral("Sourcetrail will not index any files for this Source Group. Please add "
+			QStringLiteral("NumbatUI will not index any files for this Source Group. Please add "
 						   "paths to files or directories "
 						   "that should be indexed."));
 		QPushButton* yesButton = msgBox.addButton(
