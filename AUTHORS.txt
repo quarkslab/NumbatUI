@@ -1,4 +1,10 @@
-Authors
+Numbat UI Authors
+=======
+
+Eloïse Brocas (@ebrocas) (Quarkslab)
+Pascal Wu (Intern @ Quarkslab)
+
+Sourcetrail Authors
 =======
 
 Andreas Stallinger
