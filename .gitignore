@@ -3,6 +3,8 @@ build-*
 /distr/
 /deps/
 
+.cache/
+compile_commands.json
 /bin/app/data/cxx
 /bin/app/data/projects/ignored/
 /bin/app/data/python/
@@ -21,22 +23,6 @@ build-*
 .DS_Store
 .idea
 .vscode
-
-/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailExtension/bin
-/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailExtension/obj
-/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailExtensionTests/bin/Debug
-/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailExtensionTests/bin/Release
-/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailExtensionTests/obj
-/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailExtensionUtility/bin
-/ide_plugins/vs/vs2015/SourcetrailPlugin/SourcetrailExtensionUtility/obj
-/ide_plugins/vs/vs2015/SourcetrailPlugin/VCProjectEngineWrapperInterfaces/bin
-/ide_plugins/vs/vs2015/SourcetrailPlugin/VCProjectEngineWrapperInterfaces/obj
-/ide_plugins/vs/vs2015/SourcetrailPlugin/VCProjectEngineWrapper/bin
-/ide_plugins/vs/vs2015/SourcetrailPlugin/VCProjectEngineWrapper/obj
-/ide_plugins/vs/vs2015/SourcetrailPlugin/VCProjectEngineWrapperFactories/bin
-/ide_plugins/vs/vs2015/SourcetrailPlugin/VCProjectEngineWrapperFactories/obj
-
-/ide_plugins/vs/vs2015/SourcetrailPlugin/TestResults
 
 *.srctrldb
 *.srctrlbm
