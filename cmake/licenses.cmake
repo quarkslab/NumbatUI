@@ -27,8 +27,6 @@ AddLicense("Boost" "1.68" "http://www.boost.org" "${LICENSEFOLDER}/license_boost
 AddLicense("catch" "2.5.0" "https://github.com/catchorg/Catch2" "${LICENSEFOLDER}/license_catch.txt")
 AddLicense("Clang" "8.0.1" "http://clang.llvm.org/" "${LICENSEFOLDER}/license_clang.txt")
 AddLicense("CppSQLite" "3.2" "http://www.codeproject.com/Articles/6343/CppSQLite-C-Wrapper-for-SQLite" "${LICENSEFOLDER}/license_cpp_sqlite.txt")
-AddLicense("EclipseJDT" "" "https://github.com/eclipse/eclipse.jdt.core" "${LICENSEFOLDER}/license_eclipse.txt")
-AddLicense("Gradle" "4.2" "https://github.com/gradle/gradle" "${LICENSEFOLDER}/license_gradle.txt")
 AddLicense("OpenSSL" "" "https://www.openssl.org/" "${LICENSEFOLDER}/license_openssl.txt")
 AddLicense("Qt" "5.12.6" "http://qt.io" "${LICENSEFOLDER}/license_qt.txt")
 AddLicense("TinyXML" "2.0" "https://sourceforge.net/projects/tinyxml/" "${LICENSEFOLDER}/license_tinyxml.txt")

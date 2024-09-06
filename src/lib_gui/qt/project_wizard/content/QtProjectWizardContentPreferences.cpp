@@ -328,120 +328,6 @@ void QtProjectWizardContentPreferences::populate(QGridLayout* layout, int& row)
 
 	addGap(layout, row);
 
-
-	// Java
-	addTitle(QStringLiteral("JAVA"), layout, row);
-
-	{
-		// jvm library path
-		m_javaPath = new QtLocationPicker(this);
-
-		switch (utility::getOsType())
-		{
-		case OS_WINDOWS:
-			m_javaPath->setFileFilter(QStringLiteral("JVM Library (jvm.dll)"));
-			m_javaPath->setPlaceholderText(QStringLiteral("<jre_path>/bin/client/jvm.dll"));
-			break;
-		case OS_MAC:
-			m_javaPath->setFileFilter(
-				QStringLiteral("JLI or JVM Library (libjli.dylib libjvm.dylib)"));
-			m_javaPath->setPlaceholderText(QStringLiteral(
-				"/Library/Java/JavaVirtualMachines/<jdk_version>/Contents/MacOS/libjli.dylib"));
-			break;
-		case OS_LINUX:
-			m_javaPath->setFileFilter(QStringLiteral("JVM Library (libjvm.so)"));
-			m_javaPath->setPlaceholderText(
-				QStringLiteral("<jre_path>/bin/<arch>/server/libjvm.so"));
-			break;
-		default:
-			LOG_WARNING("No placeholders and filters set for Java path selection");
-			break;
-		}
-
-		const std::string javaArchitectureString = utility::getApplicationArchitectureType() ==
-				APPLICATION_ARCHITECTURE_X86_32
-			? "32 Bit"
-			: "64 Bit";
-
-		addLabelAndWidget(
-			("Java Path (" + javaArchitectureString + ")").c_str(), m_javaPath, layout, row);
-
-		const std::string javaVersionString = javaArchitectureString + " Java 8";
-
-		addHelpButton(
-			QStringLiteral("Java Path"),
-			("<p>Only required for indexing Java projects.</p>"
-			 "<p>Provide the location of the jvm library inside the installation of your " +
-			 javaVersionString +
-			 " runtime environment (for information on how to set this take a look at "
-			 "<a href=\"" +
-			 utility::getDocumentationLink() +
-			 "#finding-java-runtime-library-location\">"
-			 "Finding Java Runtime Library Location</a> or use the auto detection below)</p>")
-				.c_str(),
-			layout,
-			row);
-		row++;
-
-		m_javaPathDetector = utility::getJavaRuntimePathDetector();
-		addJavaPathDetection(layout, row);
-	}
-
-	{
-		// JRE System Library
-		const QString title = QStringLiteral("JRE System Library");
-		QLabel* label = createFormLabel(title);
-		layout->addWidget(label, row, QtProjectWizardWindow::FRONT_COL, Qt::AlignTop);
-
-		addHelpButton(
-			QStringLiteral("JRE System Library"),
-			QStringLiteral("<p>Only required for indexing Java projects.</p>"
-						   "<p>Add the jar files of your JRE System Library. These jars can be "
-						   "found inside your "
-						   "JRE install directory.</p>"),
-			layout,
-			row);
-
-		m_jreSystemLibraryPaths = new QtPathListBox(
-			this, title, QtPathListBox::SELECTION_POLICY_FILES_ONLY);
-
-		layout->addWidget(m_jreSystemLibraryPaths, row, QtProjectWizardWindow::BACK_COL);
-		row++;
-
-		m_jreSystemLibraryPathsDetector = utility::getJreSystemLibraryPathsDetector();
-		addJreSystemLibraryPathsDetection(layout, row);
-	}
-	{
-		// maven path
-		m_mavenPath = new QtLocationPicker(this);
-
-#ifdef WIN32
-		m_mavenPath->setFileFilter(QStringLiteral("Maven command (mvn.cmd)"));
-		m_mavenPath->setPlaceholderText(QStringLiteral("<maven_path>/bin/mvn.cmd"));
-#else
-		m_mavenPath->setFileFilter(QStringLiteral("Maven command (mvn)"));
-		m_mavenPath->setPlaceholderText(QStringLiteral("<binarypath>/mvn"));
-#endif
-
-		addLabelAndWidget(QStringLiteral("Maven Path"), m_mavenPath, layout, row);
-
-		addHelpButton(
-			QStringLiteral("Maven Path"),
-			QStringLiteral("<p>Only required for indexing projects using Maven.</p>"
-						   "<p>Provide the location of your installed Maven executable. You can "
-						   "also use the auto "
-						   "detection below.</p>"),
-			layout,
-			row);
-		row++;
-
-		m_mavenPathDetector = utility::getMavenExecutablePathDetector();
-		addMavenPathDetection(layout, row);
-	}
-
-	addGap(layout, row);
-
-
 	addTitle(QStringLiteral("Python"), layout, row);
 
 	m_pythonPostProcessing = addCheckBox(
@@ -529,18 +415,6 @@ void QtProjectWizardContentPreferences::load()
 	indexerThreadsChanges(m_threads->currentIndex());
 	m_multiProcessIndexing->setChecked(appSettings->getMultiProcessIndexingEnabled());
 
-	if (m_javaPath)
-	{
-		m_javaPath->setText(QString::fromStdWString(appSettings->getJavaPath().wstr()));
-	}
-
-	m_jreSystemLibraryPaths->setPaths(appSettings->getJreSystemLibraryPaths());
-
-	if (m_mavenPath)
-	{
-		m_mavenPath->setText(QString::fromStdWString(appSettings->getMavenPath().wstr()));
-	}
-
 	m_pythonPostProcessing->setChecked(appSettings->getPythonPostProcessingEnabled());
 }
 
@@ -604,18 +478,6 @@ void QtProjectWizardContentPreferences::save()
 	appSettings->setIndexerThreadCount(m_threads->currentIndex());	  // index and value are the same
 	appSettings->setMultiProcessIndexingEnabled(m_multiProcessIndexing->isChecked());
 
-	if (m_javaPath)
-	{
-		appSettings->setJavaPath(FilePath(m_javaPath->getText().toStdWString()));
-	}
-
-	appSettings->setJreSystemLibraryPaths(m_jreSystemLibraryPaths->getPathsAsAbsolute());
-
-	if (m_mavenPath)
-	{
-		appSettings->setMavenPath(FilePath(m_mavenPath->getText().toStdWString()));
-	}
-
 	appSettings->setPythonPostProcessingEnabled(m_pythonPostProcessing->isChecked());
 
 	appSettings->save();
@@ -630,34 +492,6 @@ void QtProjectWizardContentPreferences::colorSchemeChanged(int index)
 {
 	m_newColorSchemeIndex = index;
 	MessageSwitchColorScheme(m_colorSchemePaths[index]).dispatch();
-}
-
-void QtProjectWizardContentPreferences::javaPathDetectionClicked()
-{
-	std::vector<FilePath> paths = m_javaPathDetector->getPathsForDetector(
-		m_javaPathDetectorBox->currentText().toStdString());
-	if (!paths.empty())
-	{
-		m_javaPath->setText(QString::fromStdWString(paths.front().wstr()));
-	}
-}
-
-void QtProjectWizardContentPreferences::jreSystemLibraryPathsDetectionClicked()
-{
-	std::vector<FilePath> paths = m_jreSystemLibraryPathsDetector->getPathsForDetector(
-		m_jreSystemLibraryPathsDetectorBox->currentText().toStdString());
-	std::vector<FilePath> oldPaths = m_jreSystemLibraryPaths->getPathsAsAbsolute();
-	m_jreSystemLibraryPaths->setPaths(utility::unique(utility::concat(oldPaths, paths)));
-}
-
-void QtProjectWizardContentPreferences::mavenPathDetectionClicked()
-{
-	std::vector<FilePath> paths = m_mavenPathDetector->getPathsForDetector(
-		m_mavenPathDetectorBox->currentText().toStdString());
-	if (!paths.empty())
-	{
-		m_mavenPath->setText(QString::fromStdWString(paths.front().wstr()));
-	}
 }
 
 void QtProjectWizardContentPreferences::loggingEnabledChanged()
@@ -724,124 +558,6 @@ void QtProjectWizardContentPreferences::uiScaleFactorChanges(int index)
 	{
 		m_screenScaleFactorInfoLabel->hide();
 	}
-}
-
-void QtProjectWizardContentPreferences::addJavaPathDetection(QGridLayout* layout, int& row)
-{
-	std::vector<std::string> detectorNames = m_javaPathDetector->getWorkingDetectorNames();
-	if (detectorNames.empty())
-	{
-		return;
-	}
-
-	QLabel* label = new QLabel(QStringLiteral("Auto detection from:"));
-
-	m_javaPathDetectorBox = new QComboBox();
-
-	for (const std::string& detectorName: detectorNames)
-	{
-		m_javaPathDetectorBox->addItem(detectorName.c_str());
-	}
-
-	QPushButton* button = new QPushButton(QStringLiteral("detect"));
-	button->setObjectName(QStringLiteral("windowButton"));
-	connect(
-		button,
-		&QPushButton::clicked,
-		this,
-		&QtProjectWizardContentPreferences::javaPathDetectionClicked);
-
-	QHBoxLayout* hlayout = new QHBoxLayout();
-	hlayout->setContentsMargins(0, 0, 0, 0);
-	hlayout->addWidget(label);
-	hlayout->addWidget(m_javaPathDetectorBox);
-	hlayout->addWidget(button);
-
-	QWidget* detectionWidget = new QWidget();
-	detectionWidget->setLayout(hlayout);
-
-	layout->addWidget(
-		detectionWidget, row, QtProjectWizardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
-	row++;
-}
-
-void QtProjectWizardContentPreferences::addJreSystemLibraryPathsDetection(QGridLayout* layout, int& row)
-{
-	const std::vector<std::string> detectorNames =
-		m_jreSystemLibraryPathsDetector->getWorkingDetectorNames();
-	if (detectorNames.empty())
-	{
-		return;
-	}
-
-	QLabel* label = new QLabel(QStringLiteral("Auto detection from:"));
-
-	m_jreSystemLibraryPathsDetectorBox = new QComboBox();
-
-	for (const std::string& detectorName: detectorNames)
-	{
-		m_jreSystemLibraryPathsDetectorBox->addItem(detectorName.c_str());
-	}
-
-	QPushButton* button = new QPushButton(QStringLiteral("detect"));
-	button->setObjectName(QStringLiteral("windowButton"));
-	connect(
-		button,
-		&QPushButton::clicked,
-		this,
-		&QtProjectWizardContentPreferences::jreSystemLibraryPathsDetectionClicked);
-
-	QHBoxLayout* hlayout = new QHBoxLayout();
-	hlayout->setContentsMargins(0, 0, 0, 0);
-	hlayout->addWidget(label);
-	hlayout->addWidget(m_jreSystemLibraryPathsDetectorBox);
-	hlayout->addWidget(button);
-
-	QWidget* detectionWidget = new QWidget();
-	detectionWidget->setLayout(hlayout);
-
-	layout->addWidget(
-		detectionWidget, row, QtProjectWizardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
-	row++;
-}
-
-void QtProjectWizardContentPreferences::addMavenPathDetection(QGridLayout* layout, int& row)
-{
-	std::vector<std::string> detectorNames = m_mavenPathDetector->getWorkingDetectorNames();
-	if (detectorNames.empty())
-	{
-		return;
-	}
-
-	QLabel* label = new QLabel(QStringLiteral("Auto detection from:"));
-
-	m_mavenPathDetectorBox = new QComboBox();
-
-	for (const std::string& detectorName: detectorNames)
-	{
-		m_mavenPathDetectorBox->addItem(detectorName.c_str());
-	}
-
-	QPushButton* button = new QPushButton(QStringLiteral("detect"));
-	button->setObjectName(QStringLiteral("windowButton"));
-	connect(
-		button,
-		&QPushButton::clicked,
-		this,
-		&QtProjectWizardContentPreferences::mavenPathDetectionClicked);
-
-	QHBoxLayout* hlayout = new QHBoxLayout();
-	hlayout->setContentsMargins(0, 0, 0, 0);
-	hlayout->addWidget(label);
-	hlayout->addWidget(m_mavenPathDetectorBox);
-	hlayout->addWidget(button);
-
-	QWidget* detectionWidget = new QWidget();
-	detectionWidget->setLayout(hlayout);
-
-	layout->addWidget(
-		detectionWidget, row, QtProjectWizardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
-	row++;
 }
 
 void QtProjectWizardContentPreferences::addTitle(const QString& title, QGridLayout* layout, int& row)

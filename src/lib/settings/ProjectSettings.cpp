@@ -17,12 +17,6 @@
 #	include "SourceGroupSettingsCxxCodeblocks.h"
 #endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 
-#if BUILD_JAVA_LANGUAGE_PACKAGE
-#	include "SourceGroupSettingsJavaEmpty.h"
-#	include "SourceGroupSettingsJavaGradle.h"
-#	include "SourceGroupSettingsJavaMaven.h"
-#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
-
 #if BUILD_PYTHON_LANGUAGE_PACKAGE
 #	include "SourceGroupSettingsPythonEmpty.h"
 #endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
@@ -199,17 +193,6 @@ std::vector<std::shared_ptr<SourceGroupSettings>> ProjectSettings::getAllSourceG
 			settings = std::make_shared<SourceGroupSettingsCxxCodeblocks>(id, this);
 			break;
 #endif	  // BUILD_CXX_LANGUAGE_PACKAGE
-#if BUILD_JAVA_LANGUAGE_PACKAGE
-		case SOURCE_GROUP_JAVA_EMPTY:
-			settings = std::make_shared<SourceGroupSettingsJavaEmpty>(id, this);
-			break;
-		case SOURCE_GROUP_JAVA_MAVEN:
-			settings = std::make_shared<SourceGroupSettingsJavaMaven>(id, this);
-			break;
-		case SOURCE_GROUP_JAVA_GRADLE:
-			settings = std::make_shared<SourceGroupSettingsJavaGradle>(id, this);
-			break;
-#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 #if BUILD_PYTHON_LANGUAGE_PACKAGE
 		case SOURCE_GROUP_PYTHON_EMPTY:
 			settings = std::make_shared<SourceGroupSettingsPythonEmpty>(id, this);
@@ -356,20 +339,6 @@ SettingsMigrator ProjectSettings::getMigrations() const
 			std::make_shared<SettingsMigrationMoveKey>(
 				"source/class_paths/class_path", sourceGroupKey + "/class_paths/class_path"));
 		migrator.addMigration(
-			2,
-			std::make_shared<SettingsMigrationMoveKey>(
-				"source/maven/project_file_path", sourceGroupKey + "/maven/project_file_path"));
-		migrator.addMigration(
-			2,
-			std::make_shared<SettingsMigrationMoveKey>(
-				"source/maven/dependencies_directory",
-				sourceGroupKey + "/maven/dependencies_directory"));
-		migrator.addMigration(
-			2,
-			std::make_shared<SettingsMigrationMoveKey>(
-				"source/maven/should_index_tests", sourceGroupKey + "/maven/should_index_tests"));
-
-		migrator.addMigration(
 			3,
 			std::make_shared<SettingsMigrationLambda>(
 				[=](const SettingsMigration* migration, Settings* settings) {
@@ -396,29 +365,6 @@ SettingsMigrator ProjectSettings::getMigrations() const
 						}
 					}
 #endif	  // BUILD_CXX_LANGUAGE_PACKAGE
-#if BUILD_JAVA_LANGUAGE_PACKAGE
-					if (language == "Java")
-					{
-						const std::string mavenProjectFilePath =
-							migration->getValueFromSettings<std::string>(
-								settings, sourceGroupKey + "/maven/project_file_path", "");
-						if (!mavenProjectFilePath.empty())
-						{
-							type = SOURCE_GROUP_JAVA_MAVEN;
-						}
-						const std::string gradleProjectFilePath =
-							migration->getValueFromSettings<std::string>(
-								settings, sourceGroupKey + "/gradle/project_file_path", "");
-						if (!gradleProjectFilePath.empty())
-						{
-							type = SOURCE_GROUP_JAVA_GRADLE;
-						}
-						else
-						{
-							type = SOURCE_GROUP_JAVA_EMPTY;
-						}
-					}
-#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 					migration->setValueInSettings(
 						settings, sourceGroupKey + "/type", sourceGroupTypeToString(type));
 				}));
@@ -467,11 +413,6 @@ SettingsMigrator ProjectSettings::getMigrations() const
 			languageName = "cpp";
 			break;
 #endif	  // BUILD_CXX_LANGUAGE_PACKAGE
-#if BUILD_JAVA_LANGUAGE_PACKAGE
-		case LANGUAGE_JAVA:
-			languageName = "java";
-			break;
-#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 #if BUILD_PYTHON_LANGUAGE_PACKAGE
 		case LANGUAGE_PYTHON:
 			continue;

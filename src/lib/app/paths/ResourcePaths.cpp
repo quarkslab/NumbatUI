@@ -33,11 +33,6 @@ FilePath ResourcePaths::getLicenseDirectoryPath()
 	return AppPath::getSharedDataDirectoryPath().concatenate(L"data/license/");
 }
 
-FilePath ResourcePaths::getJavaDirectoryPath()
-{
-	return AppPath::getSharedDataDirectoryPath().concatenate(L"data/java/");
-}
-
 FilePath ResourcePaths::getPythonDirectoryPath()
 {
 	return AppPath::getSharedDataDirectoryPath().concatenate(L"data/python/");

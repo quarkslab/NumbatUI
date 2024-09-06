@@ -18,8 +18,6 @@ add_files(
 	FileSystemTestSuite.cpp
 	GraphTestSuite.cpp
 	HierarchyCacheTestSuite.cpp
-	JavaIndexSampleProjectsTestSuite.cpp
-	JavaParserTestSuite.cpp
 	LogManagerTestSuite.cpp
 	LowMemoryStringMapTestSuite.cpp
 	MatrixBaseTestSuite.cpp
@@ -39,8 +37,6 @@ add_files(
 	StorageTestSuite.cpp
 	TaskSchedulerTestSuite.cpp
 	TextAccessTestSuite.cpp
-	UtilityGradleTestSuite.cpp
-	UtilityMavenTestSuite.cpp
 	UtilityStringTestSuite.cpp
 	UtilityTestSuite.cpp
 	Vector2TestSuite.cpp

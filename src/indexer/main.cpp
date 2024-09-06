@@ -15,10 +15,6 @@
 #	include "LanguagePackageCxx.h"
 #endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 
-#if BUILD_JAVA_LANGUAGE_PACKAGE
-#	include "LanguagePackageJava.h"
-#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
-
 void setupLogging(const FilePath& logFilePath)
 {
 	LogManager* logManager = LogManager::getInstance().get();
@@ -95,10 +91,6 @@ int main(int argc, char* argv[])
 #if BUILD_CXX_LANGUAGE_PACKAGE
 	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageCxx>());
 #endif	  // BUILD_CXX_LANGUAGE_PACKAGE
-
-#if BUILD_JAVA_LANGUAGE_PACKAGE
-	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageJava>());
-#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 
 	InterprocessIndexer indexer(instanceUuid, processId);
 	indexer.work();

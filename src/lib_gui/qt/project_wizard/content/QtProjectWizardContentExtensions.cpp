@@ -39,7 +39,7 @@ void QtProjectWizardContentExtensions::populate(QGridLayout* layout, int& row)
 	addHelpButton(
 		QStringLiteral("Source File Extensions"),
 		QStringLiteral(
-			"Define extensions for source files including the dot (e.g. \".cpp\" or \".java\").") +
+			"Define extensions for source files including the dot (e.g. \".cpp\" ") +
 			cxxAddition,
 		layout,
 		row);

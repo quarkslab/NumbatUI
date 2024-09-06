@@ -8,7 +8,6 @@ PROJECTS_PATH=bin/app/user/projects
 ./$BIN_PATH index --full $PROJECTS_PATH/tictactoe_cpp/tictactoe_cpp.srctrlprj
 ./$BIN_PATH index --full $PROJECTS_PATH/tictactoe_py/tictactoe_py.srctrlprj
 ./$BIN_PATH index --full $PROJECTS_PATH/tutorial/tutorial.srctrlprj
-./$BIN_PATH index --full $PROJECTS_PATH/javaparser/javaparser.srctrlprj
 
 
 # create AppDir
@@ -50,7 +49,6 @@ cp -R ../../../../bin/app/data/color_schemes .
 cp -R ../../../../bin/app/data/syntax_highlighting_rules .
 cp -R ../../../../bin/app/data/fonts .
 cp -R ../../../../bin/app/data/gui .
-cp -R ../../../../bin/app/data/java .
 cp -R ../../../../bin/app/data/python .
 cp -R ../../../../bin/app/data/fallback .
 cp -R ../../../../bin/app/user/projects fallback/

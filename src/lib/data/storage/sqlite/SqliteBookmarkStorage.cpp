@@ -34,18 +34,12 @@ void SqliteBookmarkStorage::migrateIfNecessary()
 					{
 						LanguageType currentLanguage = ProjectSettings::getLanguageOfProject(
 							currentProject->getProjectSettingsFilePath());
-#if BUILD_JAVA_LANGUAGE_PACKAGE
-						if (currentLanguage == LANGUAGE_JAVA)
-						{
-							separator = ".";
-						}
-#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 #if BUILD_PYTHON_LANGUAGE_PACKAGE
 						if (currentLanguage == LANGUAGE_PYTHON)
 						{
 							separator = ".";
 						}
-#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
+#endif
 					}
 				}
 				migration->executeStatementInStorage(

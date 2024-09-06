@@ -15,11 +15,6 @@
 #	include "SourceGroupSettingsWithCxxPathsAndFlags.h"
 #endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 
-#if BUILD_JAVA_LANGUAGE_PACKAGE
-#	include "SourceGroupJavaEmpty.h"
-#	include "SourceGroupSettingsJavaEmpty.h"
-#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
-
 #if BUILD_PYTHON_LANGUAGE_PACKAGE
 #	include "SourceGroupPythonEmpty.h"
 #	include "SourceGroupSettingsPythonEmpty.h"
@@ -100,14 +95,6 @@ std::vector<FilePath> QtProjectWizardContentPathsSource::getFilePaths() const
 		allSourceFilePaths = SourceGroupCxxEmpty(m_settings).getAllSourceFilePaths();
 	}
 #endif	  // BUILD_CXX_LANGUAGE_PACKAGE
-
-#if BUILD_JAVA_LANGUAGE_PACKAGE
-	if (std::shared_ptr<SourceGroupSettingsJavaEmpty> settings =
-			std::dynamic_pointer_cast<SourceGroupSettingsJavaEmpty>(m_settings))
-	{
-		allSourceFilePaths = SourceGroupJavaEmpty(settings).getAllSourceFilePaths();
-	}
-#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 
 #if BUILD_PYTHON_LANGUAGE_PACKAGE
 	if (std::shared_ptr<SourceGroupSettingsPythonEmpty> settings =

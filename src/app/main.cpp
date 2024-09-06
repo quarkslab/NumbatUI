@@ -37,11 +37,6 @@
 #	include "SourceGroupFactoryModuleCxx.h"
 #endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 
-#if BUILD_JAVA_LANGUAGE_PACKAGE
-#	include "LanguagePackageJava.h"
-#	include "SourceGroupFactoryModuleJava.h"
-#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
-
 #if BUILD_PYTHON_LANGUAGE_PACKAGE
 #	include "SourceGroupFactoryModulePython.h"
 #endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
@@ -74,10 +69,6 @@ void addLanguagePackages()
 	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleCxx>());
 #endif	  // BUILD_CXX_LANGUAGE_PACKAGE
 
-#if BUILD_JAVA_LANGUAGE_PACKAGE
-	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModuleJava>());
-#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
-
 #if BUILD_PYTHON_LANGUAGE_PACKAGE
 	SourceGroupFactory::getInstance()->addModule(std::make_shared<SourceGroupFactoryModulePython>());
 #endif	  // BUILD_PYTHON_LANGUAGE_PACKAGE
@@ -85,10 +76,6 @@ void addLanguagePackages()
 #if BUILD_CXX_LANGUAGE_PACKAGE
 	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageCxx>());
 #endif	  // BUILD_CXX_LANGUAGE_PACKAGE
-
-#if BUILD_JAVA_LANGUAGE_PACKAGE
-	LanguagePackageManager::getInstance()->addPackage(std::make_shared<LanguagePackageJava>());
-#endif	  // BUILD_JAVA_LANGUAGE_PACKAGE
 }
 
 int main(int argc, char* argv[])

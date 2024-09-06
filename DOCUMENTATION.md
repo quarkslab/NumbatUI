@@ -16,7 +16,7 @@ Sourcetrail is an interactive source explorer that simplifies navigation in exis
 * **Graph:** The graph displays the structure of your source code. It focuses on the currently selected symbol and directly shows all incoming and outgoing dependencies to other symbols.
 * **Code:** The Code view displays all source locations of the currently selected symbol in a list of code snippets. Clicking on a different source location allows you to change the selection and dig deeper.
 
-Note: Sourcetrail currently supports the languages C/C++, Java and Python. Much of the UI design is therefore based on these languages and might change as soon as other languages are supported. For more information have a look at [supported languages](#supported-languages).
+Note: Sourcetrail currently supports the languages C/C++ and Python. Much of the UI design is therefore based on these languages and might change as soon as other languages are supported. For more information have a look at [supported languages](#supported-languages).
 
 ## Supported Languages
 
@@ -27,10 +27,6 @@ C support is powered by [Clang 11.0.0](https://clang.llvm.org/). For issues load
 ### C++
 
 C++ support is powered by [Clang 11.0.0](https://clang.llvm.org/). For more Information please visit [Clang C++ Status](https://clang.llvm.org/cxx_status.html). For issues loading C++ code, please have a look at [Clang language compatibility](https://clang.llvm.org/compatibility.html) or report a bug in our [bug tracker](https://github.com/CoatiSoftware/SourcetrailBugTracker).
-
-### Java
-
-Sourcetrail includes support for Java 12 and lower which is powered by [Eclipse JDT](https://github.com/eclipse/eclipse.jdt.core). If you encounter any issues while using Sourcetrail on a Java project, please let us know by providing a minimal example in our [bug tracker](https://github.com/CoatiSoftware/SourcetrailBugTracker).
 
 ### Python
 
@@ -105,26 +101,6 @@ If you are using Visual Studio you can continue at [Source Group creation from V
 If neither of the above options apply to your project, please continue at [create an empty C/C++ Source Group](#create-an-empty-cxx-project) and return here once the project is created.
 
 <img src="docs/documentation/project_setup_wizard_source_group_type.png" height="600" alt="Project Setup Wizard Source Group Type">
-
-#### Source Group Setup for Java
-
-**Are you using Gradle?**
-
-If you are using Gradle you can continue at [Source Group creation from Gradle](#create-a-project-from-gradle-configuration) to automatically setup your Source Group using your Gradle build configuration.
-
-<img src="docs/documentation/project_setup_wizard_start_java_gradle.png" height="600" alt="Project Setup Wizard Start Java Gradle">
-
-**Are you using Maven?**
-
-If you are using Maven please continue at [Source Group creation from Maven](#create-a-project-from-maven-configuration) to automatically setup your Source Group using your Maven build configuration.
-
-<img src="docs/documentation/project_setup_wizard_start_java_maven.png" height="600" alt="Project Setup Wizard Start Java Maven">
-
-**Create Empty**
-
-If you do not have your project configured using Gradle or Maven, please continue at [Create an Empty Java Source Group](#create-an-empty-java-project) and come back here as soon as the project is created.
-
-<img src="docs/documentation/project_setup_wizard_start_java_empty.png" height="600" alt="Project Setup Wizard Start Java Empty">
 
 #### Source Group Setup for Python
 
@@ -316,33 +292,6 @@ End of search list.
 ```
 
 
-## Finding Java Runtime Library Location
-
-The current version of Sourcetrail requires an installation of the Java 8 runtime environment to index any Java project. Make sure that Sourcetrail and your JRE share the same kind or architecture (a 32 bit Sourcetrail requires a 32 bit JRE). To locate the required library file, please refer to the applicable description below.
-
-### Windows
-
-The Java Runtime Library (called `jvm.dll`) can be found inside of your JRE install folder and looks like this:
-`<path_to_jre>/bin/client/jvm.dll`
-
-### macOS
-
-The Java Runtime Library (called `libjli.dylib`) can be found inside of your JDK install folder. Run the following command in your terminal to find the location of your default Java installation:
-`/usr/libexec/java_home`
-
-This should give you a path looking like this:
-`/Library/Java/JavaVirtualMachines/<jdk_version>/Contents/Home`
-
-The `"libjli.dylib"` should be available at:
-`/Library/Java/JavaVirtualMachines/<jdk_version>/Contents/MacOS/libjli.dylib`
-
-Insert the full path to `libjli.dylib` into the **Java Path** setting in the [Preferences Window](#preferences-window).
-
-### Linux
-
-The Java Runtime Library (called `libjvm.so`) can be found inside of your JRE install folder and looks like this:
-`<path_to_jre>/lib/<arch>/server/libjvm.so`
-
 # Interface
 
 ## Main Window
@@ -478,9 +427,6 @@ The Preferences window lets you define settings for all projects. You can open t
 | Plugin Port | Port number that Sourcetrail sends outgoing messages to.
 | Indexer threads | Define how many parallel threads are used during indexing. Setting this value to `default` will cause Sourcetrail to detect the ideal number of threads based on the CPU and use as many threads for indexing.
 | Multi process C/C++ indexing | Enable C/C++ indexer threads to run in a different process. This prevents the application from crashing due to unforeseen exceptions while indexing.
-| Java Path | If you want to use Sourcetrail on Java source code, please specify a path to your Java 8 runtime library. Please keep in mind that a 32 bit Sourcetrail requires a 32 bit version of Java while a 64 bit Sourcetrail requires a 64 bit Java to be working correctly. You can either use the button below for automatic detection or add the path manually. For instructions on how to find your Java runtime path see (Finding Java Runtime Library Location](#finding-java-runtime-library-location).
-| JRE System Library | Add the jar files of your JRE System Library. These jars can be found inside your JRE install directory. You can either use the button below for automatic detection or add the paths manually.
-| Maven Path | Only required for indexing projects using Maven. Provide the location of your installed Maven executable. You can also use the auto detection.
 | Post Processing | Enable a post processing step to solve unsolved references after the indexing is done. These references will be marked "ambiguous" to indicate that some of these edges may never be encountered during runtime of the indexed code because the post processing only relies on symbol names and types.
 | Global Include Paths | Set header search paths that are used for **all** of your projects (e.g. std headers). An option for automatic detection of these paths is available for Clang, GCC and the Visual Studio compiler. For instructions on how to add paths manually see [Path List Box](#path-list-box). For instructions on how to find the system header paths see [Finding System Header Locations](#finding-system-header-locations).
 | Global Framework Search Paths | **(macOS only)** Define the search paths for `.framework` files for all of your projects. An option for automatic detection of these paths is available for Clang and GCC. <br />For instructions on how to add paths see [Path List Box](#path-list-box).
@@ -1291,48 +1237,6 @@ C/C++ Source Groups from Code::Blocks offer the following configuration options:
 | Framework Search Paths (macOS only) | These paths are used to find `.framework` files used by your project. (<br />For instructions on how to add paths see [Path List Box](#path-list-box).)
 | Global Framework Search Paths (macOS only) | These Framework Search Paths will be used in all your projects. (<br />For instructions on how to add paths see [Path List Box](#path-list-box). For instructions on how to find the system header paths see [Finding System Header Locations](#finding-system-header-locations))
 | Additional Compiler Flags | Define additional compiler flags used during indexing including the dash (e.g. use `-DRELEASE` to add a `#define` for `RELEASE`).<br /><br />For instructions on how to add paths see [Path List Box](#path-list-box).
-
-## Empty Java Source Group
-
-Choose this option if you want to index Java files using Sourcetrail.
-Empty Java Source Groups offer the following configuration options:
-
-| Setting | Description
-| --- | ---
-| Standard | Select the language standard that should be used for indexing your the Source Group. Usually the most recent language standard is preselected here. (See [Language Support](#supported-languages))
-| Files & Directories to Index | These paths define the files and directories that will be indexed by Sourcetrail. Provide a directory to recursively add all contained source and header files. If your project's source code resides in one location, but generated source files are kept at a different location, you will also need to add that directory. You can make use of environment variables with ${ENV_VAR}.<br /><br />For instructions on how to add paths see [Path List Box](#path-list-box).
-| Excluded Files & Directories | These paths define the files and directories that will be left out from indexing.<br />Hints:<br /><ul><li>You can use the wildcard `*` which represents characters except `\` or `/` (e.g. `src/*/test.h` matches `src/app/test.h` but does not match `src/app/widget/test.h` or `src/test.h`)</li><li>You can use the wildcard `**` which represents arbitrary characters (e.g. `src**test.h` matches `src/app/test.h` as well as `src/app/widget/test.h` or `src/test.h`)</li><li>You can make use of environment variables with `${ENV_VAR}`<br /><br />For instructions on how to add paths see [Path List Box](#path-list-box).</li></ul>
-| Source File Extensions | Define the valid extensions for source files including the dot e.g. `.java`. Sourcetrail will only try to index files that match one of these extensions.
-| Class Path | Enter all the .jar files your project depends on. If your project depends on uncompiled java code that should not be indexed, please add the root directory of those .java files here (the one where all the package names are relative to). You can make use of environment variables with ${ENV_VAR}.
-| JRE System Library | Tick this box to use the JRE System library jars specified in your application settings. Disable this setting if you want to use another JRE System library for this project and add the respective jars to the project's Class Path.
-
-## Java Source Group from Gradle
-
-If you are using a Gradle configuration to manage and build your project use this approach to create a Sourcetrail Source Group.
-Java Source Groups from Gradle offer the following configuration options:
-
-| Setting | Description
-| --- | ---
-| Standard | Select the language standard that should be used for indexing your the Source Group. Usually the most recent language standard is preselected here. (See [Language Support](#supported-languages))
-| Gradle Project File |  The path to the `build.gradle` file in the root folder of your Gradle project.
-| Should Index Tests |  This checkbox indicates whether or not Sourcetrail indexes the test code that is part of your Gradle project.
-| Intermediate Dependencies Directory | Directory where Sourcetrail stores all of the project's `.jar` dependencies.
-| Excluded Files & Directories | These paths define the files and directories that will be left out from indexing.<br />Hints:<br /><ul><li>You can use the wildcard `*` which represents characters except `\` or `/` (e.g. `src/*/test.h` matches `src/app/test.h` but does not match `src/app/widget/test.h` or `src/test.h`)</li><li>You can use the wildcard `**` which represents arbitrary characters (e.g. `src**test.h` matches `src/app/test.h` as well as `src/app/widget/test.h` or `src/test.h`)</li><li>You can make use of environment variables with `${ENV_VAR}`<br /><br />For instructions on how to add paths see [Path List Box](#path-list-box).</li></ul>
-| Source File Extensions | Define the valid extensions for source files including the dot e.g. `.java`. Sourcetrail will only try to index files that match one of these extensions.
-
-## Java Source Group from Maven
-
-If you are using a Maven configuration to manage and build your project use this approach to create a Sourcetrail Source Group.
-Java Source Groups from Maven offer the following configuration options:
-
-| Setting | Description
-| --- | ---
-| Standard | Select the language standard that should be used for indexing your the Source Group. Usually the most recent language standard is preselected here. (See [Language Support](#supported-languages))
-| Maven Project File |  The path to the `pom.xml` file in the root folder of your Maven project.
-| Should Index Tests |  This checkbox indicates whether or not Sourcetrail indexes the test code that is part of your Maven project.
-| Intermediate Dependencies Directory | Directory where Sourcetrail stores all of the project's `.jar` dependencies.
-| Excluded Files & Directories | These paths define the files and directories that will be left out from indexing.<br />Hints:<br /><ul><li>You can use the wildcard `*` which represents characters except `\` or `/` (e.g. `src/*/test.h` matches `src/app/test.h` but does not match `src/app/widget/test.h` or `src/test.h`)</li><li>You can use the wildcard `**` which represents arbitrary characters (e.g. `src**test.h` matches `src/app/test.h` as well as `src/app/widget/test.h` or `src/test.h`)</li><li>You can make use of environment variables with `${ENV_VAR}`<br /><br />For instructions on how to add paths see [Path List Box](#path-list-box).</li></ul>
-| Source File Extensions | Define the valid extensions for source files including the dot e.g. `.java`. Sourcetrail will only try to index files that match one of these extensions.
 
 ## Empty Python Source Group
 

@@ -45,23 +45,6 @@ TEST_CASE("command line")
 		REQUIRE(paths[2].wstr() == L"/opt/test/include");
 	}
 
-	SECTION("command config string filepath option")
-	{
-		std::vector<std::string> args({"config", "--maven-path", "/opt/testpath/mvn"});
-
-		std::stringstream redStream;
-		auto oldBuf = std::cout.rdbuf(redStream.rdbuf());
-
-		commandline::CommandLineParser parser("2");
-		parser.preparse(args);
-		parser.parse();
-
-		std::cout.rdbuf(oldBuf);
-
-		FilePath path = ApplicationSettings::getInstance()->getMavenPath();
-		REQUIRE(path.wstr() == L"/opt/testpath/mvn");
-	}
-
 	SECTION("command config filepathVector comma separated")
 	{
 		std::vector<std::string> args(

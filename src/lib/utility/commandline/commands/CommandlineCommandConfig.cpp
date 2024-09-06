@@ -93,13 +93,6 @@ void CommandlineCommandConfig::setup()
 		"Enable additional log of abstract syntax tree during the indexing. <true/false> WARNING "
 		"Slows down "
 		"indexing speed")(
-		"jvm-path,j", po::value<std::string>(), "Path to the location of the jvm library")(
-		"maven-path,m", po::value<std::string>(), "Path to the maven binary")(
-		"jre-system-library-paths,J",
-		po::value<std::vector<std::string>>(),
-		"paths to the jars of the JRE system library. "
-		"These jars can be found inside your JRE install directory (once per path or comma "
-		"separated)")(
 		"global-header-search-paths,g",
 		po::value<std::vector<std::string>>(),
 		"Global include paths (once per path or comma separated)")(
@@ -151,11 +144,8 @@ CommandlineCommand::ReturnStatus CommandlineCommandConfig::parse(std::vector<std
 				  << "\n  logging-enabled: " << settings->getLoggingEnabled()
 				  << "\n  verbose-indexer-logging-enabled: "
 				  << settings->getVerboseIndexerLoggingEnabled()
-				  << "\n  jvm-path: " << settings->getJavaPath().str()
-				  << "\n  maven-path: " << settings->getMavenPath().str();
 		printVector("global-header-search-paths", settings->getHeaderSearchPaths());
 		printVector("global-framework-search-paths", settings->getFrameworkSearchPaths());
-		printVector("jre-system-library-paths", settings->getJreSystemLibraryPaths());
 		return ReturnStatus::CMD_QUIT;
 	}
 
@@ -170,11 +160,6 @@ CommandlineCommand::ReturnStatus CommandlineCommandConfig::parse(std::vector<std
 
 	parseAndSetValue(&ApplicationSettings::setIndexerThreadCount, "indexer-threads", settings, vm);
 
-	parseAndSetValue(&ApplicationSettings::setMavenPath, "maven-path", settings, vm);
-	parseAndSetValue(&ApplicationSettings::setJavaPath, "jvm-path", settings, vm);
-
-	parseAndSetValue(
-		&ApplicationSettings::setJreSystemLibraryPaths, "jre-system-library-paths", settings, vm);
 	parseAndSetValue(
 		&ApplicationSettings::setHeaderSearchPaths, "global-header-search-paths", settings, vm);
 	parseAndSetValue(

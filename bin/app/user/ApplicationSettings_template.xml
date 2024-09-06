@@ -59,10 +59,6 @@
 			</framework_search_paths>
 		</cxx>
 
-		<java>
-			<java_path><!-- STRING: path java installation on Windows e.g. .../java/JDK/jre/bin --></java_path>
-			<java_maximum_memory><!-- INTEGER: memory in MB used by java indexer --></java_maximum_memory>
-		</java>
 	</indexing>
 
 	<code>

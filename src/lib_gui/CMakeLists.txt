@@ -354,48 +354,6 @@ if (BUILD_CXX_LANGUAGE_PACKAGE)
 	)
 endif()
 
-if (BUILD_JAVA_LANGUAGE_PACKAGE)
-	add_files(
-		LIB_GUI
-
-		qt/project_wizard/content/path/QtProjectWizardContentPathSettingsMaven.cpp
-		qt/project_wizard/content/path/QtProjectWizardContentPathSettingsMaven.h
-		qt/project_wizard/content/path/QtProjectWizardContentPathSourceGradle.cpp
-		qt/project_wizard/content/path/QtProjectWizardContentPathSourceGradle.h
-		qt/project_wizard/content/path/QtProjectWizardContentPathSourceMaven.cpp
-		qt/project_wizard/content/path/QtProjectWizardContentPathSourceMaven.h
-
-		qt/project_wizard/content/paths/QtProjectWizardContentPathsClassJava.cpp
-		qt/project_wizard/content/paths/QtProjectWizardContentPathsClassJava.h
-
-		qt/project_wizard/content/QtProjectWizardContentJavaStandard.cpp
-		qt/project_wizard/content/QtProjectWizardContentJavaStandard.h
-
-		utility/path_detector/java_runtime/JavaPathDetector.cpp
-		utility/path_detector/java_runtime/JavaPathDetector.h
-		utility/path_detector/java_runtime/JavaPathDetectorLinux.cpp
-		utility/path_detector/java_runtime/JavaPathDetectorLinux.h
-		utility/path_detector/java_runtime/JavaPathDetectorMac.cpp
-		utility/path_detector/java_runtime/JavaPathDetectorMac.h
-		utility/path_detector/java_runtime/JavaPathDetectorWindows.cpp
-		utility/path_detector/java_runtime/JavaPathDetectorWindows.h
-
-		utility/path_detector/jre_system_library/JreSystemLibraryPathDetector.cpp
-		utility/path_detector/jre_system_library/JreSystemLibraryPathDetector.h
-		utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorLinux.cpp
-		utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorLinux.h
-		utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorMac.cpp
-		utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorMac.h
-		utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorWindows.cpp
-		utility/path_detector/jre_system_library/JreSystemLibraryPathDetectorWindows.h
-
-		utility/path_detector/maven_executable/MavenPathDetectorUnix.cpp
-		utility/path_detector/maven_executable/MavenPathDetectorUnix.h
-		utility/path_detector/maven_executable/MavenPathDetectorWindows.cpp
-		utility/path_detector/maven_executable/MavenPathDetectorWindows.h
-	)
-endif()
-
 if (BUILD_PYTHON_LANGUAGE_PACKAGE)
 	add_files(
 		LIB_GUI

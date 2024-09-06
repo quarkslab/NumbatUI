@@ -4,7 +4,6 @@ build-*
 /deps/
 
 /bin/app/data/cxx
-/bin/app/data/java/lib/
 /bin/app/data/projects/ignored/
 /bin/app/data/python/
 /bin/app/user/log/
@@ -16,10 +15,6 @@ build-*
 /bin/test/data/TestSettings.xml
 /bin/test/data/CommandlineTestSuite/settings.xml
 /bin/test/data/ConfigManagerTestSuite/temp.xml
-/bin/test/data/UtilityMavenTestSuite/effective-pom.xml
-/bin/test/data/SourceGroupTestSuite/java_maven/input/sourcetrail_dependencies
-
-/java_indexer/target/
 
 /setup/Linux/lib/
 

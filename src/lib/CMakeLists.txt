@@ -659,26 +659,6 @@ if (BUILD_CXX_LANGUAGE_PACKAGE)
 	)
 endif()
 
-if (BUILD_JAVA_LANGUAGE_PACKAGE)
-	add_files(
-		LIB
-
-		settings/source_group/component/java/SourceGroupSettingsWithClasspath.cpp
-		settings/source_group/component/java/SourceGroupSettingsWithClasspath.h
-		settings/source_group/component/java/SourceGroupSettingsWithJavaGradle.cpp
-		settings/source_group/component/java/SourceGroupSettingsWithJavaGradle.h
-		settings/source_group/component/java/SourceGroupSettingsWithJavaMaven.cpp
-		settings/source_group/component/java/SourceGroupSettingsWithJavaMaven.h
-		settings/source_group/component/java/SourceGroupSettingsWithJavaStandard.cpp
-		settings/source_group/component/java/SourceGroupSettingsWithJavaStandard.h
-		settings/source_group/component/java/SourceGroupSettingsWithSourceExtensionsJava.h
-
-		settings/source_group/type/SourceGroupSettingsJavaEmpty.h
-		settings/source_group/type/SourceGroupSettingsJavaGradle.h
-		settings/source_group/type/SourceGroupSettingsJavaMaven.h
-	)
-endif()
-
 if (BUILD_PYTHON_LANGUAGE_PACKAGE)
 	add_files(
 		LIB

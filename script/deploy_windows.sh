@@ -67,11 +67,11 @@ fi
 if [ $CLEAN_AND_SETUP = true ]; then
 	echo -e "$INFO Cleaning the project"
 	script/clean.sh
-	
+
 	echo -e $INFO "$INFO Running cmake with 64 bit configuration"
 	mkdir -p build
 	cd build
-	cmake -G "Visual Studio 15 2017 Win64" -DBOOST_ROOT=${BOOST_ROOT} -DQt5_DIR=${Qt5_64_DIR} -DClang_DIR=${Clang_64_DIR} -DBUILD_CXX_LANGUAGE_PACKAGE=ON -DBUILD_JAVA_LANGUAGE_PACKAGE=ON -DBUILD_PYTHON_LANGUAGE_PACKAGE=ON ..
+	cmake -G "Visual Studio 15 2017 Win64" -DBOOST_ROOT=${BOOST_ROOT} -DQt5_DIR=${Qt5_64_DIR} -DClang_DIR=${Clang_64_DIR} -DBUILD_CXX_LANGUAGE_PACKAGE=ON -DBUILD_PYTHON_LANGUAGE_PACKAGE=ON ..
 	cd ..
 fi
 
@@ -90,10 +90,10 @@ echo -e "$INFO Building the project"
 if [ $RUN_CODE_SIGNING = true ]; then
 	echo -e "$INFO Signing the app"
 	signtool.exe sign //sha1 $CODE_SIGNING_THUMBPRINT //fd sha256 //t "http://timestamp.comodoca.com/authenticode" //d "Sourcetrail ${DOTTED_VERSION_STRING}" //du "https://www.sourcetrail.com/" //v build/Release/app/Sourcetrail.exe
-	
+
 	echo -e "$INFO Signing the indexer"
 	signtool.exe sign //sha1 $CODE_SIGNING_THUMBPRINT //fd sha256 //t "http://timestamp.comodoca.com/authenticode" //d "Sourcetrail Indexer ${DOTTED_VERSION_STRING}" //du "https://www.sourcetrail.com/" //v build/Release/app/sourcetrail_indexer.exe
-	
+
 	echo -e "$INFO Signing the Python indexer"
 	signtool.exe sign //sha1 $CODE_SIGNING_THUMBPRINT //fd sha256 //t "http://timestamp.comodoca.com/authenticode" //d "Sourcetrail Python Indexer" //du "https://github.com/CoatiSoftware/SourcetrailPythonIndexer" //v bin/app/data/python/SourcetrailPythonIndexer.exe
 fi
@@ -112,11 +112,10 @@ cp -u -r ./build/Release/app/Sourcetrail.pdb ./$OUTPUT_FOLDER/PDB/
 # CREATING DATABASES
 if [ $UPDATE_DATABASES = true ]; then
 	echo -e "$INFO creating databases"
-	
+
 	rm bin/app/user/projects/tutorial/tutorial.srctrldb
 	rm bin/app/user/projects/tictactoe_cpp/tictactoe_cpp.srctrldb
 	rm bin/app/user/projects/tictactoe_py/tictactoe_py.srctrldb
-	rm bin/app/user/projects/javaparser/javaparser.srctrldb
 	rm -rf temp
 
 	mkdir -p temp
@@ -130,12 +129,9 @@ if [ $UPDATE_DATABASES = true ]; then
 
 	echo -e "$INFO creating database for tictactoe_cpp"
 	../build/Release/app/Sourcetrail.exe index --full --project-file ../bin/app/user/projects/tictactoe_cpp/tictactoe_cpp.srctrlprj
-	
+
 	echo -e "$INFO creating database for tictactoe_py"
 	../build/Release/app/Sourcetrail.exe index --full --project-file ../bin/app/user/projects/tictactoe_py/tictactoe_py.srctrlprj
-
-	echo -e "$INFO creating database for javaparser"
-	../build/Release/app/Sourcetrail.exe index --full --project-file ../bin/app/user/projects/javaparser/javaparser.srctrlprj
 
 	cd ..
 	rm -rf temp
@@ -198,7 +194,7 @@ if [ $CREATE_WIX_INSTALLER = true ]; then
 
 	# CLEANING UP
 	echo -e "$INFO Cleaning installer package folders"
-	rm -rf $INSTALLER_PACKAGE_DIR	
+	rm -rf $INSTALLER_PACKAGE_DIR
 fi
 
 
@@ -230,15 +226,11 @@ if [ $CREATE_PORTABLE_PACKAGE = true ]; then
 	cp -u -r bin/app/data/gui/* $PORTABLE_PACKAGE_APP_DIR/data/gui/
 	mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/install/
 	cp -u -r bin/app/data/install/* $PORTABLE_PACKAGE_APP_DIR/data/install/
-	mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/java/
-	cp -u -r bin/app/data/java/* $PORTABLE_PACKAGE_APP_DIR/data/java/
 	mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/python/
 	cp -u -r bin/app/data/python/* $PORTABLE_PACKAGE_APP_DIR/data/python/
 	mkdir -p $PORTABLE_PACKAGE_APP_DIR/data/syntax_highlighting_rules/
 	cp -u -r bin/app/data/syntax_highlighting_rules/* $PORTABLE_PACKAGE_APP_DIR/data/syntax_highlighting_rules/
 
-	mkdir -p $PORTABLE_PACKAGE_APP_DIR/user/projects/javaparser/
-	cp -u -r bin/app/user/projects/javaparser/* $PORTABLE_PACKAGE_APP_DIR/user/projects/javaparser/
 	mkdir -p $PORTABLE_PACKAGE_APP_DIR/user/projects/tictactoe_cpp/
 	cp -u -r bin/app/user/projects/tictactoe_cpp/* $PORTABLE_PACKAGE_APP_DIR/user/projects/tictactoe_cpp/
 	mkdir -p $PORTABLE_PACKAGE_APP_DIR/user/projects/tictactoe_py/

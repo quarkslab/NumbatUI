@@ -20,7 +20,7 @@ Sourcetrail is:
 * free
 * working offline
 * operating on Windows, macOS and Linux
-* supporting C, C++, Java and Python
+* supporting C, C++ and Python
 * offering an SDK ([SourcetrailDB](https://github.com/CoatiSoftware/SourcetrailDB)) to write custom language extensions
 
 ## Sourcetrail on Patreon
@@ -159,33 +159,6 @@ Building Sourcetrail requires several dependencies to be in place on your machin
     ```
 * Build Sourcetrail as described [above](#building).
 
-## Enable Java Language Support
-
-### Required dependencies
-
-* __JDK 1.8__
-    * __Reason__: Used to build the Java indexer and make it callable from the C++ code via JNI.
-    * __Remarks__: Make sure that `<jdk_root>/bin` is available in your `PATH` environment variable and that the `JAVA_HOME` environment variable is set:
-        ```
-        JAVA_HOME=<path/to/Java>/jdk1.x.x_xxx
-        ```
-
-* __Maven__
-    * __REASON__: Used within Sourcetrail's automated tests.
-    * __Remarks__:  Make sure `.../apache-maven-x.x.x/bin` is available in your `PATH` environment variable and that both `M2_HOME` and `MAVEN_HOME` environment variables are set:
-        ```
-        M2_HOME=.../apache-maven-x.x.x
-        MAVEN_HOME=.../apache-maven-x.x.x
-        ```
-
-### Building
-
-* Run CMake with these additional options:
-    ```
-    -DBUILD_JAVA_LANGUAGE_PACKAGE=ON
-    ```
-* Build Sourcetrail as described [above](#building).
-
 ## Enable Python Language Support
 
 ### Required Tools
@@ -221,9 +194,6 @@ Building Sourcetrail requires several dependencies to be in place on your machin
 * __Wix extension for Visual Studio__
     * __Reason__: Used to run Wix from the Visual Studio build environment.
     * __Download__: https://marketplace.visualstudio.com/items?itemName=WixToolset.WixToolsetVisualStudio2017Extension
-
-* __JRE__
-    * __Reason__: Used for indexing the java sample project that ships with the package.
 
 * __WinRAR__
     * __Reason__: Used for creating the final zip files for the installer and the portable package.

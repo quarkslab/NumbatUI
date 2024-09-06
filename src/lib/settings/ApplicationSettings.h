@@ -98,28 +98,6 @@ public:
 	bool getMultiProcessIndexingEnabled() const;
 	void setMultiProcessIndexingEnabled(bool enabled);
 
-	FilePath getJavaPath() const;
-	void setJavaPath(const FilePath& path);
-
-	bool getHasPrefilledJavaPath() const;
-	void setHasPrefilledJavaPath(bool v);
-
-	int getJavaMaximumMemory() const;
-	void setJavaMaximumMemory(int size);
-
-	std::vector<FilePath> getJreSystemLibraryPaths() const;
-	std::vector<FilePath> getJreSystemLibraryPathsExpanded() const;
-	bool setJreSystemLibraryPaths(const std::vector<FilePath>& jreSystemLibraryPaths);
-
-	bool getHasPrefilledJreSystemLibraryPaths() const;
-	void setHasPrefilledJreSystemLibraryPaths(bool v);
-
-	FilePath getMavenPath() const;
-	void setMavenPath(const FilePath& path);
-
-	bool getHasPrefilledMavenPath() const;
-	void setHasPrefilledMavenPath(bool v);
-
 	bool getPythonPostProcessingEnabled() const;
 	void setPythonPostProcessingEnabled(bool enabled);
 

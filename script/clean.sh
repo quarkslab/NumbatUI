@@ -42,7 +42,6 @@ fi
 
 # Remove folders and contents
 rm -rf bin/app/data/python
-rm -rf java_indexer/bin
 rm -rf build
 
 # Remove log files
