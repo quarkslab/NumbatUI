@@ -257,6 +257,7 @@ private:
 	std::vector<std::pair<int, SqliteDatabaseIndex>> getIndices() const;
 
 	virtual void clearTables();
+	virtual void addNonExistingTextColumns(std::string table_name, std::vector<std::string> column_names);
 	virtual void setupTables();
 	virtual void setupPrecompiledStatements();
 

@@ -1,5 +1,6 @@
 #include "NodeType.h"
 
+#include "NodeKind.h"
 #include "ResourcePaths.h"
 #include "utilityString.h"
 

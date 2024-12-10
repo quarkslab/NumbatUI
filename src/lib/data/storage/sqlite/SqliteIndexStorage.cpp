@@ -1,8 +1,5 @@
 #include "SqliteIndexStorage.h"
 
-#include <sstream>
-#include <unordered_map>
-
 #include "FileSystem.h"
 #include "LocationType.h"
 #include "SourceLocationCollection.h"
@@ -85,7 +82,9 @@ std::vector<Id> SqliteIndexStorage::addNodes(const std::vector<StorageNode>& nod
 {
 	if (m_tempNodeNameIndex.empty() && m_tempWNodeNameIndex.empty())
 	{
-		forEach<StorageNode>([this](StorageNode&& node) {
+		forEach<StorageNode>(
+			[this](StorageNode&& node)
+			{
 				std::string name = utility::encodeToUtf8(node.serializedName);
 				if (name.size() != node.serializedName.size())
 				{
@@ -222,7 +221,9 @@ std::vector<Id> SqliteIndexStorage::addEdges(const std::vector<StorageEdge>& edg
 {
 	if (m_tempEdgeIndex.empty())
 	{
-		forEach<StorageEdge>([this](StorageEdge&& edge) {
+		forEach<StorageEdge>(
+			[this](StorageEdge&& edge)
+			{
 				m_tempEdgeIndex.emplace(
 					StorageEdgeData(edge.type, edge.sourceNodeId, edge.targetNodeId),
 					static_cast<uint32_t>(edge.id));
@@ -269,7 +270,9 @@ std::vector<Id> SqliteIndexStorage::addLocalSymbols(const std::set<StorageLocalS
 {
 	if (m_tempLocalSymbolIndex.empty())
 	{
-		forEach<StorageLocalSymbol>([this](StorageLocalSymbol&& localSymbol) {
+		forEach<StorageLocalSymbol>(
+			[this](StorageLocalSymbol&& localSymbol)
+			{
 				std::pair<std::wstring, std::wstring> name = splitLocalSymbolName(localSymbol.name);
 				if (name.second.size())
 				{
@@ -333,7 +336,9 @@ std::vector<Id> SqliteIndexStorage::addSourceLocations(const std::vector<Storage
 {
 	if (m_tempSourceLocationIndices.empty())
 	{
-		forEach<StorageSourceLocation>([this](StorageSourceLocation&& loc) {
+		forEach<StorageSourceLocation>(
+			[this](StorageSourceLocation&& loc)
+			{
 				std::map<TempSourceLocation, uint32_t>& index =
 					m_tempSourceLocationIndices[static_cast<uint32_t>(loc.fileNodeId)];
 				index.emplace(
@@ -1255,7 +1260,8 @@ std::vector<ErrorInfo> SqliteIndexStorage::getAllErrorInfos() const
 StorageNodeFile SqliteIndexStorage::getAssociatedFile(Id fileId) const
 {
 	CppSQLite3Query q = executeQuery(
-		"SELECT file_id,file_name,display_content FROM node_file WHERE file_id == " + std::to_string(fileId) + ";");
+		"SELECT file_id,file_name,display_content FROM node_file WHERE file_id == " +
+		std::to_string(fileId) + ";");
 	if (!q.eof())
 	{
 		const Id id = q.getIntField(0, 0);
@@ -1271,7 +1277,8 @@ StorageNodeFile SqliteIndexStorage::getAssociatedFile(Id fileId) const
 StorageNodeFile SqliteIndexStorage::getAssociatedFile(const FilePath& filePath) const
 {
 	CppSQLite3Query q = executeQuery(
-		"SELECT file_id,file_name,display_content FROM node_file WHERE file_name == '" + filePath.str() + "';");
+		"SELECT file_id,file_name,display_content FROM node_file WHERE file_name == '" +
+		filePath.str() + "';");
 	if (!q.eof())
 	{
 		const Id id = q.getIntField(0, 0);
@@ -1396,6 +1403,42 @@ void SqliteIndexStorage::clearTables()
 	}
 }
 
+void SqliteIndexStorage::addNonExistingTextColumns(
+	std::string table_name, std::vector<std::string> column_names)
+{
+	CppSQLite3Query q = executeQuery("PRAGMA table_info( " + table_name + " );");
+
+	std::map<std::string, bool> columns;
+
+	for (auto name: column_names)
+	{
+		columns.insert({name, false});
+	}
+
+	while (!q.eof())
+	{
+		std::string current = q.getStringField(1);
+
+		for (auto name: column_names)
+		{
+			if (current == name)
+			{
+				columns[name] = true;
+			}
+		}
+
+		q.nextRow();
+	}
+	for (auto name: column_names)
+	{
+		if (!columns[name])
+		{
+			CppSQLite3Query q = executeQuery(
+				"ALTER TABLE " + table_name + " ADD COLUMN " + name + " TEXT default '';");
+		}
+	}
+}
+
 void SqliteIndexStorage::setupTables()
 {
 	try
@@ -1415,7 +1458,7 @@ void SqliteIndexStorage::setupTables()
 			"	FOREIGN KEY(element_id) REFERENCES element(id) ON DELETE CASCADE"
 			");");
 
-		m_database.execDML(
+		int ret = m_database.execDML(
 			"CREATE TABLE IF NOT EXISTS edge("
 			"id INTEGER NOT NULL, "
 			"type INTEGER NOT NULL, "
@@ -1427,8 +1470,12 @@ void SqliteIndexStorage::setupTables()
 			"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE, "
 			"FOREIGN KEY(source_node_id) REFERENCES node(id) ON DELETE CASCADE, "
 			"FOREIGN KEY(target_node_id) REFERENCES node(id) ON DELETE CASCADE);");
-
-		m_database.execDML(
+		// add non existing columns in Sourcetrail files
+		if (ret == 0)
+		{
+			SqliteIndexStorage::addNonExistingTextColumns("edge", {"color", "hover_display"});
+		}
+		ret = m_database.execDML(
 			"CREATE TABLE IF NOT EXISTS node("
 			"id INTEGER NOT NULL, "
 			"type INTEGER NOT NULL, "
@@ -1439,7 +1486,12 @@ void SqliteIndexStorage::setupTables()
 			"custom_command_desc TEXT, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE);");
-
+		// add non existing columns in Sourcetrail files
+		if (ret == 0)
+		{
+			SqliteIndexStorage::addNonExistingTextColumns(
+				"node", {"color", "hover_display", "custom_command", "custom_command_desc"});
+		}
 		m_database.execDML(
 			"CREATE TABLE IF NOT EXISTS symbol("
 			"id INTEGER NOT NULL, "
@@ -1532,12 +1584,18 @@ void SqliteIndexStorage::setupNodeTypes()
 {
 	try
 	{
-		m_database.execDML(
+		int ret = m_database.execDML(
 			"CREATE TABLE IF NOT EXISTS node_type("
 			"id	INTEGER NOT NULL, "
 			"graph_display TEXT, "
 			"hover_display TEXT, "
 			"PRIMARY KEY(id));");
+
+		// add non existing columns in Sourcetrail files
+		if (ret == 0)
+		{
+			SqliteIndexStorage::addNonExistingTextColumns("node_type", {"hover_display"});
+		}
 
 		m_database.execDML(
 			"INSERT OR IGNORE INTO node_type(id,graph_display,hover_display) VALUES"
@@ -1578,7 +1636,8 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 		m_insertNodeBatchStatement.compile(
 			"INSERT INTO node(id, type, serialized_name) VALUES",
 			3,
-			[](CppSQLite3Statement& stmt, const StorageNode& node, size_t index) {
+			[](CppSQLite3Statement& stmt, const StorageNode& node, size_t index)
+			{
 				stmt.bind(int(index) * 3 + 1, int(node.id));
 				stmt.bind(int(index) * 3 + 2, int(node.type));
 				stmt.bind(int(index) * 3 + 3, utility::encodeToUtf8(node.serializedName).c_str());
@@ -1587,7 +1646,8 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 		m_insertEdgeBatchStatement.compile(
 			"INSERT INTO edge(id, type, source_node_id, target_node_id) VALUES",
 			4,
-			[](CppSQLite3Statement& stmt, const StorageEdge& edge, size_t index) {
+			[](CppSQLite3Statement& stmt, const StorageEdge& edge, size_t index)
+			{
 				stmt.bind(int(index) * 4 + 1, int(edge.id));
 				stmt.bind(int(index) * 4 + 2, int(edge.type));
 				stmt.bind(int(index) * 4 + 3, int(edge.sourceNodeId));
@@ -1597,7 +1657,8 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 		m_insertSymbolBatchStatement.compile(
 			"INSERT OR IGNORE INTO symbol(id, definition_kind) VALUES",
 			2,
-			[](CppSQLite3Statement& stmt, const StorageSymbol& symbol, size_t index) {
+			[](CppSQLite3Statement& stmt, const StorageSymbol& symbol, size_t index)
+			{
 				stmt.bind(int(index) * 2 + 1, int(symbol.id));
 				stmt.bind(int(index) * 2 + 2, int(symbol.definitionKind));
 			},
@@ -1605,7 +1666,8 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 		m_insertLocalSymbolBatchStatement.compile(
 			"INSERT INTO local_symbol(id, name) VALUES",
 			2,
-			[](CppSQLite3Statement& stmt, const StorageLocalSymbol& symbol, size_t index) {
+			[](CppSQLite3Statement& stmt, const StorageLocalSymbol& symbol, size_t index)
+			{
 				stmt.bind(int(index) * 2 + 1, int(symbol.id));
 				stmt.bind(int(index) * 2 + 2, utility::encodeToUtf8(symbol.name).c_str());
 			},
@@ -1614,7 +1676,8 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 			"INSERT INTO source_location(file_node_id, start_line, start_column, end_line, "
 			"end_column, type) VALUES",
 			6,
-			[](CppSQLite3Statement& stmt, const StorageSourceLocationData& location, size_t index) {
+			[](CppSQLite3Statement& stmt, const StorageSourceLocationData& location, size_t index)
+			{
 				stmt.bind(int(index) * 6 + 1, int(location.fileNodeId));
 				stmt.bind(int(index) * 6 + 2, int(location.startLine));
 				stmt.bind(int(index) * 6 + 3, int(location.startCol));
@@ -1626,7 +1689,8 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 		m_insertOccurrenceBatchStatement.compile(
 			"INSERT OR IGNORE INTO occurrence(element_id, source_location_id) VALUES",
 			2,
-			[](CppSQLite3Statement& stmt, const StorageOccurrence& occurrence, size_t index) {
+			[](CppSQLite3Statement& stmt, const StorageOccurrence& occurrence, size_t index)
+			{
 				stmt.bind(int(index) * 2 + 1, int(occurrence.elementId));
 				stmt.bind(int(index) * 2 + 2, int(occurrence.sourceLocationId));
 			},
@@ -1634,7 +1698,8 @@ void SqliteIndexStorage::setupPrecompiledStatements()
 		m_insertComponentAccessBatchStatement.compile(
 			"INSERT OR IGNORE INTO component_access(node_id, type) VALUES",
 			2,
-			[](CppSQLite3Statement& stmt, const StorageComponentAccess& componentAccess, size_t index) {
+			[](CppSQLite3Statement& stmt, const StorageComponentAccess& componentAccess, size_t index)
+			{
 				stmt.bind(int(index) * 2 + 1, int(componentAccess.nodeId));
 				stmt.bind(int(index) * 2 + 2, int(componentAccess.type));
 			},
@@ -1715,7 +1780,8 @@ template <>
 void SqliteIndexStorage::forEach<StorageNodeType>(
 	const std::string& query, std::function<void(StorageNodeType&&)> func) const
 {
-	CppSQLite3Query q = executeQuery("SELECT id, graph_display, hover_display FROM node_type " + query + ";");
+	CppSQLite3Query q = executeQuery(
+		"SELECT id, graph_display, hover_display FROM node_type " + query + ";");
 
 	while (!q.eof())
 	{
@@ -1736,7 +1802,8 @@ template <>
 void SqliteIndexStorage::forEach<StorageNodeFile>(
 	const std::string& query, std::function<void(StorageNodeFile&&)> func) const
 {
-	CppSQLite3Query q = executeQuery("SELECT file_id, file_name, display_content FROM node_file " + query + ";");
+	CppSQLite3Query q = executeQuery(
+		"SELECT file_id, file_name, display_content FROM node_file " + query + ";");
 
 	while (!q.eof())
 	{
