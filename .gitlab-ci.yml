@@ -1,0 +1,17 @@
+image: docker.qb/firmware-re/cartography/numbatui
+
+build:
+  stage: build
+  script:
+    - mkdir -p build/Release
+    - cd build/Release
+    - cmake -DCMAKE_BUILD_TYPE="Release" -DBUILD_CXX_LANGUAGE_PACKAGE=ON -DBUILD_PYTHON_LANGUAGE_PACKAGE=ON ../.. && make NumbatUI -j $(nproc)
+    - cd ../..
+    - mkdir NumbatUI
+    - mv bin/app/* NumbatUI
+    - mv build/Release/app/NumbatUI NumbatUI/
+    - mv build/Release/app/numbatui_indexer NumbatUI/
+  artifacts:
+    paths:
+      - NumbatUI
+
