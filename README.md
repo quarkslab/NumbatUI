@@ -1,5 +1,7 @@
 # NumbatUI: source code and graph explorer
 
+:warning: This fork of Sourcetrail is in active development and really unstable, we recommend to not use it before our first releases.
+
 <img align="right" src="logo/numbatui_1024.png" width="250">
 
 Numbat UI is a fork of [Sourcetrail](https://github.com/CoatiSoftware/Sourcetrail), a source code explorer that was archived in 2021. Thanks to NumbatUI, you can analyze and explore a project based on the analysis of its source code. 
@@ -34,4 +36,5 @@ For the moment you can consult the old Sourcetrail documentation [here](./DOCUME
 N/A
 
 ## Authors
-TODO
+- Eloïse Brocas (@ebrocas), Quarkslab
+- Pascal Wu (@pwu42), during his internship at Quarkslab
