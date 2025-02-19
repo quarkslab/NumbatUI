@@ -10,6 +10,7 @@
 #include <QParallelAnimationGroup>
 #include <QPropertyAnimation>
 #include <QSvgGenerator>
+#include <string>
 
 #include "ApplicationSettings.h"
 #include "GraphFocusHandler.h"
@@ -123,14 +124,20 @@ QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
 	connect(m_bookmarkNodeAction, &QAction::triggered, this, &QtGraphicsView::bookmarkNode);
 
 	m_bookmarkReferencingAction = new QAction(QStringLiteral("Bookmark References to Node"), this);
-	m_bookmarkReferencingAction->setStatusTip(QStringLiteral("Create a bookmark for all nodes referencing this node"));
-	m_bookmarkReferencingAction->setToolTip(QStringLiteral("Create a bookmark for all nodes referencing this node"));
-	connect(m_bookmarkReferencingAction, &QAction::triggered, this, &QtGraphicsView::bookmarkReferencing);
+	m_bookmarkReferencingAction->setStatusTip(
+		QStringLiteral("Create a bookmark for all nodes referencing this node"));
+	m_bookmarkReferencingAction->setToolTip(
+		QStringLiteral("Create a bookmark for all nodes referencing this node"));
+	connect(
+		m_bookmarkReferencingAction, &QAction::triggered, this, &QtGraphicsView::bookmarkReferencing);
 
 	m_bookmarkReferencesAction = new QAction(QStringLiteral("Bookmark References from Node"), this);
-	m_bookmarkReferencesAction->setStatusTip(QStringLiteral("Create a bookmark for all nodes referenced by this node"));
-	m_bookmarkReferencesAction->setToolTip(QStringLiteral("Create a bookmark for all nodes referenced by this node"));
-	connect(m_bookmarkReferencesAction, &QAction::triggered, this, &QtGraphicsView::bookmarkReferences);
+	m_bookmarkReferencesAction->setStatusTip(
+		QStringLiteral("Create a bookmark for all nodes referenced by this node"));
+	m_bookmarkReferencesAction->setToolTip(
+		QStringLiteral("Create a bookmark for all nodes referenced by this node"));
+	connect(
+		m_bookmarkReferencesAction, &QAction::triggered, this, &QtGraphicsView::bookmarkReferences);
 
 	m_exportGraphAction = new QAction(QStringLiteral("Save as Image"), this);
 	m_exportGraphAction->setStatusTip(QStringLiteral("Save this graph as image file"));
@@ -862,7 +869,11 @@ void QtGraphicsView::execCustomAction()
 	boost::split(argv, commandData.command, boost::is_any_of("\t"));
 	command = argv[0];
 	argv.erase(argv.begin());
-	boost::process::spawn(boost::process::search_path(command), argv);
+	auto const command_path = boost::process::search_path(command);
+	if (not command_path.empty())
+	{
+		boost::process::spawn(command_path, argv);
+	}
 }
 
 void QtGraphicsView::zoomInPressed()
@@ -914,7 +925,7 @@ void QtGraphicsView::updateTransform()
 
 void QtGraphicsView::handleMessage(MessageSaveAsImage* message)
 {
-	if ( (message->getSchedulerId() == getSchedulerId()) && !m_imageCached.isNull() )
+	if ((message->getSchedulerId() == getSchedulerId()) && !m_imageCached.isNull())
 	{
 		m_imageCached.save(message->path);
 	}
