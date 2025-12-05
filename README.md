@@ -29,7 +29,7 @@ it contains all the required dependencies. You can either:
   ```
 - Download it from github:
   ```bash
-  docker pull ghcr.io/quarkslab/numbatui
+  docker pull ghcr.io/quarkslab/numbatui:main
   ```
 
 Then open the */path/to/my_database.srctrlprj* database with NumbatUI. The command will depend of your windowing system, as the application is a GUI Qt application
