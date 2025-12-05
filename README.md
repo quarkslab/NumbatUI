@@ -21,12 +21,16 @@ Features added are:
 ## Usage
 
 We strongly recommend using the provided Docker image to run NumbatUI, as
-it contains all the required dependencies. To build the docker image:
-
-```bash
-cd docker
-docker build -t numbatui .
-```
+it contains all the required dependencies. You can either:
+- Build locally the docker image:
+  ```bash
+  cd docker
+  docker build -t numbatui .
+  ```
+- Download it from github:
+  ```bash
+  docker pull ghcr.io/quarkslab/numbatui
+  ```
 
 Then to open the */path/to/my_database.srctrlprj* database with NumbatUI, run:
 
