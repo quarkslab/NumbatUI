@@ -32,19 +32,39 @@ it contains all the required dependencies. You can either:
   docker pull ghcr.io/quarkslab/numbatui
   ```
 
-Then to open the */path/to/my_database.srctrlprj* database with NumbatUI, run:
+Then open the */path/to/my_database.srctrlprj* database with NumbatUI. The command will depend of your windowing system, as the application is a GUI Qt application
+one needs to forward the X11/Wayland display to the container.
 
-```bash
-docker run -it --env DISPLAY=$DISPLAY \
-               --env QT_X11_NO_MITSHM=1 \
-               --volume /tmp/.X11-unix:/tmp/.X11-unix \
-               --volume /path/to/:/data/ \
-               numbatui:latest /data/my_database.srctrlprj
-```
 
-It will open NumbatUI with the database. Note: as the application is a GUI Qt application
-one needs to forward the X11 display to the container.
-
+- For **X11** users, run the following command. You may need to add allow `docker` to use your Xserver.
+> [!NOTE]
+> You may need to add allow `docker` to use your Xserver.
+> ```bash
+> xhost +local:docker
+> ```
+> After usage, you can remove this authorization with:
+> ```bash
+> xhost -local:docker
+> ```
+  ```bash
+  docker run -it --rm \
+             --env DISPLAY=$DISPLAY \
+             --env QT_X11_NO_MITSHM=1 \
+             --volume /tmp/.X11-unix:/tmp/.X11-unix \
+             --volume /path/to/:/data/ \
+             numbatui:latest /data/my_database.srctrlprj
+  ```
+- For **Wayland** users, run the following command:
+  ```bash
+  docker run -it --rm \
+             --env QT_QPA_PLATFORM=wayland \
+             --env XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR \
+             --env WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
+             --volume /run/user/1000/$WAYLAND_DISPLAY:/run/user/1000/$WAYLAND_DISPLAY \
+             --volume /usr/share/wayland-sessions:/usr/share/wayland-sessions \
+             --volume /path/to/:/data/ \
+             numbatui:latest /data/my_database.srctrlprj
+  ```
 
 
 ## Manual Installation
