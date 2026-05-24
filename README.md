@@ -69,14 +69,25 @@ one needs to forward the X11/Wayland display to the container.
 
 ## Manual Installation
 As this fork is currently a WIP, the application should be compiled by
-the user. It has only be tested for Linux distributions.
+the user. Build instructions are provided for Linux and macOS.
 
 ### Requirements
-For Ubuntu/Debian distributions:
+
+#### Linux (Ubuntu/Debian)
 - base tooling: `build-essential`, `cmake`, `git`, `unzip`, `wget`
 - LLVM dependencies: `libc++-19-dev`, `liblld-19-dev`, `llvm-19-dev`, `libclang-19-dev`, `clang-19`
 - boost: `libboost-filesystem-dev`, `libboost-program-options-dev`,`libboost-system-dev`, `libboost-date-time-dev`
 - Qt6: `qt6-svg-dev`, `qt6-base-dev`, `qt6-5compat-dev`
+
+#### macOS (Homebrew)
+
+Tested on Apple Silicon (arm64) with macOS 26 / Tahoe and Homebrew Qt 6.11.
+
+```bash
+brew install cmake boost qt@6
+# Only needed if you re-enable BUILD_CXX_LANGUAGE_PACKAGE:
+# brew install llvm@19
+```
 
 ### Compilation
 
@@ -94,11 +105,41 @@ cmake -B build \
 cmake --build build --target NumbatUI -j $(nproc)
 ```
 
-The compiled binary is available in `build/Release/app`, this directory contains
-symlinks to the `bin/app` directory.
+On macOS, point CMake at the Homebrew Qt6 install and use `sysctl` for the
+parallel job count:
+
+```bash
+cmake -B build \
+      -DCMAKE_BUILD_TYPE="Release" \
+      -DBUILD_CXX_LANGUAGE_PACKAGE=OFF \
+      -DBUILD_PYTHON_LANGUAGE_PACKAGE=OFF \
+      -DCMAKE_PREFIX_PATH=$(brew --prefix qt@6)
+
+cmake --build build --target NumbatUI -j $(sysctl -n hw.logicalcpu)
+```
+
+The compiled binary is available in `build/app/NumbatUI` on Unix
+(or `build/Release/app/` on Windows). Launch it directly:
+
+```bash
+./build/app/NumbatUI                                # macOS / Linux
+./build/app/NumbatUI /path/to/my_database.srctrlprj # open a project
+```
+
+The binary is a native arm64 (or x86_64) Mach-O on macOS — no X11 / XQuartz
+forwarding required, unlike the Docker image documented above.
 
 Note: This build purposely disables C++, Python language indexation features.
 They shall be re-enabled in future releases.
+
+### Note on Docker on macOS
+
+The Docker image documented in [Usage](#usage) is Linux-only and ships a Qt
+GUI that talks to X11 / Wayland. Neither display server is native on macOS,
+so running it would require installing
+[XQuartz](https://www.xquartz.org/) and forwarding `DISPLAY=host.docker.internal:0`
+over TCP — workable, but slow and lacking a native look. We recommend the
+macOS native build above instead.
 
 ## Documentation
 

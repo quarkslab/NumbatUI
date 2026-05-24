@@ -5,14 +5,27 @@
 #include <set>
 
 #include <boost/asio/buffer.hpp>
-#include <boost/asio/io_service.hpp>
+#include <boost/asio/io_context.hpp>
 #include <boost/asio/read.hpp>
-#include <boost/process.hpp>
-#include <boost/process/async_pipe.hpp>
-#include <boost/process/child.hpp>
-#include <boost/process/io.hpp>
-#include <boost/process/search_path.hpp>
-#include <boost/process/start_dir.hpp>
+// Boost 1.86 made Boost.Process v2 the default content of <boost/process.hpp>.
+// This file uses the v1 API (child, async_pipe, redirection operators, etc.),
+// so prefer the explicit v1 headers when available, falling back to the
+// legacy paths on older Boost versions.
+#if __has_include(<boost/process/v1.hpp>)
+#  include <boost/process/v1.hpp>
+#  include <boost/process/v1/async_pipe.hpp>
+#  include <boost/process/v1/child.hpp>
+#  include <boost/process/v1/io.hpp>
+#  include <boost/process/v1/search_path.hpp>
+#  include <boost/process/v1/start_dir.hpp>
+#else
+#  include <boost/process.hpp>
+#  include <boost/process/async_pipe.hpp>
+#  include <boost/process/child.hpp>
+#  include <boost/process/io.hpp>
+#  include <boost/process/search_path.hpp>
+#  include <boost/process/start_dir.hpp>
+#endif
 
 #include <QThread>
 
@@ -79,7 +92,7 @@ utility::ProcessOutput utility::executeProcess(
 	int exitCode = 255;
 	try
 	{
-		boost::asio::io_service ios;
+		boost::asio::io_context ios;
 		boost::process::async_pipe ap(ios);
 
 		std::shared_ptr<boost::process::child> process;

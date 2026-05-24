@@ -1,4 +1,10 @@
-cmake_minimum_required(VERSION 3.28)
+cmake_minimum_required(VERSION 3.25)
+
+# Use BoostConfig.cmake (modular Boost) instead of the removed FindBoost module.
+# Required for Boost >= 1.70 with modern CMake.
+if (POLICY CMP0167)
+	cmake_policy(SET CMP0167 NEW)
+endif()
 
 if (WIN32 AND (CMAKE_GENERATOR STREQUAL "Ninja"))
 	set(CMAKE_CONFIGURATION_TYPES ${CMAKE_BUILD_TYPE})
@@ -183,7 +189,9 @@ set(Boost_USE_MULTITHREAD ON)
 set(Boost_USE_STATIC_LIBS ON CACHE BOOL "Set to ON to force the use of the static libraries.")
 set(Boost_USE_STATIC_RUNTIME OFF)
 
-find_package(Boost 1.67 COMPONENTS system program_options filesystem date_time REQUIRED)
+# Boost::system became header-only in Boost 1.69, so it is no longer requested
+# as a separately-findable component when using BoostConfig (CMP0167 NEW).
+find_package(Boost 1.67 COMPONENTS program_options filesystem date_time REQUIRED)
 
 
 # Qt ---------------------------------------------------------------------------
@@ -496,6 +504,12 @@ add_custom_target(
 add_library(${LIB_GUI_PROJECT_NAME} ${LIB_GUI_FILES} ${CMAKE_BINARY_DIR}/src/lib_gui/productVersion.h)
 
 target_link_libraries(${LIB_GUI_PROJECT_NAME} ${LIB_UTILITY_PROJECT_NAME} ${LIB_PROJECT_NAME} Qt6::Widgets Qt6::Network Qt6::Svg Qt6::Core5Compat)
+
+# Boost 1.86 switched the default of <boost/process.hpp> from v1 to v2.
+# lib_gui (QtGraphicsView, utilityApp) uses the v1 API extensively
+# (async_pipe, child, args, redirection operators, this_process::environment),
+# which has no drop-in v2 equivalent. Pin v1 explicitly.
+target_compile_definitions(${LIB_GUI_PROJECT_NAME} PUBLIC BOOST_PROCESS_VERSION=1)
 
 if (WIN32)
 	target_link_libraries(${LIB_GUI_PROJECT_NAME} Qt6::WinExtras)

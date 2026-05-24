@@ -59,7 +59,8 @@ void setupPlatform(int argc, char* argv[])
 
 	// ----------------------------------------------------------------------------
 	// Makes the mac bundle copy the user files to the Application Support folder
-	QString dataPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+	// QStandardPaths::DataLocation was removed in Qt 6 in favor of AppLocalDataLocation.
+	QString dataPath = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
 	QString oldDataPath = QString::fromStdWString(ResourcePaths::getFallbackDirectoryPath().wstr());
 
 	QDir dataDir(dataPath);

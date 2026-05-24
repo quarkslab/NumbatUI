@@ -3,7 +3,14 @@
 
 #include <memory>
 
-#include <boost/process.hpp>
+// Boost 1.86 made Boost.Process v2 the default content of <boost/process.hpp>.
+// We use the v1 API (search_path, spawn), so prefer the explicit v1 umbrella
+// header when available and fall back to the legacy header on older Boost.
+#if __has_include(<boost/process/v1.hpp>)
+#  include <boost/process/v1.hpp>
+#else
+#  include <boost/process.hpp>
+#endif
 #include <boost/algorithm/string.hpp>
 
 #include <QGraphicsView>
