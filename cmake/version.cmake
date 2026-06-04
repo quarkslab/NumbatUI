@@ -2,8 +2,8 @@
 set(GIT_BRANCH "")
 set(GIT_COMMIT_HASH "")
 set(GIT_VERSION_NUMBER "")
-set(VERSION_YEAR "0")
-set(VERSION_MINOR "0")
+set(VERSION_MAJOR "0")
+set(VERSION_MINOR "1")
 set(VERSION_COMMIT "0")
 # set(BUILD_TYPE "")
 # if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
@@ -36,12 +36,12 @@ set(VERSION_COMMIT "0")
 #         OUTPUT_VARIABLE GIT_VERSION_NUMBER
 #         OUTPUT_STRIP_TRAILING_WHITESPACE
 #     )
-#     string(REGEX REPLACE "^([0-9]+)\\..*" "\\1" VERSION_YEAR "${GIT_VERSION_NUMBER}")
+#     string(REGEX REPLACE "^([0-9]+)\\..*" "\\1" VERSION_MAJOR "${GIT_VERSION_NUMBER}")
 #     string(REGEX REPLACE "^[0-9]+\\.([0-9]+).*" "\\1" VERSION_MINOR "${GIT_VERSION_NUMBER}")
 #     string(REGEX REPLACE "^[0-9]+\\.[0-9]+-([0-9]+).*" "\\1" VERSION_COMMIT "${GIT_VERSION_NUMBER}")
 # endif(EXISTS "${CMAKE_SOURCE_DIR}/.git")
 
-set(VERSION_STRING "${VERSION_YEAR}.${VERSION_MINOR}.${VERSION_COMMIT}")
+set(VERSION_STRING "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_COMMIT}")
 
 message(STATUS "Version: ${VERSION_STRING}")
 
@@ -49,6 +49,6 @@ message(STATUS "Version: ${VERSION_STRING}")
 # message(STATUS "Git version number: " ${GIT_VERSION_NUMBER} )
 # message(STATUS "Git commit hash: ${GIT_COMMIT_HASH}")
 # message(STATUS "Git commit time: ${GIT_COMMIT_TIME}")
-# message(STATUS "Version year: ${VERSION_YEAR}")
+# message(STATUS "Version year: ${VERSION_MAJOR}")
 # message(STATUS "Version minor: ${VERSION_MINOR}")
 # message(STATUS "Version commit: ${VERSION_COMMIT}")
