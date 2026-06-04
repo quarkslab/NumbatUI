@@ -843,3 +843,8 @@ elseif(WIN32)
 		endif()
 	endforeach()
 endif ()
+
+
+# Installation rules (FHS layout) for building distribution packages such as
+# Debian .deb. Included last so the application/indexer targets already exist.
+include(cmake/install.cmake)

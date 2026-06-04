@@ -1,0 +1,57 @@
+name: Build Debian package
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  pull_request:
+
+jobs:
+  build-deb:
+    runs-on: ubuntu-latest
+    container:
+      image: debian:trixie
+    permissions:
+      contents: write   # needed to attach the .deb to a release on tag builds
+
+    steps:
+      - name: Install base tooling
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            git ca-certificates build-essential devscripts equivs lintian
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies from debian/control
+        run: |
+          mk-build-deps --install --remove \
+            --tool 'apt-get -y --no-install-recommends' debian/control
+
+      - name: Build the package
+        run: dpkg-buildpackage -us -uc -b
+
+      - name: Run lintian (informational)
+        run: lintian ../*.deb || true
+
+      - name: Collect artifacts
+        run: |
+          mkdir -p dist
+          mv ../*.deb dist/
+          ls -l dist/
+
+      - name: Upload .deb artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: numbatui-deb-${{ github.sha }}
+          path: dist/*.deb
+          if-no-files-found: error
+
+      - name: Attach .deb to release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.deb

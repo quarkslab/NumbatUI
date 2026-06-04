@@ -1,0 +1,26 @@
+#!/usr/bin/make -f
+# Build NumbatUI as a Debian package using the CMake buildsystem driven by
+# debhelper. See debhelper(7) and dh(1).
+
+# Enable verbose CMake/build output, useful for diagnosing CI build failures.
+export DH_VERBOSE = 1
+
+%:
+	dh $@ --buildsystem=cmake
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DBUILD_CXX_LANGUAGE_PACKAGE=OFF \
+		-DBUILD_PYTHON_LANGUAGE_PACKAGE=OFF \
+		-DTREAT_WARNINGS_AS_ERRORS=OFF
+
+# Build the GUI and the indexer explicitly. This avoids building the (test)
+# targets, which are not packaged, and does not rely on the GUI target's
+# dependency on the indexer to pull the latter in.
+override_dh_auto_build:
+	dh_auto_build -- NumbatUI NumbatUI_indexer
+
+# The upstream test target requires test fixtures that are not part of the
+# packaging build; skip the test phase.
+override_dh_auto_test:

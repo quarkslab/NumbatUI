@@ -1,0 +1,9 @@
+numbatui (0.0.0+git20260604) unstable; urgency=medium
+
+  * Initial Debian packaging.
+  * Add FHS install rules (cmake/install.cmake) and discovery of the
+    /usr/share/numbatui data directory at runtime.
+  * Build the GUI and indexer with the C/C++ and Python language packages
+    disabled, matching the upstream default configuration.
+
+ -- Quarkslab <numbatui@quarkslab.com>  Thu, 04 Jun 2026 09:13:11 +0000

@@ -1,0 +1,5 @@
+# Upstream sets CMAKE_INSTALL_RPATH to "$ORIGIN/lib" so the AppImage/tarball
+# bundles can locate co-shipped Qt libraries. On a system (FHS) install no such
+# directory exists and the dynamic loader falls back to the system search
+# paths, so the rpath is harmless here. Suppress the tag for both binaries.
+numbatui: binary-or-shlib-defines-rpath

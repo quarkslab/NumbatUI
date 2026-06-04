@@ -50,10 +50,17 @@ void setupApp(int argc, char* argv[])
 	AppPath::setSharedDataDirectoryPath(appPath);
 	AppPath::setCxxIndexerDirectoryPath(appPath);
 
-	// Check if bundled as Linux AppImage
+	// Check if bundled as Linux AppImage / tarball (data sits in ../share/data)
 	if (appPath.getConcatenated(L"/../share/data").exists())
 	{
 		AppPath::setSharedDataDirectoryPath(appPath.getConcatenated(L"/../share").getAbsolute());
+	}
+	// Check if installed following the FHS, e.g. from a distribution package:
+	// binary in <prefix>/bin, shared data in <prefix>/share/numbatui.
+	else if (appPath.getConcatenated(L"/../share/numbatui/data").exists())
+	{
+		AppPath::setSharedDataDirectoryPath(
+			appPath.getConcatenated(L"/../share/numbatui").getAbsolute());
 	}
 
 	std::string userdir(std::getenv("HOME"));
