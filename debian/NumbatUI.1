@@ -1,0 +1,43 @@
+.TH NUMBATUI 1 "2026-06-04" "NumbatUI" "User Commands"
+.SH NAME
+NumbatUI \- source code and graph explorer
+.SH SYNOPSIS
+.B NumbatUI
+.RI [ PROJECT ]
+.br
+.B NumbatUI
+.B index
+.RI [ options ]
+.I PROJECT
+.SH DESCRIPTION
+.B NumbatUI
+is an interactive source explorer, a Quarkslab fork of Sourcetrail. It lets
+you navigate code and graph-based data through linked graph and code views.
+.PP
+When started without arguments it opens the graphical interface. A project
+file (extension
+.IR .srctrlprj )
+may be passed to open it directly.
+.SH OPTIONS
+.TP
+.BI index " PROJECT"
+Index the given project from the command line without starting the graphical
+interface.
+.TP
+.B \-\-help
+Show the full list of commands and options and exit.
+.TP
+.B \-\-version
+Show version information and exit.
+.SH FILES
+.TP
+.I ~/.config/numbatui/
+Per-user configuration, application settings and sample projects, populated on
+first launch.
+.TP
+.I /usr/share/numbatui/
+Read-only application data (color schemes, fonts, GUI resources).
+.SH SEE ALSO
+.BR numbatui_indexer (1)
+.PP
+Project home page: <https://github.com/quarkslab/NumbatUI>.

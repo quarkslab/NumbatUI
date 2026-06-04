@@ -13,7 +13,8 @@ override_dh_auto_configure:
 		-DCMAKE_BUILD_TYPE=Release \
 		-DBUILD_CXX_LANGUAGE_PACKAGE=OFF \
 		-DBUILD_PYTHON_LANGUAGE_PACKAGE=OFF \
-		-DTREAT_WARNINGS_AS_ERRORS=OFF
+		-DTREAT_WARNINGS_AS_ERRORS=OFF \
+		-DCMAKE_SKIP_INSTALL_RPATH=ON
 
 # Build the GUI and the indexer explicitly. This avoids building the (test)
 # targets, which are not packaged, and does not rely on the GUI target's

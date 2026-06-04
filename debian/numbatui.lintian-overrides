@@ -1,5 +1,12 @@
-# Upstream sets CMAKE_INSTALL_RPATH to "$ORIGIN/lib" so the AppImage/tarball
-# bundles can locate co-shipped Qt libraries. On a system (FHS) install no such
-# directory exists and the dynamic loader falls back to the system search
-# paths, so the rpath is harmless here. Suppress the tag for both binaries.
-numbatui: binary-or-shlib-defines-rpath
+# NumbatUI vendors SQLite (via CppSQLite) and TinyXML and compiles them
+# statically into the binaries, as inherited from upstream Sourcetrail.
+# Unbundling these to link the system libsqlite3/libtinyxml is desirable but
+# requires upstream build changes; it is tracked as future work. The embedding
+# is intentional and known, so suppress the tag for now.
+numbatui: embedded-library
+
+# The Roboto fonts are shipped under /usr/share/numbatui/data/fonts because the
+# application loads its fonts from that fixed resource path. This duplicates the
+# fonts-roboto-* packages; replacing the bundled copies with symlinks plus a
+# dependency is left for a future change.
+numbatui: duplicate-font-file
