@@ -156,7 +156,11 @@ void QtScreenSearchBox::addResponder(const std::string& name)
 	m_checkBoxes.emplace(name, box);
 	m_checkboxLayout->addWidget(box);
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+	connect(box, &QCheckBox::checkStateChanged, this, &QtScreenSearchBox::findMatches);
+#else
 	connect(box, &QCheckBox::stateChanged, this, &QtScreenSearchBox::findMatches);
+#endif
 }
 
 void QtScreenSearchBox::setFocus()

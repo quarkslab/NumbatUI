@@ -240,19 +240,16 @@ std::vector<T> utility::toVector(const std::deque<T>& d)
 template <typename T>
 std::vector<T> utility::toVector(const std::set<T>& d)
 {
-	std::vector<T> v;
-	v.reserve(d.size());
-	v.insert(v.begin(), d.begin(), d.end());
-	return v;
+	// Construct directly from the range instead of insert(begin(), ...): the
+	// latter makes libstdc++ call std::advance() with an unsigned count, which
+	// triggers a spurious -Waggressive-loop-optimizations warning.
+	return std::vector<T>(d.begin(), d.end());
 }
 
 template <typename T>
 std::vector<T> utility::toVector(const std::list<T>& d)
 {
-	std::vector<T> v;
-	v.reserve(d.size());
-	v.insert(v.begin(), d.begin(), d.end());
-	return v;
+	return std::vector<T>(d.begin(), d.end());
 }
 
 template <typename T>

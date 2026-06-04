@@ -137,14 +137,19 @@ QCheckBox* QtStatusView::createFilterCheckbox(const QString& name, QBoxLayout* l
 	QCheckBox* checkbox = new QCheckBox(name);
 	checkbox->setChecked(checked);
 
-	connect(checkbox, &QCheckBox::stateChanged, [=](int) {
+	auto onCheckStateChanged = [=]() {
 		m_table->selectionModel()->clearSelection();
 
 		const StatusFilter statusMask = (m_showInfo->isChecked() ? StatusType::STATUS_INFO : 0) +
 			(m_showErrors->isChecked() ? StatusType::STATUS_ERROR : 0);
 
 		MessageStatusFilterChanged(statusMask).dispatch();
-	});
+	};
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+	connect(checkbox, &QCheckBox::checkStateChanged, onCheckStateChanged);
+#else
+	connect(checkbox, &QCheckBox::stateChanged, onCheckStateChanged);
+#endif
 
 	layout->addWidget(checkbox);
 
