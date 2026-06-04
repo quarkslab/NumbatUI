@@ -98,7 +98,7 @@ int main(int argc, char* argv[])
 
 	QApplication::setApplicationName(QStringLiteral("NumbatUI"));
 
-	Version version(VERSION_YEAR, VERSION_MINOR, VERSION_COMMIT, GIT_COMMIT_HASH);
+	Version version(VERSION_MAJOR, VERSION_MINOR, VERSION_COMMIT, GIT_COMMIT_HASH);
 	QApplication::setApplicationVersion(version.toDisplayString().c_str());
 
 	MessageStatus(
