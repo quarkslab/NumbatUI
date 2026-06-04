@@ -49,7 +49,7 @@ install(CODE "
 # install <sharedDataDir> is <prefix>/share/numbatui (see includesLinux.h).
 install(DIRECTORY "${CMAKE_SOURCE_DIR}/bin/app/data/"
 	DESTINATION "${NUMBATUI_PKGDATADIR}/data"
-	PATTERN "*.bat" EXCLUDE          # Windows-only uninstaller scripts
+	PATTERN "install" EXCLUDE      # Windows-only uninstaller scripts
 )
 
 # User template tree (sample projects + ApplicationSettings template). At first

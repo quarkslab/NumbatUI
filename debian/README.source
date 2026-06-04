@@ -83,11 +83,18 @@ the corresponding GitHub release.
 Known lintian notes
 --------------------
 
+  * `embedded-library` (sqlite, tinyxml): NumbatUI statically links vendored
+    copies of SQLite (via CppSQLite) and TinyXML, inherited from upstream
+    Sourcetrail. Linking the system `libsqlite3`/`libtinyxml` instead would be
+    preferable but needs upstream build changes; the tag is overridden in
+    `debian/numbatui.lintian-overrides` for now.
   * `duplicate-font-file`: NumbatUI bundles the Roboto fonts under
     `/usr/share/numbatui/data/fonts` and loads them from that fixed path.
     Replacing the bundled copies with a dependency on `fonts-roboto-unhinted`
-    plus symlinks would silence this but is left for a future change.
-  * `no-manual-page`: the binaries ship without man pages.
-  * `binary-or-shlib-defines-rpath`: upstream sets an `$ORIGIN/lib` rpath for
-    the bundled AppImage/tarball; it is harmless on a system install and is
-    suppressed via `debian/numbatui.lintian-overrides`.
+    plus symlinks would silence this; overridden for now.
+
+The build also disables the install RPATH (`-DCMAKE_SKIP_INSTALL_RPATH=ON` in
+`debian/rules`): upstream sets an `$ORIGIN/lib` RPATH for the bundled
+AppImage/tarball, which is meaningless on a system install and otherwise trips
+the `relative-library-search-path` check. Man pages for the installed binaries
+are shipped from `debian/*.1` via `debian/numbatui.manpages`.

@@ -9,5 +9,6 @@ Terminal=false
 Type=Application
 MimeType=application/x-numbatui;
 Categories=Development;
+Keywords=source;code;graph;explorer;sourcetrail;indexer;
 StartupNotify=true
 StartupWMClass=NumbatUI
