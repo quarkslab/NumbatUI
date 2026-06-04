@@ -132,6 +132,45 @@ forwarding required, unlike the Docker image documented above.
 Note: This build purposely disables C++, Python language indexation features.
 They shall be re-enabled in future releases.
 
+### Debian package (.deb)
+
+On Debian/Ubuntu, NumbatUI can be installed as a native `.deb` package. This
+installs the GUI and indexer to `/usr/bin`, the runtime data to
+`/usr/share/numbatui`, and registers the desktop entry, MIME association
+(`*.srctrlprj`) and application icons.
+
+#### Install a prebuilt package
+
+Every push to the `main` and `dev` branches builds a `.deb` in CI. Download it
+from the **Actions** tab: open the latest *Build Debian package* run and grab
+the `numbatui-deb-<branch>-<sha>` artifact (tagged `v*` releases also attach the
+`.deb` to the GitHub release). Then:
+
+```bash
+sudo apt install ./numbatui_*_amd64.deb
+```
+
+`apt` pulls in the required Qt 6 and Boost runtime libraries automatically.
+
+#### Build the package yourself
+
+From a checkout of the repository:
+
+```bash
+# one-off: install the build dependencies declared in debian/control
+sudo apt build-dep .
+# or, without a deb-src entry:
+#   sudo apt install devscripts equivs && sudo mk-build-deps -i debian/control
+
+# build the binary package (the .deb is written to the parent directory)
+dpkg-buildpackage -us -uc -b
+ls ../numbatui_*_amd64.deb
+```
+
+The packaging lives in `debian/` and drives the same CMake build as above
+through `debhelper`. See [`debian/README.source`](./debian/README.source) for
+the packaging design and how to bump the package version.
+
 ### Note on Docker on macOS
 
 The Docker image documented in [Usage](#usage) is Linux-only and ships a Qt

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - dev
     tags:
       - 'v*'
   pull_request:
@@ -46,7 +47,7 @@ jobs:
       - name: Upload .deb artifact
         uses: actions/upload-artifact@v4
         with:
-          name: numbatui-deb-${{ github.sha }}
+          name: numbatui-deb-${{ github.ref_name }}-${{ github.sha }}
           path: dist/*.deb
           if-no-files-found: error
 
