@@ -1,0 +1,93 @@
+Packaging notes for NumbatUI
+============================
+
+This directory contains the Debian packaging for NumbatUI. The package is
+built with debhelper (compat 13) on top of the upstream CMake build.
+
+Source format
+-------------
+
+The package uses the `3.0 (native)` source format (see `debian/source/format`).
+NumbatUI is a work-in-progress fork with no upstream release tarballs, and the
+packaging lives in the upstream tree, so a native package keeps the build
+self-contained: `dpkg-buildpackage` works directly on a git checkout with no
+separate `.orig.tar` to assemble.
+
+When upstream starts publishing release tarballs, switch to `3.0 (quilt)` by
+changing `debian/source/format`, using an upstream version without a Debian
+revision suffix (e.g. `1.2.0-1`), and providing a matching `.orig.tar.*`.
+
+Build configuration
+-------------------
+
+`debian/rules` drives CMake via `--buildsystem=cmake` and:
+
+  * configures a Release build with the C/C++ and Python language packages
+    disabled (`-DBUILD_CXX_LANGUAGE_PACKAGE=OFF`,
+    `-DBUILD_PYTHON_LANGUAGE_PACKAGE=OFF`), matching the upstream default, and
+    turns off `-DTREAT_WARNINGS_AS_ERRORS` so the package builds across the
+    compiler versions found on different releases;
+  * builds the `NumbatUI` and `NumbatUI_indexer` targets explicitly (so the
+    test targets are not built and packaged);
+  * skips the upstream test target, which needs fixtures not relevant to the
+    package.
+
+Install layout (FHS)
+--------------------
+
+Installation is handled by `cmake/install.cmake`, included from the top-level
+`CMakeLists.txt`. With the default `/usr` prefix it produces:
+
+  /usr/bin/NumbatUI                          GUI binary
+  /usr/bin/numbatui                          symlink -> NumbatUI (used by the
+                                             desktop entry)
+  /usr/bin/numbatui_indexer                  indexer binary
+  /usr/share/numbatui/data/...               runtime data (color schemes, gui,
+                                             fonts, ...)
+  /usr/share/numbatui/user/...               user template tree copied into
+                                             ~/.config/numbatui on first launch
+  /usr/share/applications/numbatui.desktop   desktop entry
+  /usr/share/mime/packages/numbatui.xml      MIME type for *.srctrlprj
+  /usr/share/icons/hicolor/scalable/...      scalable icon (always)
+  /usr/share/icons/hicolor/<size>/...        rasterized icons (when ImageMagick
+                                             is available at build time)
+
+At runtime the application locates its data relative to the executable: the
+Linux startup code (`src/lib_gui/platform_includes/includesLinux.h`) detects an
+FHS install by checking for `<bindir>/../share/numbatui/data` and sets the
+shared data directory to `<prefix>/share/numbatui`. Keep these two in sync if
+the install path of the data ever changes.
+
+The MIME and icon caches are refreshed automatically on install/removal through
+the file triggers owned by `shared-mime-info` and the hicolor icon theme; the
+package therefore ships no maintainer-script snippets for them.
+
+Bumping the version
+-------------------
+
+The package version comes from `debian/changelog`, independently of the
+internal CMake version. To cut a new packaging revision:
+
+    dch -v <new-version> "Describe the change"
+
+CI builds use whatever version is at the top of `debian/changelog`.
+
+Continuous integration
+----------------------
+
+`.github/workflows/deb.yml` builds the package in a `debian:trixie` container on
+every push to `main` and `dev` and on pull requests. The resulting `.deb` is
+uploaded as a workflow artifact; pushes of a `v*` tag additionally attach it to
+the corresponding GitHub release.
+
+Known lintian notes
+--------------------
+
+  * `duplicate-font-file`: NumbatUI bundles the Roboto fonts under
+    `/usr/share/numbatui/data/fonts` and loads them from that fixed path.
+    Replacing the bundled copies with a dependency on `fonts-roboto-unhinted`
+    plus symlinks would silence this but is left for a future change.
+  * `no-manual-page`: the binaries ship without man pages.
+  * `binary-or-shlib-defines-rpath`: upstream sets an `$ORIGIN/lib` rpath for
+    the bundled AppImage/tarball; it is harmless on a system install and is
+    suppressed via `debian/numbatui.lintian-overrides`.
