@@ -1,0 +1,5 @@
+# Keep the .git directory and build artifacts out of the generated source
+# tarball when building the native package.
+tar-ignore = ".git"
+tar-ignore = "build"
+tar-ignore = "obj-*"
