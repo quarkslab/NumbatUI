@@ -375,9 +375,39 @@ void QtGraphView::rebuildGraph(
 					"). Showing placeholder; refine the view or raise "
 					"application/graph_max_created_nodes.");
 
-				getView()->scene()->clear();
+				// Tear down the existing graph the same way clear() does before
+				// bailing out. scene()->clear() synchronously deletes every
+				// QGraphicsItem, so any member still pointing at those items
+				// (the focus handler, the old node/edge lists, the active node)
+				// would dangle and crash on the next event. Mirror clear()'s
+				// ordering exactly, but inline: we are already running inside an
+				// m_onQtThread lambda here, and calling clear() would nest a
+				// second dispatch and run this teardown out of order.
+				m_focusHandler.clear();
+
+				m_oldActiveNode = nullptr;
+				m_activeNodes.clear();
+
+				for (QtGraphNode* node: m_oldNodes)
+				{
+					node->deleteLater();
+				}
+				for (QtGraphEdge* edge: m_oldEdges)
+				{
+					edge->deleteLater();
+				}
+
 				m_nodes.clear();
 				m_edges.clear();
+				m_oldNodes.clear();
+				m_oldEdges.clear();
+
+				m_graph.reset();
+				m_oldGraph.reset();
+
+				m_matchedNodes.clear();
+
+				getView()->scene()->clear();
 
 				QGraphicsTextItem* msg = getView()->scene()->addText(
 					QStringLiteral(
