@@ -3,6 +3,7 @@
 #include <QBoxLayout>
 #include <QFrame>
 #include <QGraphicsScene>
+#include <QGraphicsTextItem>
 #include <QLabel>
 #include <QMouseEvent>
 #include <QParallelAnimationGroup>
@@ -347,6 +348,48 @@ void QtGraphView::rebuildGraph(
 			activeNodeCount += nodes[i]->getActiveSubNodeCount();
 		}
 
+		// Safety net: count how many nodes would actually be materialized into
+		// the scene. Every code path that reaches the view goes through here, so
+		// this catches the overview AND expanding a bundle with a huge fan-out.
+		// Above the limit we refuse to build the scene (which would lag/crash)
+		// and show a short message instead.
+		{
+			const size_t maxNodes = static_cast<size_t>(
+				ApplicationSettings::getInstance()->getGraphMaxCreatedNodes());
+			size_t visibleNodeCount = 0;
+			for (const std::shared_ptr<DummyNode>& n: nodes)
+			{
+				n->forEachDummyNodeRecursive([&visibleNodeCount](DummyNode* d) {
+					if (d->visible)
+					{
+						++visibleNodeCount;
+					}
+				});
+			}
+
+			if (visibleNodeCount > maxNodes)
+			{
+				LOG_WARNING(
+					"Refusing to render " + std::to_string(visibleNodeCount) +
+					" nodes (limit " + std::to_string(maxNodes) +
+					"). Showing placeholder; refine the view or raise "
+					"application/graph_max_created_nodes.");
+
+				getView()->scene()->clear();
+				m_nodes.clear();
+				m_edges.clear();
+
+				QGraphicsTextItem* msg = getView()->scene()->addText(
+					QStringLiteral(
+						"This view contains %1 nodes, which is too many to display.\n"
+						"Refine your selection, or raise the node limit in settings.")
+						.arg(visibleNodeCount));
+				msg->setDefaultTextColor(Qt::gray);
+				getView()->setSceneRect(msg->boundingRect());
+				return;
+			}
+		}
+
 		Id oldActiveTokenId = m_oldActiveNode ? m_oldActiveNode->getTokenId() : 0;
 		m_nodes.clear();
 		m_activeNodes.clear();
@@ -428,8 +471,16 @@ void QtGraphView::rebuildGraph(
 		m_scrollToTop = params.scrollToTop;
 		m_isIndexedList = params.isIndexedList;
 
-		if (params.animatedTransition && ApplicationSettings::getInstance()->getUseAnimations() &&
-			view->isVisible())
+		// Animated transitions keep both the old and new node sets alive
+		// simultaneously and animate every item; on large graphs this is the
+		// most common cause of freezes. Skip straight to the new data above a
+		// threshold, regardless of the global animation setting.
+		const bool tooManyForAnimation =
+			(m_nodes.size() + m_oldNodes.size()) >
+			static_cast<size_t>(ApplicationSettings::getInstance()->getGraphMaxCreatedNodes());
+
+		if (params.animatedTransition && !tooManyForAnimation &&
+			ApplicationSettings::getInstance()->getUseAnimations() && view->isVisible())
 		{
 			createTransition();
 		}

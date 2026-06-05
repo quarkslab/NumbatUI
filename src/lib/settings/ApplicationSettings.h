@@ -141,6 +141,12 @@ public:
 	float getGraphZoomLevel() const;
 	void setGraphZoomLevel(float zoomLevel);
 
+	// Maximum number of nodes that may be materialized into the scene at once.
+	// Above this, the graph view falls back to aggressive bundling / a placeholder
+	// instead of building tens of thousands of QGraphicsItems (which lags/crashes).
+	int getGraphMaxCreatedNodes() const;
+	void setGraphMaxCreatedNodes(int maxNodes);
+
 	// network
 	int getPluginPort() const;
 	void setPluginPort(const int pluginPort);
