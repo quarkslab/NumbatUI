@@ -549,6 +549,16 @@ void ApplicationSettings::setGraphZoomLevel(float zoomLevel)
 	setValue<float>("user/graph_zoom_level", zoomLevel);
 }
 
+int ApplicationSettings::getGraphMaxCreatedNodes() const
+{
+	return getValue<int>("application/graph_max_created_nodes", 1500);
+}
+
+void ApplicationSettings::setGraphMaxCreatedNodes(int maxNodes)
+{
+	setValue<int>("application/graph_max_created_nodes", maxNodes);
+}
+
 int ApplicationSettings::getPluginPort() const
 {
 	return getValue<int>("network/plugin_port", 6666);

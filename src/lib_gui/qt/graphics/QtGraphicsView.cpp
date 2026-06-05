@@ -50,6 +50,17 @@ QtGraphicsView::QtGraphicsView(GraphFocusHandler* focusHandler, QWidget* parent)
 
 	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 
+	// Performance tuning for large scenes:
+	// - Only repaint the regions that actually changed rather than the whole
+	//   viewport on every scene update.
+	// - Don't save/restore the full painter state per item; nodes manage their
+	//   own pen/brush, so this is safe and cheaper.
+	// - Skip adjusting paint rects for antialiasing seams (negligible visually,
+	//   measurably cheaper with thousands of items).
+	setViewportUpdateMode(QGraphicsView::SmartViewportUpdate);
+	setOptimizationFlags(
+		QGraphicsView::DontSavePainterState | QGraphicsView::DontAdjustForAntialiasing);
+
 	m_timer = std::make_shared<QTimer>(this);
 	connect(m_timer.get(), &QTimer::timeout, this, &QtGraphicsView::updateTimer);
 
