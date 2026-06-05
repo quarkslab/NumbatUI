@@ -38,6 +38,16 @@ jobs:
       - name: Run lintian (informational)
         run: lintian ../*.deb || true
 
+      - name: Compute artifact slug
+        id: slug
+        run: |
+          # github.ref_name contains a slash on pull_request events (e.g.
+          # "4/merge") and for branches like "feature/x"; upload-artifact
+          # rejects "/" in names. Replace it. Note the default shell here is
+          # POSIX sh, so use tr rather than bash parameter expansion.
+          slug="$(printf '%s' "$GITHUB_REF_NAME" | tr '/' '-')"
+          echo "value=${slug}-${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
+
       - name: Collect artifacts
         run: |
           mkdir -p dist
@@ -47,14 +57,14 @@ jobs:
       - name: Upload .deb artifact
         uses: actions/upload-artifact@v6
         with:
-          name: numbatui-deb-${{ github.ref_name }}-${{ github.sha }}
+          name: numbatui-deb-${{ steps.slug.outputs.value }}
           path: dist/numbatui_*_amd64.deb
           if-no-files-found: error
 
       - name: Upload debug symbols
         uses: actions/upload-artifact@v6
         with:
-          name: numbatui-dbgsym-${{ github.ref_name }}-${{ github.sha }}
+          name: numbatui-dbgsym-${{ steps.slug.outputs.value }}
           path: dist/numbatui-dbgsym_*_amd64.deb
           if-no-files-found: warn
           retention-days: 7
