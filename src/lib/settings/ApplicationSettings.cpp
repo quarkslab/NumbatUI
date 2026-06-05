@@ -551,7 +551,7 @@ void ApplicationSettings::setGraphZoomLevel(float zoomLevel)
 
 int ApplicationSettings::getGraphMaxCreatedNodes() const
 {
-	return getValue<int>("application/graph_max_created_nodes", 1500);
+	return getValue<int>("application/graph_max_created_nodes", 10000);
 }
 
 void ApplicationSettings::setGraphMaxCreatedNodes(int maxNodes)
