@@ -114,6 +114,10 @@ public:
 
 	virtual void updateStyle() = 0;
 
+	// Level-of-detail aware painting: hides expensive text rendering when the
+	// node is drawn too small to be legible (e.g. zoomed-out overview).
+	void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
+
 protected:
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
 	virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);

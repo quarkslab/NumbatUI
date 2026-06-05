@@ -76,8 +76,19 @@ void GraphController::handleMessage(MessageActivateOverview* message)
 	}
 	else
 	{
-		createDummyGraphAndSetActiveAndVisibility(
-			std::vector<Id>(), m_storageAccess->getGraphForAll(), false);
+		std::shared_ptr<Graph> graph = m_storageAccess->getGraphForAll();
+
+		const size_t maxNodes = static_cast<size_t>(
+			ApplicationSettings::getInstance()->getGraphMaxCreatedNodes());
+		if (graph && graph->getNodeCount() > maxNodes)
+		{
+			LOG_WARNING(
+				"Overview graph has " + std::to_string(graph->getNodeCount()) +
+				" nodes, exceeding the limit of " + std::to_string(maxNodes) +
+				". Showing a bundled overview only; refine the view to expand nodes.");
+		}
+
+		createDummyGraphAndSetActiveAndVisibility(std::vector<Id>(), graph, false);
 
 		bundleNodesByType();
 
