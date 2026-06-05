@@ -5,7 +5,9 @@
 #include <QFont>
 #include <QFontMetrics>
 #include <QGraphicsSceneEvent>
+#include <QPainter>
 #include <QPen>
+#include <QStyleOptionGraphicsItem>
 
 #include "GraphFocusHandler.h"
 #include "MessageCodeShowDefinition.h"
@@ -64,6 +66,13 @@ QtGraphNode::QtGraphNode(GraphFocusHandler* focusHandler): m_focusHandler(focusH
 	this->setPen(QPen(Qt::transparent));
 	this->setCursor(Qt::PointingHandCursor);
 
+	// Rasterize each node's subtree once and reuse it while panning/zooming
+	// instead of repainting text + rounded rects every frame. Major win on
+	// large overviews where thousands of nodes are visible at once.
+	this->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+	// Ensures levelOfDetailFromTransform() is populated in paint().
+	this->setFlag(QGraphicsItem::ItemUsesExtendedStyleOption, true);
+
 	m_text = new QGraphicsSimpleTextItem(this);
 	m_rect = new QtRoundedRectItem(this);
 	m_undefinedRect = new QtRoundedRectItem(this);
@@ -71,6 +80,28 @@ QtGraphNode::QtGraphNode(GraphFocusHandler* focusHandler): m_focusHandler(focusH
 }
 
 QtGraphNode::~QtGraphNode() {}
+
+void QtGraphNode::paint(
+	QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+{
+	// Level of detail: how many device pixels one logical unit maps to.
+	const qreal lod = option->levelOfDetailFromTransform(painter->worldTransform());
+
+	// Below this, glyphs are sub-pixel and just burn paint time. Hiding the
+	// text child (the most expensive part to render) keeps zoomed-out overviews
+	// of large graphs interactive. The node rectangle still draws.
+	constexpr qreal kTextLodThreshold = 0.4;
+	if (m_text != nullptr)
+	{
+		const bool textShouldBeVisible = lod >= kTextLodThreshold;
+		if (m_text->isVisible() != textShouldBeVisible && !m_text->text().isEmpty())
+		{
+			m_text->setVisible(textShouldBeVisible);
+		}
+	}
+
+	QGraphicsRectItem::paint(painter, option, widget);
+}
 
 QtGraphNode* QtGraphNode::getParent() const
 {
