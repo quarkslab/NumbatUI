@@ -5,6 +5,7 @@
 #include <QFont>
 #include <QFontMetrics>
 #include <QGraphicsSceneEvent>
+#include <QPainter>
 #include <QPen>
 #include <QStyleOptionGraphicsItem>
 
