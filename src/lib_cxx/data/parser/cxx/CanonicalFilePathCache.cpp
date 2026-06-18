@@ -31,17 +31,16 @@ FilePath CanonicalFilePathCache::getCanonicalFilePath(
 
 	FilePath filePath;
 
-	const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
-	if (fileEntry != nullptr)
+	if (auto fileEntryRef = sourceManager.getFileEntryRefForID(fileId))
 	{
-		filePath = getCanonicalFilePath(fileEntry);
+		filePath = getCanonicalFilePath(*fileEntryRef);
 		m_fileIdMap.emplace(fileId, filePath);
 	}
 
 	return filePath;
 }
 
-FilePath CanonicalFilePathCache::getCanonicalFilePath(const clang::FileEntry* entry)
+FilePath CanonicalFilePathCache::getCanonicalFilePath(clang::FileEntryRef entry)
 {
 	return getCanonicalFilePath(utility::getFileNameOfFileEntry(entry));
 }
@@ -103,7 +102,7 @@ Id CanonicalFilePathCache::getFileSymbolId(const clang::FileID& fileId)
 	return 0;
 }
 
-Id CanonicalFilePathCache::getFileSymbolId(const clang::FileEntry* entry)
+Id CanonicalFilePathCache::getFileSymbolId(clang::FileEntryRef entry)
 {
 	return getFileSymbolId(utility::getFileNameOfFileEntry(entry));
 }
@@ -125,8 +124,7 @@ FilePath CanonicalFilePathCache::getDeclarationFilePath(const clang::Decl* decla
 {
 	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 	const clang::FileID fileId = sourceManager.getFileID(declaration->getBeginLoc());
-	const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
-	if (fileEntry != nullptr)
+	if (sourceManager.getFileEntryRefForID(fileId))
 	{
 		return getCanonicalFilePath(fileId, sourceManager);
 	}
