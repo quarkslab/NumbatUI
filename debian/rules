@@ -11,10 +11,12 @@ export DH_VERBOSE = 1
 override_dh_auto_configure:
 	dh_auto_configure -- \
 		-DCMAKE_BUILD_TYPE=Release \
-		-DBUILD_CXX_LANGUAGE_PACKAGE=OFF \
+		-DBUILD_CXX_LANGUAGE_PACKAGE=ON \
 		-DBUILD_PYTHON_LANGUAGE_PACKAGE=OFF \
 		-DTREAT_WARNINGS_AS_ERRORS=OFF \
-		-DCMAKE_SKIP_INSTALL_RPATH=ON
+		-DCMAKE_SKIP_INSTALL_RPATH=ON \
+		-DClang_DIR=/usr/lib/llvm-19/lib/cmake/clang \
+		-DLLVM_DIR=/usr/lib/llvm-19/lib/cmake/llvm
 
 # Build the GUI and the indexer explicitly. This avoids building the (test)
 # targets, which are not packaged, and does not rely on the GUI target's

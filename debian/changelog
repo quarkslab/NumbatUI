@@ -1,3 +1,16 @@
+numbatui (0.0.0+git20260618) unstable; urgency=medium
+
+  * Enable the C/C++ language indexing back-end
+    (-DBUILD_CXX_LANGUAGE_PACKAGE=ON), built against LLVM/Clang 19.
+  * Add llvm-19-dev, libclang-19-dev, libclang-cpp19-dev and clang-19 to
+    Build-Depends; pin Clang_DIR/LLVM_DIR to the LLVM 19 toolchain.
+  * Ship Clang's builtin compiler headers under the indexer data directory
+    and add the corresponding lintian overrides.
+  * Update the package description to reflect that C/C++ indexing is now
+    available (Python indexing remains disabled).
+
+ -- Quarkslab <numbatui@quarkslab.com>  Thu, 18 Jun 2026 07:41:39 +0000
+
 numbatui (0.0.0+git20260604) unstable; urgency=medium
 
   * Initial Debian packaging.

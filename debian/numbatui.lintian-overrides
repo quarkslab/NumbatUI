@@ -10,3 +10,13 @@ numbatui: embedded-library
 # fonts-roboto-* packages; replacing the bundled copies with symlinks plus a
 # dependency is left for a future change.
 numbatui: duplicate-font-file
+
+# The C/C++ indexer requires Clang's builtin compiler headers (stddef.h,
+# stdarg.h, intrinsics, ...) at the fixed runtime path
+# <sharedDataDir>/data/cxx/include. These are copied from the build-time
+# LLVM/Clang 19 resource directory into the package, as inherited from upstream
+# Sourcetrail. They duplicate files from libclang-common-19-dev, but the indexer
+# resolves them relative to its own data dir and cannot rely on a system path,
+# so the copy is intentional and known.
+numbatui: package-installs-something-onto-an-existing-symlink
+numbatui: file-references-package-build-path
