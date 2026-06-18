@@ -411,6 +411,22 @@ bool CxxAstVisitor::TraverseClassTemplateSpecializationDecl(clang::ClassTemplate
 		}
 	}
 
+	// Traverse the base specifiers of the specialization so that the inheritance
+	// edge of an (implicit) instantiation is recorded with its substituted
+	// template arguments, e.g. "VectorBase<float, 2>" rather than the generic
+	// "VectorBase<T, N>" carried by the primary template. The base type sugar is
+	// only available on the specialization decl, not the primary template.
+	if (ReturnValue && D->hasDefinition())
+	{
+		for (const clang::CXXBaseSpecifier& base: D->bases())
+		{
+			if (!traverseCXXBaseSpecifier(base))
+			{
+				ReturnValue = false;
+			}
+		}
+	}
+
 	if (ReturnValue)
 	{
 		if (!TraverseNestedNameSpecifierLoc(D->getQualifierLoc()))
