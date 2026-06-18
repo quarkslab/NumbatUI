@@ -1006,6 +1006,25 @@ TEST_CASE("cxx parser finds explicit partial variable template specialization")
 		client->globalVariables, L"int t<int, typename R> <5:5 5:5>"));
 }
 
+TEST_CASE("cxx parser finds type used as argument in explicit class template specialization")
+{
+	std::shared_ptr<TestStorage> client = parseCode(
+		"struct S\n"
+		"{\n"
+		"};\n"
+		"template <typename T>\n"
+		"class A\n"
+		"{\n"
+		"};\n"
+		"template <>\n"
+		"class A<S>\n"
+		"{\n"
+		"};\n");
+
+	REQUIRE(utility::containsElement<std::wstring>(client->classes, L"A<S> <8:1 <9:7 9:7> 11:1>"));
+	REQUIRE(utility::containsElement<std::wstring>(client->typeUses, L"A<S> -> S <9:9 9:9>"));
+}
+
 TEST_CASE("cxx parser finds correct field member name of template class in declaration")
 {
 	std::shared_ptr<TestStorage> client = parseCode(
@@ -3422,8 +3441,10 @@ TEST_CASE("record base class of implicit template class specialization")
 		"\n"
 		"Vec2f v; \n");
 
+	// Note: since LLVM/Clang 19 the unsigned non-type template argument 2 is
+	// pretty-printed canonically as "2U" (reflecting its unsigned int type).
 	REQUIRE(utility::containsElement<std::wstring>(
-		client->inheritances, L"Vector2<float> -> VectorBase<float, 2> <5:24 5:33>"));
+		client->inheritances, L"Vector2<float> -> VectorBase<float, 2U> <5:24 5:33>"));
 }
 
 TEST_CASE("cxx parser finds template class specialization with template argument")
