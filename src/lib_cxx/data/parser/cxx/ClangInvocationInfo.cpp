@@ -8,7 +8,7 @@
 #include <clang/Basic/Version.h>
 #include <llvm/Option/ArgList.h>
 #include <llvm/Support/TargetSelect.h>
-#include <llvm/Support/Host.h>
+#include <llvm/TargetParser/Host.h>
 
 #include "CxxCompilationDatabaseSingle.h"
 #include "CxxDiagnosticConsumer.h"

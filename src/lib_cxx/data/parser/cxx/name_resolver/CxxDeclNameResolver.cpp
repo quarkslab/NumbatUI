@@ -314,7 +314,7 @@ std::unique_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 			clang::isa<clang::NamespaceDecl>(declaration) &&
 			clang::dyn_cast<clang::NamespaceDecl>(declaration)->isAnonymousNamespace())
 		{
-			declaration = clang::dyn_cast<clang::NamespaceDecl>(declaration)->getOriginalNamespace();
+			declaration = clang::dyn_cast<clang::NamespaceDecl>(declaration)->getCanonicalDecl();
 			return std::make_unique<CxxDeclName>(getNameForAnonymousSymbol(L"namespace", declaration));
 		}
 		else if (clang::isa<clang::EnumDecl>(declaration) && declNameString.empty())

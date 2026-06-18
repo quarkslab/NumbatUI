@@ -37,10 +37,11 @@ public:
 		llvm::StringRef fileName,
 		bool isAngled,
 		clang::CharSourceRange fileNameRange,
-		const clang::FileEntry* fileEntry,
+		clang::OptionalFileEntryRef fileEntry,
 		llvm::StringRef searchPath,
 		llvm::StringRef relativePath,
-		const clang::Module* imported,
+		const clang::Module* suggestedModule,
+		bool moduleImported,
 		clang::SrcMgr::CharacteristicKind fileType);
 
 	void MacroDefined(

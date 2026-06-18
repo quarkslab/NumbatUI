@@ -2,6 +2,7 @@
 #define UTILITY_CLANG_H
 
 #include <clang/AST/Decl.h>
+#include <clang/Basic/FileEntry.h>
 
 #include "AccessKind.h"
 #include "SymbolKind.h"
@@ -28,7 +29,7 @@ SymbolKind convertTagKind(const clang::TagTypeKind tagKind);
 bool isLocalVariable(const clang::ValueDecl* d);
 bool isParameter(const clang::ValueDecl* d);
 SymbolKind getSymbolKind(const clang::VarDecl* d);
-std::wstring getFileNameOfFileEntry(const clang::FileEntry* entry);
+std::wstring getFileNameOfFileEntry(clang::FileEntryRef entry);
 
 ParseLocation getParseLocation(
 	const clang::SourceLocation& sourceLocation,

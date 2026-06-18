@@ -20,13 +20,13 @@ public:
 	std::shared_ptr<FileRegister> getFileRegister() const;
 
 	FilePath getCanonicalFilePath(const clang::FileID& fileId, const clang::SourceManager& sourceManager);
-	FilePath getCanonicalFilePath(const clang::FileEntry* entry);
+	FilePath getCanonicalFilePath(clang::FileEntryRef entry);
 	FilePath getCanonicalFilePath(const std::wstring& path);
 	FilePath getCanonicalFilePath(const Id symbolId);
 
 	void addFileSymbolId(const clang::FileID& fileId, const FilePath& path, Id symbolId);
 	Id getFileSymbolId(const clang::FileID& fileId);
-	Id getFileSymbolId(const clang::FileEntry* entry);
+	Id getFileSymbolId(clang::FileEntryRef entry);
 	Id getFileSymbolId(const std::wstring& path);
 
 	FilePath getDeclarationFilePath(const clang::Decl* declaration);
