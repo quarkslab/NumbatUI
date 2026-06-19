@@ -20,8 +20,8 @@ nav = [
   { "Home" = "index.md" },
   { "Installation" = "installation.md" },
   { "Getting Started" = "getting_started.md" },
-  { "Project Setup" = "project_setup.md"},
-  {"Interface" = "interface.md"}
+  { "Project Setup" = "project_setup.md" },
+  { "Interface" = "interface.md" },
 
 ]
 
