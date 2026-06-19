@@ -6,7 +6,7 @@ icon: lucide/app-window
 
 ### Subwindows
 
-Sourcetrail's three views are organized into subwindows, which can be freely arranged within the Main Window or detached from it. Each subwindow has a title bar displaying its name and 2 buttons for closing the subwindow and for detaching it from the Main Window.
+NumbatUI's three views are organized into subwindows, which can be freely arranged within the Main Window or detached from it. Each subwindow has a title bar displaying its name and 2 buttons for closing the subwindow and for detaching it from the Main Window.
 
 !["Main Window"](documentation/main_window.png "Main Window")
 
@@ -29,7 +29,7 @@ The Tab Bar is located at the top of the [Main Window](#main-window) and is used
 
 ### Status Bar
 
-The Status Bar is located on the bottom of the [Main Window](#main-window) and is used to convey information about Sourcetrail's status and currently running processes to the user
+The Status Bar is located on the bottom of the [Main Window](#main-window) and is used to convey information about NumbatUI's status and currently running processes to the user
 
 It displays:
 
@@ -60,13 +60,13 @@ The On-Screen Search Bar is used to search visible contents of the [Graph View](
 
 ### Start Window
 
-On every start of Sourcetrail you are shown the start window. It allows for creating new projects or opening existing ones.
+On every start of NumbatUI you are shown the start window. It allows for creating new projects or opening existing ones.
 
 <img src="documentation/start_window.png" width="700" alt="Start Window">
 
 !!! abstract "Interactions"
     * Clicking `New Project` will lead you to [Project Setup](#project-setup-wizard).
-    * Clicking `Open Project` will let you open an existing Sourcetrail project by choosing from a file dialog.
+    * Clicking `Open Project` will let you open an existing NumbatUI project by choosing from a file dialog.
     * Clicking on one of the `Recent Projects` will open this project. The list shows a maximum of 7 items ordered by recent first.
     * Pressing `ESC` will close the window.
     * Click `Check for new version` to connect to [https://sourcetrail.com](https://sourcetrail.com) and check if a new version is available.
@@ -112,7 +112,7 @@ The Preferences window lets you define settings for all projects. You can open t
 | Font Size | Set the font size used throughout the UI. It can also be changed with the actions in the [View Menu](#view)
 | Tab Width | Define the space width of tabs in the code view.
 | Text Encoding | Define the Text Encoding used for displaying your source code.
-| Color scheme | Choose which color scheme Sourcetrail should display. The color schemes are located in [data](!installation#datafolder)/color_schemes/
+| Color scheme | Choose which color scheme NumbatUI should display. The color schemes are located in [data](!installation#datafolder)/color_schemes/
 | Animations | Define if animations are used within the user interface.
 | Built-In Types | Define whether built-in types such as int or bool are shown when referenced in the graph view.
 | Directory in File Title | Enable display of the parent directory of a code file relative to the project file.
@@ -120,19 +120,19 @@ The Preferences window lets you define settings for all projects. You can open t
 | Scale Factor | **(Linux only)** Define a screen scale factor for the user interface of the application. This setting manipulates the environment flag `QT_SCALE_FACTOR` of the Qt framework. Choose 'system' to stick to the setting of your current environment.
 | Scroll Speed | Define a multiplyer for the default scroll speed. Values smaller than 1 slow down scrolling while values greater than 1 increase the scroll speed.
 | Graph Zoom | Switch the default mouse wheel behavior in the graph between scrolling and zooming.
-| Logging | Ticking this box enables logging to console and to a log file. This option is disabled by default to speed up Sourcetrail. If you encounter problems while running Sourcetrail, we recommend to enable this option so you have somewhere to start looking for a cause.
-| Indexer Logging | When enabled Sourcetrail will log detailed information during indexing. This log data can help us fix issues.
-| Automatic Update Check | Check to automatically check whether a new version of Sourcetrail is available once every day.
-| Sourcetrail Port | Port number that Sourcetrail uses to listen for incoming messages from plugins.
-| Plugin Port | Port number that Sourcetrail sends outgoing messages to.
-| Indexer threads | Define how many parallel threads are used during indexing. Setting this value to `default` will cause Sourcetrail to detect the ideal number of threads based on the CPU and use as many threads for indexing.
+| Logging | Ticking this box enables logging to console and to a log file. This option is disabled by default to speed up NumbatUI. If you encounter problems while running NumbatUI, we recommend to enable this option so you have somewhere to start looking for a cause.
+| Indexer Logging | When enabled NumbatUI will log detailed information during indexing. This log data can help us fix issues.
+| Automatic Update Check | Check to automatically check whether a new version of NumbatUI is available once every day.
+| NumbatUI Port | Port number that NumbatUI uses to listen for incoming messages from plugins.
+| Plugin Port | Port number that NumbatUI sends outgoing messages to.
+| Indexer threads | Define how many parallel threads are used during indexing. Setting this value to `default` will cause NumbatUI to detect the ideal number of threads based on the CPU and use as many threads for indexing.
 | Multi process C/C++ indexing | Enable C/C++ indexer threads to run in a different process. This prevents the application from crashing due to unforeseen exceptions while indexing.
 | Post Processing | Enable a post processing step to solve unsolved references after the indexing is done. These references will be marked "ambiguous" to indicate that some of these edges may never be encountered during runtime of the indexed code because the post processing only relies on symbol names and types.
 | Global Include Paths | Set header search paths that are used for **all** of your projects (e.g. std headers). An option for automatic detection of these paths is available for Clang, GCC and the Visual Studio compiler. For instructions on how to add paths manually see [Path List Box](#path-list-box). For instructions on how to find the system header paths see [Finding System Header Locations](!installation#finding-system-header-locations).
 | Global Framework Search Paths | **(macOS only)** Define the search paths for `.framework` files for all of your projects. An option for automatic detection of these paths is available for Clang and GCC. <br />For instructions on how to add paths see [Path List Box](#path-list-box).
 
 ### Project Setup Wizard
-The Project Setup Wizard lets you create a new Sourcetrail project. It allows for defining name and location of your project Sourcetrail and adding several **Source Groups**, that define which source files will be indexed. There are several ways to create Source Groups. It is sufficient to add only one Source Group for most projects.
+The Project Setup Wizard lets you create a new NumbatUI project. It allows for defining name and location of your project NumbatUI and adding several **Source Groups**, that define which source files will be indexed. There are several ways to create Source Groups. It is sufficient to add only one Source Group for most projects.
 
 For detailed information continue at [PROJECT SETUP](!project-setup).
 
@@ -140,7 +140,7 @@ For detailed information continue at [PROJECT SETUP](!project-setup).
 
 ### Indexing Dialogs
 
-These dialogs will be used while Sourcetrail indexes your project. The whole user interface will be frozen as long as these dialogs are visible.
+These dialogs will be used while NumbatUI indexes your project. The whole user interface will be frozen as long as these dialogs are visible.
 
 #### Start Indexing Dialog
 
@@ -165,7 +165,7 @@ For Python projects a checkbox **Shallow Python Indexing** is additionally displ
 
 #### Progress Dialog
 
-This dialog shows that Sourcetrail is currently doing processing that can't be interrupted.
+This dialog shows that NumbatUI is currently doing processing that can't be interrupted.
 
 <img src="documentation/progress_dialog.png" width="600" alt="Progress Dialog">
 
@@ -179,7 +179,7 @@ This dialog shows the indexing progress of your project, by displaying the numbe
 <img src="documentation/indexing_dialog.png" width="600" alt="Indexing Dialog">
 
 !!! abstract "Interactions"
-    * Clicking `Stop` or pressing ESC will interrupt indexing. Sourcetrail will still wait for the already running indexer threads to finish. You can continue indexing later by [refreshing](#refresh).
+    * Clicking `Stop` or pressing ESC will interrupt indexing. NumbatUI will still wait for the already running indexer threads to finish. You can continue indexing later by [refreshing](#refresh).
     * Clicking `Hide` will hide the dialog. You can display it again by clicking on the indexing progress bar in the [status bar](#status-bar) or [refreshing](#refresh).
 
 #### Finished Indexing Dialog
@@ -207,13 +207,13 @@ This dialog is shown after indexing was stopped, giving you information about in
     * Opens the [New Project](#project-setup-wizard) Dialog to define a new project and loads it after creation.
 * **Open Project**
     * Shortcut: [Open Project](#shortcuts)
-    * Opens a file dialog to choose an existing Sourcetrail project file from your system's hard drive.
+    * Opens a file dialog to choose an existing NumbatUI project file from your system's hard drive.
 * **Recent Projects**
-    * Opens a submenu to choose recent opened Sourcetrail projects.
+    * Opens a submenu to choose recent opened NumbatUI projects.
 * **Edit Project**
     * Opens the [Edit Project Dialog](#project-setup-wizard) prefilled with your project settings and allows for changing them.
 * **Exit**
-    * Quits Sourcetrail.
+    * Quits NumbatUI.
 
 ### Edit
 
@@ -310,17 +310,17 @@ This dialog is shown after indexing was stopped, giving you information about in
 ### Help
 
 * **About**
-    * Shows copyright information about Sourcetrail.
+    * Shows copyright information about NumbatUI.
 * **Keyboard Shortcuts**
-    * Shows table of keyboard shortcuts for Sourcetrail.
+    * Shows table of keyboard shortcuts for NumbatUI.
 * **Documentation**
-    * Opens this documentation of Sourcetrail in your web browser by URL.
+    * Opens this documentation of NumbatUI in your web browser by URL.
 * **Changelog**
-    * Opens the [changelog](https://github.com/CoatiSoftware/SourcetrailBugTracker#changelog) of Sourcetrail in your web browser by URL.
+    * Opens the [changelog](https://github.com/CoatiSoftware/NumbatUIBugTracker#changelog) of NumbatUI in your web browser by URL.
 * **Bug Tracker**
-    * Opens Sourcetrail's bug tracker in your web browser by URL.
+    * Opens NumbatUI's bug tracker in your web browser by URL.
 * **License**
-    * Opens a window containing the Sourcetrail license and all 3rd party licenses.
+    * Opens a window containing the NumbatUI license and all 3rd party licenses.
 * **Show Data Folder**
     * Opens the file explorer showing the [data folder](!installation#datafolder).
 * **Show Log Folder**
@@ -437,7 +437,7 @@ Colors are corresponding to the default color scheme.
 
 | Node Type | Image
 | --- | ---
-| **File**: Non-indexed files are files that are not part of any source group and therefore have not been indexed by Sourcetrail's indexer. Incomplete files produced errors during indexing or where part of an indexer run with errors. | !["Node File"](documentation/node_file.png "Node File")
+| **File**: Non-indexed files are files that are not part of any source group and therefore have not been indexed by NumbatUI's indexer. Incomplete files produced errors during indexing or where part of an indexer run with errors. | !["Node File"](documentation/node_file.png "Node File")
 | **Macro** | !["Node Macro"](documentation/node_macro.png "Node Macro")
 | **Namespace, Package & Module** | !["Node Namespace"](documentation/node_namespace.png "Node Namespace")
 | **Class & Struct**: Display their members nested, and separated by access type: public, protected, private. By default only members with edges are shown. The arrow icon allows to expand and collapse them. The number tells how many nodes are hidden. | !["Node Class"](documentation/node_class.png "Node Class")
@@ -588,7 +588,7 @@ Each file has a title bar with the file's name. Clicking the title bar will chan
 
 #### Snippets
 
-A code snippet contains the lines of interest for the currently active symbol surrounded by some more lines to provide some context. Other symbols that were indexed by Sourcetrail are framed by a box when hovered. Here Sourcetrail distinguishes between local symbols and symbols that can be related to any other part of the code base. In case the snippet is part of a class, function or namespace, an additional line at the top of the snippet provides information about the snippet’s context (e.g. the surrounding scope).
+A code snippet contains the lines of interest for the currently active symbol surrounded by some more lines to provide some context. Other symbols that were indexed by NumbatUI are framed by a box when hovered. Here NumbatUI distinguishes between local symbols and symbols that can be related to any other part of the code base. In case the snippet is part of a class, function or namespace, an additional line at the top of the snippet provides information about the snippet’s context (e.g. the surrounding scope).
 
 <img src="documentation/code_view_snippet.png" width="800" alt="Code View Snippet">
 
@@ -650,7 +650,7 @@ Show the overview screen, which gives a summary of the loaded project. The overv
 
 ### Search Bar
 
-The search bar allows you to enter search requests to find one of Sourcetrail's indexed symbols. It doesn't allow for full text searching across all files so far. The search field allows for most text editing interactions common to text fields. When typing your request the [Autocompletion Popup](#autocompletion-popup) will show you search results matching to your entered string.
+The search bar allows you to enter search requests to find one of NumbatUI's indexed symbols. It doesn't allow for full text searching across all files so far. The search field allows for most text editing interactions common to text fields. When typing your request the [Autocompletion Popup](#autocompletion-popup) will show you search results matching to your entered string.
 
 !["Search Bar"](documentation/search_bar.png "Search Bar")
 
@@ -744,7 +744,7 @@ view is hidden by default.
 
 ### Status Tab
 
-This table gives some information about status updates while running Sourcetrail. It can be helpful to figure out why something does not the way it's expected to.
+This table gives some information about status updates while running NumbatUI. It can be helpful to figure out why something does not the way it's expected to.
 
 !["Status View Status"](documentation/status_view_status.png "Status View Status")
 
