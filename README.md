@@ -18,6 +18,8 @@ Features added are:
 * bookmarking all predecsessors or successors of a given node (for later analysis)
 * **custom commands** (to perform any user-defined action on nodes/edges, e.g., open a terminal at a given path, open a web page, etc.)
 
+
+
 ## Usage
 
 We strongly recommend using the provided Docker image to run NumbatUI, as
@@ -65,6 +67,21 @@ one needs to forward the X11/Wayland display to the container.
              --volume /path/to/:/data/ \
              numbatui:latest /data/my_database.srctrlprj
   ```
+
+
+## Supported Languages
+
+### C
+
+C support is powered by [Clang 11.0.0](https://clang.llvm.org/). For issues loading C code, please have a look at [Clang language compatibility](https://clang.llvm.org/compatibility.html) or report a bug in our [bug tracker](https://github.com/CoatiSoftware/SourcetrailBugTracker).
+
+### C++
+
+C++ support is powered by [Clang 11.0.0](https://clang.llvm.org/). For more Information please visit [Clang C++ Status](https://clang.llvm.org/cxx_status.html). For issues loading C++ code, please have a look at [Clang language compatibility](https://clang.llvm.org/compatibility.html) or report a bug in our [bug tracker](https://github.com/CoatiSoftware/SourcetrailBugTracker).
+
+### Python
+
+Sourcetrail includes support for Python 2 and Python 3 which is powered by our open-source [SourcetrailPythonIndexer](https://github.com/CoatiSoftware/SourcetrailPythonIndexer). If you encounter any issues while using Sourcetrail on a Python project, please let us know by providing a minimal example in our [bug tracker](https://github.com/CoatiSoftware/SourcetrailPythonIndexer/issues).
 
 
 ## Manual Installation
