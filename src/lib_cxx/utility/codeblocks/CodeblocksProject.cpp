@@ -62,6 +62,12 @@ std::shared_ptr<Project> Project::load(std::shared_ptr<TextAccess> xmlAccess)
 		TiXmlElement* versionElement = codeBlocksProjectFileElement->FirstChildElement(
 			"FileVersion");
 
+		if (versionElement == nullptr)
+		{
+			LOG_ERROR("Unable to find \"FileVersion\" node in Code::Blocks project.");
+			return project;
+		}
+
 		if (versionElement->QueryIntAttribute("major", &project->m_versionMajor) != TIXML_SUCCESS)
 		{
 			LOG_ERROR("Unable to find \"Project\" node in Code::Blocks project.");
@@ -76,7 +82,7 @@ std::shared_ptr<Project> Project::load(std::shared_ptr<TextAccess> xmlAccess)
 	}
 
 	const TiXmlElement* projectElement = codeBlocksProjectFileElement->FirstChildElement("Project");
-	if (codeBlocksProjectFileElement == nullptr)
+	if (projectElement == nullptr)
 	{
 		LOG_ERROR("Unable to find \"Project\" node in Code::Blocks project.");
 		return project;
@@ -100,16 +106,20 @@ std::shared_ptr<Project> Project::load(std::shared_ptr<TextAccess> xmlAccess)
 
 	{
 		const TiXmlElement* buildElement = projectElement->FirstChildElement("Build");
-		const TiXmlElement* targetElement = buildElement->FirstChildElement(
-			Target::getXmlElementName().c_str());
-		while (targetElement)
+		if (buildElement != nullptr)
 		{
-			if (std::shared_ptr<Target> unit = Target::create(targetElement))
+			const TiXmlElement* targetElement = buildElement->FirstChildElement(
+				Target::getXmlElementName().c_str());
+			while (targetElement)
 			{
-				project->m_targets.push_back(unit);
-			}
+				if (std::shared_ptr<Target> unit = Target::create(targetElement))
+				{
+					project->m_targets.push_back(unit);
+				}
 
-			targetElement = targetElement->NextSiblingElement(Target::getXmlElementName().c_str());
+				targetElement = targetElement->NextSiblingElement(
+					Target::getXmlElementName().c_str());
+			}
 		}
 	}
 

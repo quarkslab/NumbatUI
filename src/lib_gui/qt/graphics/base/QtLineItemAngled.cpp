@@ -31,6 +31,8 @@ QPainterPath QtLineItemAngled::shape() const
 
 void QtLineItemAngled::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget* widget)
 {
+	painter->save();
+
 	QPen p = pen();
 	painter->setPen(p);
 
@@ -217,4 +219,6 @@ void QtLineItemAngled::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
 	}
 
 	painter->drawPath(path);
+
+	painter->restore();
 }

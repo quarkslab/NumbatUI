@@ -29,8 +29,10 @@ void QtLineItemBezier::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
 		drawArrow(QtLineItemBase::getPath(), &path);
 	}
 
+	painter->save();
 	painter->setPen(pen());
 	painter->drawPath(path);
+	painter->restore();
 }
 
 QPolygon QtLineItemBezier::getPath() const

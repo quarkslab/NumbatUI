@@ -13,12 +13,16 @@ QtRoundedRectItem::~QtRoundedRectItem() {}
 
 void QtRoundedRectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget* widget)
 {
+	painter->save();
+
 	painter->setPen(pen());
 	painter->setBrush(brush());
 
 	painter->setRenderHint(QPainter::Antialiasing);
 
 	painter->drawRoundedRect(this->rect(), m_radius, m_radius);
+
+	painter->restore();
 }
 
 void QtRoundedRectItem::setShadow(QColor color, int blurRadius)
