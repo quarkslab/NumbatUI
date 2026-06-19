@@ -10,12 +10,11 @@ icon: lucide/file-terminal
 NumbatUI does not yet ship prebuilt installers. There are three supported ways
 to get it running, in increasing order of integration with your system:
 
-* the **Docker image**, which bundles every dependency and is the recommended
-  way to try NumbatUI;
+* the **Docker image**, which bundles every dependency;
 * a **manual build** from source on Linux or macOS;
 * a native **Debian package** (`.deb`) on Debian/Ubuntu.
 
-## Docker (recommended)
+## Docker 
 
 The Docker image contains all required dependencies. Either build it locally:
 
