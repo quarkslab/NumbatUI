@@ -444,8 +444,9 @@ int SearchIndex::scoreText(const std::wstring& text, const std::vector<size_t>& 
 		// unmatched and consecutive
 		if (i > 0)
 		{
-			unmatchedLetterScore += static_cast<int>(
-				(indices[i] - indices[i - 1] - 1) * unmatchedLetterBonus);
+			unmatchedLetterScore +=
+				(static_cast<int>(indices[i]) - static_cast<int>(indices[i - 1]) - 1) *
+				unmatchedLetterBonus;
 			consecutiveLetterScore += (indices[i] - indices[i - 1] == 1) ? consecutiveLetterBonus : 0;
 		}
 

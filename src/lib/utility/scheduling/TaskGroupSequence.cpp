@@ -1,6 +1,6 @@
 #include "TaskGroupSequence.h"
 
-TaskGroupSequence::TaskGroupSequence() {}
+TaskGroupSequence::TaskGroupSequence(): m_taskIndex(0) {}
 
 void TaskGroupSequence::addTask(std::shared_ptr<Task> task)
 {
