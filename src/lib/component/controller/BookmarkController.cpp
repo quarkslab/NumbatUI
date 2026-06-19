@@ -280,7 +280,7 @@ void BookmarkController::showBookmarkEditor(const std::shared_ptr<Bookmark> book
 }
 
 BookmarkController::BookmarkCache::BookmarkCache(StorageAccess* storageAccess)
-	: m_storageAccess(storageAccess)
+	: m_storageAccess(storageAccess), m_nodeBookmarksValid(false), m_edgeBookmarksValid(false)
 {
 }
 

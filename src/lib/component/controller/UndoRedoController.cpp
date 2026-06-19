@@ -9,7 +9,8 @@
 #include "StorageAccess.h"
 #include "UndoRedoView.h"
 
-UndoRedoController::UndoRedoController(StorageAccess* storageAccess): m_storageAccess(storageAccess)
+UndoRedoController::UndoRedoController(StorageAccess* storageAccess)
+	: m_storageAccess(storageAccess), m_historyOffset(0)
 {
 	m_iterator = m_list.end();
 }

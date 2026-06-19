@@ -293,7 +293,7 @@ FilePath& FilePath::makeRelativeTo(const FilePath& other)
 	boost::filesystem::path::const_iterator itA = a.begin();
 	boost::filesystem::path::const_iterator itB = b.begin();
 
-	while (*itA == *itB && itA != a.end() && itB != b.end())
+	while (itA != a.end() && itB != b.end() && *itA == *itB)
 	{
 		itA++;
 		itB++;
