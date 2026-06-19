@@ -972,13 +972,18 @@ std::vector<int> SqliteIndexStorage::getAvailableEdgeTypes() const
 
 StorageFile SqliteIndexStorage::getFileByPath(const std::wstring& filePath) const
 {
-	return doGetFirst<StorageFile>("WHERE file.path == '" + utility::encodeToUtf8(filePath) + "'");
+	return doGetFirst<StorageFile>(
+		"WHERE file.path == '" +
+		utility::replace(utility::encodeToUtf8(filePath), "'", "''") + "'");
 }
 
 std::vector<StorageFile> SqliteIndexStorage::getFilesByPaths(const std::vector<FilePath>& filePaths) const
 {
+	const std::vector<std::string> escapedPaths = utility::convert<std::string, std::string>(
+		utility::toStrings(filePaths),
+		[](const std::string& path) { return utility::replace(path, "'", "''"); });
 	return doGetAll<StorageFile>(
-		"WHERE file.path IN ('" + utility::join(utility::toStrings(filePaths), "', '") + "')");
+		"WHERE file.path IN ('" + utility::join(escapedPaths, "', '") + "')");
 }
 
 std::shared_ptr<TextAccess> SqliteIndexStorage::getFileContentById(Id fileId) const
@@ -1002,7 +1007,7 @@ std::shared_ptr<TextAccess> SqliteIndexStorage::getFileContentByPath(const std::
 			"FROM filecontent "
 			"INNER JOIN file ON filecontent.id = file.id "
 			"WHERE file.path = '" +
-			utility::encodeToUtf8(filePath) + "';");
+			utility::replace(utility::encodeToUtf8(filePath), "'", "''") + "';");
 
 		if (!q.eof())
 		{
@@ -1278,7 +1283,7 @@ StorageNodeFile SqliteIndexStorage::getAssociatedFile(const FilePath& filePath) 
 {
 	CppSQLite3Query q = executeQuery(
 		"SELECT file_id,file_name,display_content FROM node_file WHERE file_name == '" +
-		filePath.str() + "';");
+		utility::replace(filePath.str(), "'", "''") + "';");
 	if (!q.eof())
 	{
 		const Id id = q.getIntField(0, 0);

@@ -159,11 +159,12 @@ void SqliteBookmarkStorage::updateBookmark(
 	const Id bookmarkId, const std::wstring& name, const std::wstring& comment, const Id categoryId)
 {
 	executeStatement(
-		"UPDATE bookmark SET name = '" + utility::encodeToUtf8(name) +
+		"UPDATE bookmark SET name = '" + utility::replace(utility::encodeToUtf8(name), "'", "''") +
 		"' WHERE id == " + std::to_string(bookmarkId) + ";");
 	executeStatement(
-		"UPDATE bookmark SET comment = '" + utility::encodeToUtf8(comment) +
-		"' WHERE id == " + std::to_string(bookmarkId) + ";");
+		"UPDATE bookmark SET comment = '" +
+		utility::replace(utility::encodeToUtf8(comment), "'", "''") + "' WHERE id == " +
+		std::to_string(bookmarkId) + ";");
 	executeStatement(
 		"UPDATE bookmark SET category_id = " + std::to_string(categoryId) +
 		" WHERE id == " + std::to_string(bookmarkId) + ";");
@@ -177,7 +178,7 @@ std::vector<StorageBookmarkCategory> SqliteBookmarkStorage::getAllBookmarkCatego
 StorageBookmarkCategory SqliteBookmarkStorage::getBookmarkCategoryByName(const std::wstring& name) const
 {
 	return doGetFirst<StorageBookmarkCategory>(
-		"WHERE name == '" + utility::encodeToUtf8(name) + "'");
+		"WHERE name == '" + utility::replace(utility::encodeToUtf8(name), "'", "''") + "'");
 }
 
 void SqliteBookmarkStorage::removeBookmarkCategory(Id id)
