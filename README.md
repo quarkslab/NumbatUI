@@ -73,15 +73,29 @@ one needs to forward the X11/Wayland display to the container.
 
 ### C
 
-C support is powered by [Clang 11.0.0](https://clang.llvm.org/). For issues loading C code, please have a look at [Clang language compatibility](https://clang.llvm.org/compatibility.html) or report a bug in our [bug tracker](https://github.com/CoatiSoftware/SourcetrailBugTracker).
+C support is powered by [Clang](https://clang.llvm.org/), with **LLVM/Clang 19**
+as the hard minimum (matching Debian trixie's default toolchain). For issues
+loading C code, have a look at [Clang language compatibility](https://clang.llvm.org/compatibility.html)
+or report a bug in our [issue tracker](https://github.com/quarkslab/NumbatUI/issues).
 
 ### C++
 
-C++ support is powered by [Clang 11.0.0](https://clang.llvm.org/). For more Information please visit [Clang C++ Status](https://clang.llvm.org/cxx_status.html). For issues loading C++ code, please have a look at [Clang language compatibility](https://clang.llvm.org/compatibility.html) or report a bug in our [bug tracker](https://github.com/CoatiSoftware/SourcetrailBugTracker).
+C++ support is powered by [Clang](https://clang.llvm.org/), with **LLVM/Clang 19**
+as the hard minimum. For more information please visit
+[Clang C++ Status](https://clang.llvm.org/cxx_status.html). For issues loading
+C++ code, have a look at [Clang language compatibility](https://clang.llvm.org/compatibility.html)
+or report a bug in our [issue tracker](https://github.com/quarkslab/NumbatUI/issues).
+
+> [!NOTE]
+> C/C++ indexing is built only when `-DBUILD_CXX_LANGUAGE_PACKAGE=ON` is passed
+> to CMake. It is **off by default** in the current builds while it is being
+> stabilized, so the prebuilt Docker image and `.deb` ship without it for now.
 
 ### Python
 
-Sourcetrail includes support for Python 2 and Python 3 which is powered by our open-source [SourcetrailPythonIndexer](https://github.com/CoatiSoftware/SourcetrailPythonIndexer). If you encounter any issues while using Sourcetrail on a Python project, please let us know by providing a minimal example in our [bug tracker](https://github.com/CoatiSoftware/SourcetrailPythonIndexer/issues).
+Python indexing (inherited from Sourcetrail's `SourcetrailPythonIndexer`) is
+currently **disabled by design** and is not built. Support may be revisited in
+a future release.
 
 
 ## Manual Installation
@@ -146,8 +160,11 @@ The compiled binary is available in `build/app/NumbatUI` on Unix
 The binary is a native arm64 (or x86_64) Mach-O on macOS — no X11 / XQuartz
 forwarding required, unlike the Docker image documented above.
 
-Note: This build purposely disables C++, Python language indexation features.
-They shall be re-enabled in future releases.
+Note: this command disables both the C/C++ and Python indexing features. C/C++
+indexing has been ported to LLVM/Clang 19 and can be re-enabled by passing
+`-DBUILD_CXX_LANGUAGE_PACKAGE=ON` (which then requires the LLVM 19 packages
+listed above); it is kept off in the default build while it is stabilized.
+Python indexing remains disabled by design.
 
 ### Debian package (.deb)
 
