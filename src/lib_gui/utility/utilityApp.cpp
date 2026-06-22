@@ -8,21 +8,29 @@
 #include <boost/asio/buffer.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/read.hpp>
-// Boost 1.86 made Boost.Process v2 the default content of <boost/process.hpp>.
-// This file uses the v1 API (child, async_pipe, redirection operators, etc.),
-// so prefer the explicit v1 headers when available, falling back to the
-// legacy paths on older Boost versions.
-#if __has_include(<boost/process/v1.hpp>)
-#  include <boost/process/v1.hpp>
+// This file uses the Boost.Process v1 API (child, async_pipe, the redirection
+// operators, this_process::environment, ...). The build defines
+// BOOST_PROCESS_VERSION=1, which makes the boost::process::v1 namespace inline,
+// so the unqualified boost::process:: / boost::this_process:: names resolve to
+// v1 regardless of Boost version. We only need to make sure the right headers
+// are found: Boost >= 1.86 ships the v1 facilities under boost/process/v1/*,
+// while older Boost uses the legacy boost/process/* paths. Include whichever
+// exists.
+#if __has_include(<boost/process/v1/child.hpp>)
+#  include <boost/process/v1/args.hpp>
 #  include <boost/process/v1/async_pipe.hpp>
 #  include <boost/process/v1/child.hpp>
+#  include <boost/process/v1/environment.hpp>
 #  include <boost/process/v1/io.hpp>
 #  include <boost/process/v1/search_path.hpp>
 #  include <boost/process/v1/start_dir.hpp>
+#elif __has_include(<boost/process/v1.hpp>)
+#  include <boost/process/v1.hpp>
 #else
 #  include <boost/process.hpp>
 #  include <boost/process/async_pipe.hpp>
 #  include <boost/process/child.hpp>
+#  include <boost/process/environment.hpp>
 #  include <boost/process/io.hpp>
 #  include <boost/process/search_path.hpp>
 #  include <boost/process/start_dir.hpp>
