@@ -3,13 +3,26 @@
 
 #include <memory>
 
-// Boost 1.86 made Boost.Process v2 the default content of <boost/process.hpp>.
-// We use the v1 API (search_path, spawn), so prefer the explicit v1 umbrella
-// header when available and fall back to the legacy header on older Boost.
-#if __has_include(<boost/process/v1.hpp>)
+// This code uses the Boost.Process v1 API (search_path, spawn). How v1 is
+// reached depends on the Boost version:
+//   * Boost >= 1.86 makes Process v2 the default content of <boost/process.hpp>
+//     and exposes v1 under the boost::process::v1 namespace, reachable either
+//     via the <boost/process/v1.hpp> umbrella or the individual v1 headers.
+//   * Boost <  1.86 ships only v1, in the boost::process namespace, via the
+//     legacy headers.
+// Pull in the specific facilities we use through whichever paths exist, and
+// alias the right namespace to bpv1 so the call sites are version-agnostic.
+#if __has_include(<boost/process/v1/search_path.hpp>)
+#  include <boost/process/v1/search_path.hpp>
+#  include <boost/process/v1/spawn.hpp>
+namespace bpv1 = ::boost::process::v1;
+#elif __has_include(<boost/process/v1.hpp>)
 #  include <boost/process/v1.hpp>
+namespace bpv1 = ::boost::process::v1;
 #else
-#  include <boost/process.hpp>
+#  include <boost/process/search_path.hpp>
+#  include <boost/process/spawn.hpp>
+namespace bpv1 = ::boost::process;
 #endif
 #include <boost/algorithm/string.hpp>
 

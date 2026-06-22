@@ -880,10 +880,10 @@ void QtGraphicsView::execCustomAction()
 	boost::split(argv, commandData.command, boost::is_any_of("\t"));
 	command = argv[0];
 	argv.erase(argv.begin());
-	auto const command_path = boost::process::search_path(command);
+	auto const command_path = bpv1::search_path(command);
 	if (not command_path.empty())
 	{
-		boost::process::spawn(command_path, argv);
+		bpv1::spawn(command_path, argv);
 	}
 }
 
