@@ -35,6 +35,7 @@ std::wstring CxxTemplateArgumentNameResolver::getTemplateArgumentName(
 		return typeName->toString();
 	}
 	case clang::TemplateArgument::Integral:
+	case clang::TemplateArgument::StructuralValue:
 	case clang::TemplateArgument::Null:
 	case clang::TemplateArgument::Declaration:
 	case clang::TemplateArgument::NullPtr:
