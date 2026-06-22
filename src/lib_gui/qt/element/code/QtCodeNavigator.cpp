@@ -414,7 +414,7 @@ bool QtCodeNavigator::hasErrors() const
 size_t QtCodeNavigator::getFatalErrorCountForFile(const FilePath& filePath) const
 {
 	size_t fatalErrorCount = 0;
-	for (const std::pair<Id, ErrorInfo>& p: m_errorInfos)
+	for (const std::pair<const Id, ErrorInfo>& p: m_errorInfos)
 	{
 		const ErrorInfo& error = p.second;
 		if (error.filePath == filePath.wstr() && error.fatal)
