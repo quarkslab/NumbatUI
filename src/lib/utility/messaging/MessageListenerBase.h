@@ -1,6 +1,7 @@
 #ifndef MESSAGE_LISTENER_BASE_H
 #define MESSAGE_LISTENER_BASE_H
 
+#include <atomic>
 #include <string>
 
 #include "MessageBase.h"
@@ -63,7 +64,7 @@ private:
 	static Id s_nextId;
 
 	Id m_id;
-	bool m_alive;
+	std::atomic<bool> m_alive;
 };
 
 #endif	  // MESSAGE_LISTENER_BASE_H
