@@ -82,7 +82,11 @@ Task::TaskState TaskBuildIndex::doUpdate(std::shared_ptr<Blackboard> blackboard)
 		runningThreadCount = m_runningThreadCount;
 	}
 
-	blackboard->get<bool>("indexer_command_queue_stopped", m_indexerCommandQueueStopped);
+	bool indexerCommandQueueStopped = m_indexerCommandQueueStopped;
+	if (blackboard->get<bool>("indexer_command_queue_stopped", indexerCommandQueueStopped))
+	{
+		m_indexerCommandQueueStopped = indexerCommandQueueStopped;
+	}
 
 	const std::vector<FilePath> indexingFiles =
 		m_interprocessIndexingStatusManager.getCurrentlyIndexedSourceFilePaths();
