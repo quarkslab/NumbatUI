@@ -191,10 +191,14 @@ TEST_CASE("load project settings from file")
 TEST_CASE("load source path from file")
 {
 	ProjectSettings projectSettings;
-	projectSettings.load(FilePath(L"data/SettingsTestSuite/settings.xml"));
+	REQUIRE(projectSettings.load(FilePath(L"data/SettingsTestSuite/settings.xml")));
+	const std::vector<std::shared_ptr<SourceGroupSettings>> allSourceGroupSettings =
+		projectSettings.getAllSourceGroupSettings();
+	REQUIRE(!allSourceGroupSettings.empty());
 	std::shared_ptr<SourceGroupSettingsWithSourcePaths> sourceGroupSettings =
 		std::dynamic_pointer_cast<SourceGroupSettingsWithSourcePaths>(
-			projectSettings.getAllSourceGroupSettings().front());
+			allSourceGroupSettings.front());
+	REQUIRE(sourceGroupSettings);
 	std::vector<FilePath> paths = sourceGroupSettings->getSourcePaths();
 
 	REQUIRE(paths.size() == 2);
