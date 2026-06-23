@@ -1,5 +1,7 @@
 #include "InterprocessIndexer.h"
 
+#include <atomic>
+
 #include "FileRegister.h"
 #include "IndexerCommand.h"
 #include "IndexerComposite.h"
@@ -18,7 +20,7 @@ InterprocessIndexer::InterprocessIndexer(const std::string& uuid, Id processId)
 
 void InterprocessIndexer::work()
 {
-	bool updaterThreadRunning = true;
+	std::atomic<bool> updaterThreadRunning = true;
 	std::shared_ptr<std::thread> updaterThread;
 	std::shared_ptr<IndexerBase> indexer;
 
