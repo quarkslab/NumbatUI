@@ -25,7 +25,7 @@ TEST_CASE("command line")
 
 		std::cout.rdbuf(oldBuf);
 
-		REQUIRE(redStream.str() == "Sourcetrail Version 2016.1\n");
+		REQUIRE(redStream.str() == "NumbatUI Version 2016.1\n");
 	}
 
 	SECTION("command config help") {}
