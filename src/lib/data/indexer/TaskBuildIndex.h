@@ -1,6 +1,7 @@
 #ifndef TASK_BUILD_INDEX_H
 #define TASK_BUILD_INDEX_H
 
+#include <atomic>
 #include <thread>
 
 #include "MessageIndexingInterrupted.h"
@@ -51,9 +52,9 @@ protected:
 	bool m_multiProcessIndexing;
 
 	InterprocessIndexingStatusManager m_interprocessIndexingStatusManager;
-	bool m_indexerCommandQueueStopped;
+	std::atomic<bool> m_indexerCommandQueueStopped;
 	size_t m_processCount;
-	bool m_interrupted;
+	std::atomic<bool> m_interrupted;
 	size_t m_indexingFileCount;
 
 	// store as plain pointers to avoid deallocation issues when closing app during indexing
