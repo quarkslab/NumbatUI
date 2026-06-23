@@ -389,12 +389,22 @@ if (BUILD_CXX_LANGUAGE_PACKAGE)
 	)
 
 	target_include_directories(${LIB_CXX_PROJECT_NAME} SYSTEM
-		PUBLIC ${LLVM_INCLUDE_DIRS}
-		${CLANG_INCLUDE_DIRS}
-		${Boost_INCLUDE_DIRS}
+		PUBLIC ${Boost_INCLUDE_DIRS}
 		"${EXTERNAL_INCLUDE_PATHS}"
 		"${EXTERNAL_C_INCLUDE_PATHS}"
 	)
+
+	# LLVM/Clang ship their own <cxxabi.h> in the include dir. Added via -isystem
+	# it can shadow the C++ standard library's <cxxabi.h> (e.g. when Boost's
+	# demangle.hpp does #include <cxxabi.h>), and the two declarations of
+	# __cxa_init_primary_exception differ by return type -> hard error. Add the
+	# LLVM/Clang include dirs with -idirafter so they sit below the standard
+	# system headers in the search order: the toolchain's cxxabi.h wins, while
+	# llvm/* and clang/* headers are still found.
+	foreach(_llvm_inc IN LISTS LLVM_INCLUDE_DIRS CLANG_INCLUDE_DIRS)
+		target_compile_options(${LIB_CXX_PROJECT_NAME}
+			PUBLIC "$<BUILD_INTERFACE:SHELL:-idirafter ${_llvm_inc}>")
+	endforeach()
 
 	link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
 
