@@ -114,20 +114,22 @@ utility::ProcessOutput utility::executeProcess(
 
 		std::shared_ptr<boost::process::child> process;
 
-		boost::process::environment env = boost::this_process::environment();
-		std::vector<std::string> previousPath = env["PATH"].to_vector();
-		env["PATH"] = {"/opt/local/bin", "/usr/local/bin", "$HOME/bin"};
-		for (const std::string& entry: previousPath)
-		{
-			env["PATH"].append(entry);
-		}
-
+		// NOTE: this previously built a custom boost::process::environment with
+		// /opt/local/bin, /usr/local/bin and $HOME/bin prepended to PATH and
+		// passed it to the child. Boost.Process v1's environment-as-initializer
+		// no longer compiles under Clang 19 with Boost >= 1.86 (the Fusion-based
+		// initializer_builder<env_tag<...>> is an incomplete type), for both
+		// narrow and wide environments. Until utilityApp is migrated off the
+		// deprecated Boost.Process v1 (to QProcess or Boost.Process v2), the
+		// child inherits this process's environment unchanged. The command is
+		// still resolved via searchPath() against the inherited PATH, so this
+		// only drops the extra macOS/Homebrew-style search dirs, which are not
+		// relevant on the Debian/Linux target.
 		if (workingDirectory.empty())
 		{
 			process = std::make_shared<boost::process::child>(
 				searchPath(command),
 				boost::process::args(arguments),
-				env,
 				boost::process::std_in.close(),
 				(boost::process::std_out & boost::process::std_err) > ap);
 		}
@@ -137,7 +139,6 @@ utility::ProcessOutput utility::executeProcess(
 				searchPath(command),
 				boost::process::args(arguments),
 				boost::process::start_dir(workingDirectory.wstr()),
-				env,
 				boost::process::std_in.close(),
 				(boost::process::std_out & boost::process::std_err) > ap);
 		}
