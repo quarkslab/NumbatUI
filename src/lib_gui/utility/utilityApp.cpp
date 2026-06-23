@@ -114,18 +114,12 @@ utility::ProcessOutput utility::executeProcess(
 
 		std::shared_ptr<boost::process::child> process;
 
-		// The command and arguments below are wchar_t (searchPath returns
-		// std::wstring, arguments is std::vector<std::wstring>). Boost.Process
-		// requires the environment to use the same character width as the rest
-		// of the child initializers, so use a wide environment here. Mixing a
-		// narrow (char) environment with a wide command fails to instantiate
-		// under Clang 19's stricter template checking.
-		boost::process::wenvironment env = boost::this_process::wenvironment();
-		std::vector<std::wstring> previousPath = env[L"PATH"].to_vector();
-		env[L"PATH"] = {L"/opt/local/bin", L"/usr/local/bin", L"$HOME/bin"};
-		for (const std::wstring& entry: previousPath)
+		boost::process::environment env = boost::this_process::environment();
+		std::vector<std::string> previousPath = env["PATH"].to_vector();
+		env["PATH"] = {"/opt/local/bin", "/usr/local/bin", "$HOME/bin"};
+		for (const std::string& entry: previousPath)
 		{
-			env[L"PATH"].append(entry);
+			env["PATH"].append(entry);
 		}
 
 		if (workingDirectory.empty())
