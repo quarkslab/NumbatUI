@@ -7,5 +7,5 @@ SingleFrontendActionFactory::SingleFrontendActionFactory(clang::FrontendAction* 
 
 std::unique_ptr<clang::FrontendAction> SingleFrontendActionFactory::create()
 {
-	return std::unique_ptr<clang::FrontendAction>(m_action);
+	return std::move(m_action);
 }
