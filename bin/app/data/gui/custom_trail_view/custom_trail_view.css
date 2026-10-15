@@ -56,3 +56,32 @@
 #error {
 	color: red;
 }
+
+QCheckBox::indicator, QRadioButton::indicator {
+	background: <color:custom_trail/background>;
+	border: 1px solid <color:custom_trail/separator>;
+	width: 10px;
+	height: 10px;
+	margin-right: 3px;
+}
+
+QCheckBox::indicator {
+	border-radius: 2px;
+}
+
+QRadioButton::indicator {
+	border-radius: 6px;
+}
+
+QCheckBox::indicator:checked, QRadioButton::indicator:checked {
+	background: <color:custom_trail/text>;
+}
+
+QCheckBox::indicator:hover, QRadioButton::indicator:hover {
+	border-color: <color:custom_trail/button/hover/background>;
+}
+
+QCheckBox::indicator:disabled, QRadioButton::indicator:disabled {
+	background: <color:custom_trail/background_disabled>;
+	border-color: <color:custom_trail/text_disabled>;
+}
